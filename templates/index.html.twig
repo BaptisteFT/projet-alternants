@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projet Alternant{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur l'index</h1>
+
+    <nav>
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
+        {% endif %}
+    </nav>
+
+    <h2>Liste des etudiants :</h2>
+
+    {% if students is not empty %}
+    <table>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Adresse mail</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.firstName }}</td>
+            <td>{{ student.lastName }}</td>
+            <td>{{ student.userName }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>Aucun Etudiants</p>
+    {% endif %}
+
+{% endblock %}
+
+
+
