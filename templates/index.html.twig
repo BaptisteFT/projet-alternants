@@ -8,28 +8,45 @@
     <nav>
         {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
+
         {% endif %}
     </nav>
 
-    <h2>Liste des etudiants :</h2>
+    {% if is_granted('ROLE_ADMIN') %}
+    <div>
+        <h2>Liste des etudiants :</h2>
 
-    {% if students is not empty %}
-    <table>
-        <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Adresse mail</th>
-        </tr>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.firstName }}</td>
-            <td>{{ student.lastName }}</td>
-            <td>{{ student.userName }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-        <p>Aucun Etudiants</p>
+        {% if students is not empty %}
+            <table>
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Adresse mail</th>
+                    <th>Actions</th>
+                </tr>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.firstName }}</td>
+                        <td>{{ student.lastName }}</td>
+                        <td>{{ student.userName }}</td>
+                        <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {# <a href="{{ path('delete_user', {'userName': student.userName}) }}"> Supprimer</a> #}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>Aucun Etudiants</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_STUDENT') %}
+        <div>
+          <p>Bonjour {{ app.user.firstName }}</p>
+        </div>
     {% endif %}
 
 {% endblock %}

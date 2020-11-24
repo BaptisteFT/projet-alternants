@@ -15,7 +15,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/create-user", name="create_user")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -42,5 +42,20 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/delete-user/{userId}", name="delete_user")
+     */
+    public function deleteUser($userId) : Response
+    {
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        return $this->redirectToRoute('app_index_index');
+    }
+
+    public function updateUser(){
+
     }
 }
