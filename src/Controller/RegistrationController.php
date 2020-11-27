@@ -52,6 +52,7 @@ class RegistrationController extends AbstractController
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);
+        $entityManager->flush();
         return $this->redirectToRoute('app_index_index');
     }
 

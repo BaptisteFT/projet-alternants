@@ -31,7 +31,7 @@
                         <td>{{ student.userName }}</td>
                         <td>
                             {% if is_granted('ROLE_ADMIN') %}
-                                {# <a href="{{ path('delete_user', {'userName': student.userName}) }}"> Supprimer</a> #}
+                                <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a>
                             {% endif %}
                         </td>
                     </tr>
