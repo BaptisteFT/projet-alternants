@@ -1,0 +1,301 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://unpkg.com/pdf-lib"></script>
+        <title>Projet Alternant</title>
+    </head>
+
+    <body>
+    {{ dump(contract.representativeCivility) }}
+    <embed id=pdf src="" width="100%" height="800px" />
+
+    </body>
+
+
+
+    <script>
+        loadPdf();
+        async function loadPdf(){
+            const url = "{{ absolute_url(asset('pdf/pre-convention.pdf')) }}";
+            const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
+
+            const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+
+
+            const pages = pdfDoc.getPages();
+            const firstPage = pages[0];
+            const secondPage = pages[1];
+
+            const repCivility = '{{ contract.representativeCivility }}';
+            const { width, height } = firstPage.getSize();
+
+            if (repCivility === 'false'){
+                firstPage.drawText('X', {
+                    x: 147,
+                    y: height / 2 + 36,
+                    size: 10,
+                });
+            } else {
+                firstPage.drawText('X', {
+                    x: 220,
+                    y: height / 2 + 36 ,
+                    size: 10,
+                });
+            }
+
+
+
+            // Les position sont écrite en absolue, le decalage en y pour chaque ligne est de 14 pixel
+
+
+            firstPage.drawText('{{ contract.socialReason }}', {
+                x: 150,
+                y: height / 2 + 203 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.siretNumber }}', {
+                x: 150,
+                y: height / 2 + 189 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.activity }}', {
+                x: 150,
+                y: height / 2 + 175 ,
+                size: 10,
+            });
+            // on effectue un saut de ligne donc le decalage est de 28 pixel
+            firstPage.drawText('{{ contract.locationStreet }}', {
+                x: 150,
+                y: height / 2 + 147 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.locationCity }}', {
+                x: 150,
+                y: height / 2 + 133 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.postalCode }}', {
+                x: 150,
+                y: height / 2 + 119 ,
+                size: 10,
+            });
+            // on effectue un saut de ligne donc le decalage est de 28 pixel
+            firstPage.drawText('{{ contract.phoneNumber }}', {
+                x: 150,
+                y: height / 2 + 91 ,
+                size: 10,
+            });
+            // décalage imparfait
+            firstPage.drawText('{{ contract.contractEmail }}', {
+                x: 150,
+                y: height / 2 + 77 ,
+                size: 10,
+            });
+
+
+
+             firstPage.drawText('{{ contract.representativeCivility }}', {
+                x: 150,
+                y: height / 2 + 21 ,
+                size: 10,
+            });
+
+
+            firstPage.drawText('{{ contract.representativeFirstName }}', {
+                x: 150,
+                y: height / 2 + 21 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.representativeLastName }}', {
+                x: 150,
+                y: height / 2 + 7 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.representativeRole }}', {
+                x: 150,
+                y: height / 2 - 7 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.representativeEmail }}', {
+                x: 150,
+                y: height / 2  - 21 ,
+                size: 10,
+            });
+
+            // Le décalage change a cause de la ligne
+            firstPage.drawText('{{ contract.otherSocialReason }}', {
+                x: 150,
+                y: height / 2  - 55 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.otherLocationStreet }}', {
+                x: 150,
+                y: height / 2  - 69 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.otherLocationCity }}', {
+                x: 150,
+                y: height / 2  - 83 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.otherPostalCode }}', {
+                x: 150,
+                y: height / 2  - 97 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.otherPhoneNumber }}', {
+                x: 150,
+                y: height / 2  - 111 ,
+                size: 10,
+            });
+
+
+            firstPage.drawText('Prénom', {
+                x: 150,
+                y: height / 2 - 257 ,
+                size: 10,
+            });
+
+            firstPage.drawText('Nom', {
+                x: 150,
+                y: height / 2 - 271 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.workerRole }}', {
+                x: 150,
+                y: height / 2 - 285 ,
+                size: 10,
+            });
+
+            firstPage.drawText('Email', {
+                x: 150,
+                y: height / 2 - 299 ,
+                size: 10,
+            });
+
+
+            firstPage.drawText('{{ contract.contractStartDate|date("m/d/Y") }}', {
+                x: 175,
+                y: height / 2 - 354 ,
+                size: 10,
+            });
+
+            firstPage.drawText('{{ contract.contractEndDate|date("m/d/Y") }}', {
+                x: 175,
+                y: height / 2 - 368 ,
+                size: 10,
+            });
+
+            secondPage.drawText('{{ contract.tutorFirstName }}', {
+                x: 175,
+                y: height / 2 + 97 ,
+                size: 10,
+            });
+
+            secondPage.drawText('{{ contract.tutorLastName }}', {
+                x: 175,
+                y: height / 2 + 83 ,
+                size: 10,
+            });
+
+            secondPage.drawText('{{ contract.tutorRole }}', {
+                x: 175,
+                y: height / 2 + 69 ,
+                size: 10,
+            });
+
+            secondPage.drawText('{{ contract.tutorPhoneNumber }}', {
+                x: 175,
+                y: height / 2 + 55 ,
+                size: 10,
+            });
+
+            secondPage.drawText('{{ contract.tutorEmail }}', {
+                x: 175,
+                y: height / 2 + 41   ,
+                size: 10,
+            });
+
+            secondPage.drawText('Montant', {
+                x: 175,
+                y: height / 2 - 18  ,
+                size: 10,
+            });
+
+            secondPage.drawText('Solde', {
+                x: 175,
+                y: height / 2 - 32   ,
+                size: 10,
+            });
+
+            secondPage.drawText('Nom de OPCO', {
+                x: 175,
+                y: height / 2 - 60   ,
+                size: 10,
+            });
+
+            secondPage.drawText('Rue', {
+                x: 175,
+                y: height / 2 - 74   ,
+                size: 10,
+            });
+
+            secondPage.drawText('Ville', {
+                x: 175,
+                y: height / 2 - 88   ,
+                size: 10,
+            });
+
+            secondPage.drawText('Code postal', {
+                x: 175,
+                y: height / 2 - 102  ,
+                size: 10,
+            });
+
+
+            secondPage.drawText('Prénom', {
+                x: 175,
+                y: height / 2 - 144  ,
+                size: 10,
+            });
+
+            secondPage.drawText('Nom', {
+                x: 175,
+                y: height / 2 - 158  ,
+                size: 10,
+            });
+
+            secondPage.drawText('Téléphone', {
+                x: 175,
+                y: height / 2 - 172  ,
+                size: 10,
+            });
+
+            secondPage.drawText('Email', {
+                x: 175,
+                y: height / 2 - 186  ,
+                size: 10,
+            });
+
+            const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
+            document.getElementById('pdf').src = pdfDataUri;
+        }
+
+
+    </script>
+</html>
+{% endblock %}

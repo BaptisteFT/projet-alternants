@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projet Alternant{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Formulaire de préconvention</h1>
+
+        {{ form_start(form) }}
+
+        <h2>Informations</h2>
+        {{ form_row(form.socialReason, {label: 'Raison Sociale'}) }}
+        {{ form_row(form.siretNumber, {label: 'Siret'}) }}
+        {{ form_row(form.activity, {label: 'Activité'}) }}
+        {{ form_row(form.phoneNumber, {label: 'Numero de téléphone'}) }}
+        {{ form_row(form.contractEmail, {label: 'Email pour la convention'}) }}
+
+        <h2>Adresse</h2>
+        {{ form_row(form.locationStreet, {label: 'Rue'}) }}
+        {{ form_row(form.locationCity, {label: 'Ville'}) }}
+        {{ form_row(form.postalCode, {label: 'Code Postal'}) }}
+
+        <h2>Représentant de l'entreprise</h2>
+        {{ form_row(form.representativeCivility, {label: 'Civilité'}) }}
+        {{ form_row(form.representativeFirstName, {label: 'Prénom'}) }}
+        {{ form_row(form.representativeLastName, {label: 'Nom'}) }}
+        {{ form_row(form.representativeRole, {label: 'Fonction'}) }}
+        {{ form_row(form.representativeEmail, {label: 'Email'}) }}
+
+        <h2>Lieux d'éxécution du contrat en alternance (si différent)</h2>
+        {{ form_row(form.otherSocialReason, {label: 'Raison Sociale'}) }}
+        {{ form_row(form.otherLocationStreet, {label: 'Rue'}) }}
+        {{ form_row(form.otherLocationCity, {label: 'Ville'}) }}
+        {{ form_row(form.otherPhoneNumber, {label: 'Numero de téléphone'}) }}
+        {{ form_row(form.otherPostalCode, {label: 'Code Postal'}) }}
+
+        <h2>Type de contrat </h2>
+        {{ form_row(form.workerRole, {label: "Fonction de l'alternant"}) }}
+        {{ form_row(form.contractType, {label: 'Type'}) }}
+        {{ form_row(form.contractStartDate, {label: 'Date de début'}) }}
+        {{ form_row(form.contractEndDate, {label: 'Date de fin'}) }}
+
+        <h2>Tuteur Professionnel ou Maitre d'apprentissage</h2>
+        {{ form_row(form.tutorCivility, {label: 'Civilité'}) }}
+        {{ form_row(form.tutorFirstName, {label: 'Prénom'}) }}
+        {{ form_row(form.tutorLastName, {label: 'Nom'}) }}
+        {{ form_row(form.tutorPhoneNumber, {label: 'Numero de téléphone'}) }}
+        {{ form_row(form.tutorEmail, {label: 'Email'}) }}
+
+
+        <button type="submit" class="btn">Envoyer</button>
+
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}
