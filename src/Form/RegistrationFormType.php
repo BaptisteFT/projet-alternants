@@ -25,6 +25,7 @@ class RegistrationFormType extends AbstractType
                 'choices'  => [
                     'Admin' => "ROLE_ADMIN",
                     'Etudiant' => "ROLE_STUDENT",
+                    'Tuteur' => "ROLE_TEACHER",
 
                 ],
                 'required' => true,

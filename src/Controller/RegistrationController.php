@@ -56,7 +56,22 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_index_index');
     }
 
-    public function updateUser(){
+    /**
+     * @Route("/update-user/{userId}", name="update_user")
+     */
+    public function updateUser(Request $request, $userId){
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('app_index_index');
+        }
+        return $this->render('registration/modify.html.twig', [
+            'registrationForm' => $form->createView(),
+            'user' => $user,
+        ]);
     }
 }

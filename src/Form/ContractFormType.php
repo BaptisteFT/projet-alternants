@@ -44,14 +44,31 @@ class ContractFormType extends AbstractType
             ->add('representativeRole',TextType::class)
             ->add('representativeEmail',EmailType::class)
 
-            ->add('otherSocialReason',TextType::class)
-            ->add('otherLocationStreet',TextType::class)
-            ->add('otherLocationCity',TextType::class)
-            ->add('otherPostalCode',NumberType::class)
-            ->add('otherPhoneNumber',NumberType::class)
+            ->add('otherSocialReason',TextType::class, [
+                'required' => false,
+            ])
+            ->add('otherLocationStreet',TextType::class, [
+                'required' => false,
+            ])
+            ->add('otherLocationCity',TextType::class, [
+                'required' => false,
+            ])
+            ->add('otherPostalCode',NumberType::class, [
+                'required' => false,
+            ])
+            ->add('otherPhoneNumber',NumberType::class, [
+                'required' => false,
+            ])
 
             ->add('workerRole',TextType::class)
-            ->add('contractType',TextType::class)
+            ->add('contractType',ChoiceType::class, [
+                'choices' => [
+                    "Contrat d'apprentissage" => "APR",
+                    "Contrat de professionnalisation" => "PRO",
+                    "Autres types" => "AUT",
+                ],
+                'required' => true,
+            ])
             ->add('contractStartDate',DateTimeType::class)
             ->add('contractEndDate',DateTimeType::class)
 
