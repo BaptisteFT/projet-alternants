@@ -10,7 +10,10 @@
         <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
 
         {% endif %}
+        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profile</a>
+        <a href="{{ path('app_logout') }}"> Déconnexion</a>
     </nav>
+
 
     {% if is_granted('ROLE_ADMIN') %}
     <div>

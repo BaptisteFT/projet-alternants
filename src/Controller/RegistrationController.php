@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ApiToken;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -73,5 +74,31 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
             'user' => $user,
         ]);
+    }
+
+    /**
+     * @Route("/create-token/{userId}", name="create_token")
+     */
+    public function createApiToken($userId, UserPasswordEncoderInterface $passwordEncoder){
+        $creator = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $user = new User();
+        $user->setEmail( "lorem@ipsum");
+        $user->setFirstName("lorem");
+        $user->setLastName("ispum");
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                "password"
+            )
+        );
+        $user->setRoles((array)"ROLE_COMPANY");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $apiToken = new ApiToken($user, $creator);
+        $entityManager->persist($apiToken);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('my_profil', array('userId' => $userId));
+
     }
 }

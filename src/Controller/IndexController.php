@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\ApiToken;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +23,20 @@ class IndexController extends AbstractController
         $students = $this->findByStudents($users);
         return $this->render("index.html.twig", [
             'students' => $students,
+        ]);
+    }
+
+    /**
+     * @Route("/profil/{userId}", name="my_profil")
+     */
+    public function myProfil($userId): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $tokens = $this->getDoctrine()->getRepository(ApiToken::class)->findAll();
+        return $this->render("profile.html.twig", [
+            'user' => $user,
+            'tokens' => $tokens,
         ]);
     }
 
