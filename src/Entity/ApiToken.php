@@ -23,7 +23,7 @@ class ApiToken
     private $token;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\OneToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $creator;
@@ -34,7 +34,7 @@ class ApiToken
     private $expireDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="apiTokens")
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="apiToken")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

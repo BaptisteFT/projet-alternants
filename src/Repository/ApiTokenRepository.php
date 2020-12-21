@@ -47,4 +47,14 @@ class ApiTokenRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findOneByCreator($creatorId) : ?ApiToken
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.creator = :val')
+            ->setParameter('val', $creatorId)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

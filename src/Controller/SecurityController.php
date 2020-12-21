@@ -41,23 +41,36 @@ class SecurityController extends AbstractController
      * @Route("/login-token/{token}", name="app_token_login")
      */
     public function tokenLogin($token){
-
-        $apiToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneBy(['token' => $token]);
-        $user = $apiToken->getUser();
-        $userToken = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
-        $this->get('security.token_storage')->setToken($userToken);
-        $this->get('session')->set('_security_main', serialize($userToken));
+        if ($this->checkToken($token)){
+            $apiToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneBy(['token' => $token]);
+            $user = $apiToken->getUser();
+            $userToken = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
+            $this->get('security.token_storage')->setToken($userToken);
+            $this->get('session')->set('_security_main', serialize($userToken));
+            $this->deleteApiToken($apiToken);
+        }
 
         return $this->redirectToRoute('app_index_index');
     }
 
     private function deleteApiToken($apiToken)
     {
-
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($apiToken);
+        $entityManager->flush();
     }
 
-    private function checkToken($apiToken)
+    private function checkToken($token)
     {
+        $res = true;
+        $apiToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneBy(['token' => $token]);
+        // Vérification si le token existe
+        if ($apiToken == null){
+            $res = false;
+        }
+        // Vérification de la date d'expiration
+
+        return $res;
 
     }
 

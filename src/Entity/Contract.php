@@ -18,6 +18,12 @@ class Contract
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="contract")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="string", length=64)
      */
     private $socialReason;

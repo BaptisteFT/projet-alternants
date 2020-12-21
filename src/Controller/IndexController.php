@@ -33,10 +33,10 @@ class IndexController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
-        $tokens = $this->getDoctrine()->getRepository(ApiToken::class)->findAll();
+        $token = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
         return $this->render("profile.html.twig", [
             'user' => $user,
-            'tokens' => $tokens,
+            'token' => $token,
         ]);
     }
 

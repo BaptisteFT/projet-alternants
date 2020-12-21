@@ -49,9 +49,38 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity=ApiToken::class, mappedBy="user", orphanRemoval=true)
      */
-    private $apiTokens;
+    private $apiToken;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Contract::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $contract;
+
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     */
+    public function setIsActive($isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+
+
+
 
     public function __construct()
     {
@@ -172,33 +201,17 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|ApiToken[]
-     */
-    public function getApiTokens(): Collection
+    public function getToken()
     {
-        return $this->apiTokens;
+        return $this->apiToken;
     }
 
-    public function addApiToken(ApiToken $apiToken): self
+    public function setToken(ApiToken $apiToken): self
     {
-        if (!$this->apiTokens->contains($apiToken)) {
-            $this->apiTokens[] = $apiToken;
-            $apiToken->setUser($this);
-        }
+        $this->apiToken = $apiToken;
 
         return $this;
     }
 
-    public function removeApiToken(ApiToken $apiToken): self
-    {
-        if ($this->apiTokens->removeElement($apiToken)) {
-            // set the owning side to null (unless already changed)
-            if ($apiToken->getUser() === $this) {
-                $apiToken->setUser(null);
-            }
-        }
 
-        return $this;
-    }
 }

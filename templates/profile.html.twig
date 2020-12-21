@@ -22,24 +22,12 @@
     </ul>
 
     {% if is_granted('ROLE_STUDENT') %}
-        {% if tokens is not empty %}
-            <h2>Liste des lien de connexion actif :</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Lien</th>
-                    <th>Date d'expiration </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for token in tokens %}
-                    <tr>
-                        <td>{{ token.generateUrl }}</td>
-                        <td>{{ token.expireDate|date("m/d/Y h:m") }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+        {% if token is not null %}
+            <h2>lien de connexion actif :</h2>
+            <p>Url : {{ token.generateUrl }}</p> <br>
+            <p>Date d'expiration :  {{ token.expireDate|date("m/d/Y h:m") }}</p> <br>
+            <p>vous pouvez regénérer un lien en appuyant sur le button ci-dessous</p>
+            <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
         {% else %}
             <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
             <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>

@@ -31,6 +31,7 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRoles((array) $form->get('role')->getData());
+            $user->setIsActive(true);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -80,11 +81,12 @@ class RegistrationController extends AbstractController
      * @Route("/create-token/{userId}", name="create_token")
      */
     public function createApiToken($userId, UserPasswordEncoderInterface $passwordEncoder){
+        $this->deletePreviousApiToken($userId);
         $creator = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $user = new User();
-        $user->setEmail( "lorem@ipsum");
-        $user->setFirstName("lorem");
-        $user->setLastName("ispum");
+        $user->setEmail( bin2hex(random_bytes(4))."@".bin2hex(random_bytes(4)));
+        $user->setFirstName("");
+        $user->setLastName("");
         $user->setPassword(
             $passwordEncoder->encodePassword(
                 $user,
@@ -92,6 +94,7 @@ class RegistrationController extends AbstractController
             )
         );
         $user->setRoles((array)"ROLE_COMPANY");
+        $user->setIsActive(false);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $apiToken = new ApiToken($user, $creator);
@@ -100,5 +103,15 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('my_profil', array('userId' => $userId));
 
+    }
+
+    private function deletePreviousApiToken($userId)
+    {
+        $apiToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
+        $user = $apiToken->getUser();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($apiToken);
+        $entityManager->remove($user);
+        $entityManager->flush();
     }
 }
