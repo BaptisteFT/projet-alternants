@@ -34,6 +34,11 @@ class ApiToken
     private $expireDate;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="apiToken")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -45,6 +50,7 @@ class ApiToken
         $this->user = $user;
         $this->expireDate = new \DateTime('+1 hour');
         $this->creator = $creator;
+        $this->setIsActive(false);
     }
 
     public function getId(): ?int
@@ -67,8 +73,31 @@ class ApiToken
         return $this->user;
     }
 
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
     public function generateUrl(): ?string
     {
         return "http://localhost:8000/login-token/".$this->getToken();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     */
+    public function setIsActive($isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+
+
 }

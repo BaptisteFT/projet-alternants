@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Contract;
+use App\Entity\User;
 use App\Form\ContractFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContractController extends AbstractController
 {
     /**
-     * @Route("/contract-form" , name="contract_form")
+     * @Route("/contract-form/{userId}" , name="contract_form")
      */
-    public function contractForm(Request $request): Response
+    public function contractForm(Request $request, $userId): Response
     {
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $contract = new Contract();
         $form = $this->createForm(ContractFormType::class, $contract);
         $form->handleRequest($request);
@@ -28,7 +30,9 @@ class ContractController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $contract->setUser($user);
             $entityManager->persist($contract);
+            $user->setContract($contract);
             $entityManager->flush();
 
             return $this->redirectToRoute('contract_pdf', ['contractId' => $contract->getId()]);

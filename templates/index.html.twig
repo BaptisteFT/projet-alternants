@@ -51,6 +51,18 @@
         </div>
     {% endif %}
 
+    {% if is_granted('ROLE_COMPANY') %}
+        <div>
+            <p>Bonjour {{ app.user.firstName }}</p>
+
+            <p>L'étudiant {{ tokenCreator.LastName }} {{ tokenCreator.firstName }} est l'auteur du lien d'activation, pour remplir sa convention veuillez</p>
+             <a href="{{ path('contract_form', {'userId': tokenCreator.getId()}) }}"> Cliquez ici</a>
+
+        </div>
+    {% endif %}
+
+
+
 {% endblock %}
 
 

@@ -18,12 +18,34 @@ class IndexController extends AbstractController
      */
     public function index(): Response
     {
+        // SECURITE
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $students = $this->findByStudents($users);
-        return $this->render("index.html.twig", [
-            'students' => $students,
-        ]);
+
+        // Partie ADMIN
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))
+        {
+            $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+            $students = $this->findByStudents($users);
+            return $this->render("index.html.twig", [
+                'students' => $students,
+            ]);
+
+        }
+
+        // Partie COMPANY
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_COMPANY'))
+        {
+            $user = $this->getUser();
+            $apitoken= $this->getDoctrine()->getRepository(ApiToken::class)->findOneByUser($user->getId());
+            $creator = $apitoken->getCreator();
+            return $this->render("index.html.twig", [
+                'user' => $user,
+                'tokenCreator' => $creator
+            ]);
+        }
+
+        // Partie OTHER
+        return $this->render("index.html.twig");
     }
 
     /**

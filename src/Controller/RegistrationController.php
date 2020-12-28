@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ApiToken;
 use App\Entity\User;
+use App\Form\CompanyFormType;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,6 +79,26 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * @Route("/update-company/{userId}", name="update_company")
+     */
+    public function updateCompany(Request $request, $userId){
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $form = $this->createForm(CompanyFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            $user->setIsActive(true);
+            return $this->redirectToRoute('app_index_index');
+
+        }
+        return $this->render('registration/modify-company.html.twig', [
+            'companyForm' => $form->createView(),
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * @Route("/create-token/{userId}", name="create_token")
      */
     public function createApiToken($userId, UserPasswordEncoderInterface $passwordEncoder){
@@ -108,10 +129,14 @@ class RegistrationController extends AbstractController
     private function deletePreviousApiToken($userId)
     {
         $apiToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
-        $user = $apiToken->getUser();
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($apiToken);
-        $entityManager->remove($user);
-        $entityManager->flush();
+        if ($apiToken != null){
+            $user = $apiToken->getUser();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($apiToken);
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
     }
+
+
 }

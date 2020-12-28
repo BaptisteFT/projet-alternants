@@ -47,10 +47,16 @@ class SecurityController extends AbstractController
             $userToken = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
             $this->get('security.token_storage')->setToken($userToken);
             $this->get('session')->set('_security_main', serialize($userToken));
-            $this->deleteApiToken($apiToken);
+            $apiToken->setIsActive(true);
+            //$this->deleteApiToken($apiToken);
+        }
+        if ($user->getIsActive()){
+            return $this->redirectToRoute('app_index_index');
+        }
+        else{
+            return $this->redirectToRoute('update_company', ['userId' => $user->getId()]);
         }
 
-        return $this->redirectToRoute('app_index_index');
     }
 
     private function deleteApiToken($apiToken)

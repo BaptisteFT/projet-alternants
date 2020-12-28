@@ -57,4 +57,14 @@ class ApiTokenRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
             ;
     }
+
+    public function findOneByUser($userId) : ?ApiToken
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :val')
+            ->setParameter('val', $userId)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

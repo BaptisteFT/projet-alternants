@@ -213,5 +213,22 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getContract()
+    {
+        return $this->contract;
+    }
+
+    /**
+     * @param mixed $contract
+     */
+    public function setContract($contract): void
+    {
+        $this->contract = $contract;
+    }
+
+
 
 }
