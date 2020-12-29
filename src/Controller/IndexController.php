@@ -35,10 +35,12 @@ class IndexController extends AbstractController
         // Partie COMPANY
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_COMPANY'))
         {
+            $students = $this->getDoctrine()->getRepository(User::class)->findStudentsInResearch();
             $user = $this->getUser();
             $apitoken= $this->getDoctrine()->getRepository(ApiToken::class)->findOneByUser($user->getId());
             $creator = $apitoken->getCreator();
             return $this->render("index.html.twig", [
+                'students' => $students,
                 'user' => $user,
                 'tokenCreator' => $creator
             ]);

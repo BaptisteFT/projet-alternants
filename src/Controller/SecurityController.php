@@ -42,12 +42,14 @@ class SecurityController extends AbstractController
      */
     public function tokenLogin($token){
         if ($this->checkToken($token)){
+            $entityManager = $this->getDoctrine()->getManager();
             $apiToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneBy(['token' => $token]);
             $user = $apiToken->getUser();
             $userToken = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
             $this->get('security.token_storage')->setToken($userToken);
             $this->get('session')->set('_security_main', serialize($userToken));
             $apiToken->setIsActive(true);
+            $entityManager->flush();
             //$this->deleteApiToken($apiToken);
         }
         if ($user->getIsActive()){

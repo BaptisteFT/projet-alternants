@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
@@ -32,6 +33,13 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRoles((array) $form->get('role')->getData());
+            if ($this->isRoleStudent($user))
+            {
+                $user->setStatus("RESEARCH");
+            }
+            else{
+                $user->setStatus("OTHER");
+            }
             $user->setIsActive(true);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -45,6 +53,13 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    private function isRoleStudent($user){
+        $token = new UsernamePasswordToken($user, 'none', 'none', $user->getRoles());
+        $isGranted = $this->get('security.access.decision_manager')
+            ->decide($token, array('ROLE_STUDENT'));
+        return $isGranted;
     }
 
     /**
@@ -81,14 +96,24 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/update-company/{userId}", name="update_company")
      */
-    public function updateCompany(Request $request, $userId){
+    public function updateCompany(Request $request, $userId, UserPasswordEncoderInterface $passwordEncoder){
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $form = $this->createForm(CompanyFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
             $this->getDoctrine()->getManager()->flush();
             $user->setIsActive(true);
+            $user->setStatus("OTHER");
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
             return $this->redirectToRoute('app_index_index');
 
         }

@@ -65,5 +65,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
     */
 
+    public function findStudentsInResearch()
+    {
+        $value = "RESEARCH";
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.status = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
 }

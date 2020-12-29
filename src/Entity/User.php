@@ -64,6 +64,11 @@ class User implements UserInterface
     private $contract;
 
     /**
+     * @ORM\Column(type="string", length=16, nullable=true)
+     */
+    private $status;
+
+    /**
      * @return mixed
      */
     public function getIsActive()
@@ -91,6 +96,24 @@ class User implements UserInterface
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
+
 
     public function getEmail(): ?string
     {
