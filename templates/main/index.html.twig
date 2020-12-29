@@ -11,6 +11,7 @@
     <nav>
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
+            <a href="{{ path('admin_panel') }}"> Administration de l'application</a>
 
         {% endif %}
         <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profile</a>
@@ -28,6 +29,7 @@
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Adresse mail</th>
+                        <th>Statut</th>
                         <th>Actions</th>
                     </tr>
                     {% for student in students %}
@@ -35,6 +37,7 @@
                             <td>{{ student.firstName }}</td>
                             <td>{{ student.lastName }}</td>
                             <td>{{ student.userName }}</td>
+                            <td>{{ student.status }}</td>
                             <td>
                                 <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>
                                 <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a>

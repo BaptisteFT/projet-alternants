@@ -64,6 +64,20 @@ class IndexController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin" , name="admin_panel")
+     */
+    public function adminPanel()
+    {
+        // SECURITE
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        return $this->render("/main/admin.html.twig", [
+            'users' => $users,
+        ]);
+    }
+
     private function findByStudents($users) {
         $students = [];
         foreach ($users as $user ) {

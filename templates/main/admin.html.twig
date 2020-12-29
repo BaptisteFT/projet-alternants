@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/pdf-lib"></script>
+    <title>Projet Alternant</title>
+</head>
+<body>
+{% block body %}
+    <h1>Administration de l'application</h1>
+
+    <div>
+        <h2>Utilisateurs de l'application</h2>
+        <table>
+            <tr>
+                <th>Adresse mail</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Statut</th>
+                <th>Activé</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.userName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.status }}</td>
+                    {% if user.isActive %}
+                        <td>Oui</td>
+                    {% else %}
+                        <td>Non</td>
+                    {% endif %}
+                    <td>
+                        <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
+                        <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
+</body>
+</html>
