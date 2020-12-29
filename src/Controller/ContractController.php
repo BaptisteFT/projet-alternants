@@ -38,7 +38,7 @@ class ContractController extends AbstractController
             return $this->redirectToRoute('contract_pdf', ['contractId' => $contract->getId()]);
         }
 
-        return $this->render('contractForm.html.twig', [
+        return $this->render('/contract/pdfViewer.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -49,7 +49,7 @@ class ContractController extends AbstractController
     public function editPDF($contractId) : Response
     {
         $contract = $this->getDoctrine()->getRepository(Contract::class)->find($contractId);
-        return $this->render('pdfViewer.html.twig', [
+        return $this->render('/contract/pdfViewer.html.twig', [
             'contract' => $contract
         ]);
     }

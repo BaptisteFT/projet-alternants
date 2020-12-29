@@ -26,7 +26,7 @@ class IndexController extends AbstractController
         {
             $users = $this->getDoctrine()->getRepository(User::class)->findAll();
             $students = $this->findByStudents($users);
-            return $this->render("index.html.twig", [
+            return $this->render("/main/index.html.twig", [
                 'students' => $students,
             ]);
 
@@ -39,7 +39,7 @@ class IndexController extends AbstractController
             $user = $this->getUser();
             $apitoken= $this->getDoctrine()->getRepository(ApiToken::class)->findOneByUser($user->getId());
             $creator = $apitoken->getCreator();
-            return $this->render("index.html.twig", [
+            return $this->render("/main/index.html.twig", [
                 'students' => $students,
                 'user' => $user,
                 'tokenCreator' => $creator
@@ -47,7 +47,7 @@ class IndexController extends AbstractController
         }
 
         // Partie OTHER
-        return $this->render("index.html.twig");
+        return $this->render("/main/index.html.twig");
     }
 
     /**
@@ -58,7 +58,7 @@ class IndexController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $token = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
-        return $this->render("profile.html.twig", [
+        return $this->render("/main/profile.html.twig", [
             'user' => $user,
             'token' => $token,
         ]);

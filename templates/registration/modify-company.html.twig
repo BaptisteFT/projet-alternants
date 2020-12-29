@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Projet Alternant</title>
+</head>
+<body>
+{% block body %}
+    <p>Votre compte a bien été activer, nous aimerions en savoir plus sur votre entreprise avant de remplir la convention</p>
+
+    {{ form_start(companyForm) }}
+
+        {{ form_row(companyForm.email, {label: "Adresse Mail de l'entreprise",value: ""}) }}
+        {{ form_row(companyForm.firstName, {label: "Nom de l'entreprise"}) }}
+        {{ form_row(companyForm.plainPassword, {label: "Mot de passe du compte"}) }}
+        <button type="submit" class="btn">Valider</button>
+
+    {{ form_end(companyForm) }}
+{% endblock %}
+</body>
+</html>
