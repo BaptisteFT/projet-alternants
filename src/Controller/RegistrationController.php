@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use SimpleXLSX;
+use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 
 class RegistrationController extends AbstractController
 {
@@ -149,6 +151,64 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('my_profil', array('userId' => $userId));
 
+    }
+
+    /**
+     * @Route("/excel-parse", name="excel_parse")
+     */
+    public function xlxCreateUsers(Request $request,UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $file = $request->files->get('file-selector');
+        if ($xlsx = SimpleXLSX::parse($file)) {
+
+            $ra = $xlsx->rowsEx();
+            $stutemp = json_encode($ra);
+            $students = array();
+            foreach ($ra as $value) {
+                $user = new User();
+                if ($value[11]["value"] != "" && filter_var($value[11]["value"], FILTER_VALIDATE_EMAIL)) {
+                    $student = array("name" => json_encode($value[2]["value"]), "surname" => json_encode($value[3]["value"]), "email" => json_encode($value[11]["value"]));//3,10
+
+                    $user->setFirstName(substr($student["name"], 1, -1));
+                    $user->setLastName(substr($student["surname"], 1, -1));
+                    $user->setEmail(substr($student["email"], 1, -1));
+                    $user->setRoles(array('ROLE_STUDENT'));
+                    $user->setIsActive(true);
+                    $user->setStatus("RESEARCH");
+                    $generator = new ComputerPasswordGenerator();
+
+                    $generator
+                        ->setOptionValue(ComputerPasswordGenerator::OPTION_UPPER_CASE, true)
+                        ->setOptionValue(ComputerPasswordGenerator::OPTION_LOWER_CASE, true)
+                        ->setOptionValue(ComputerPasswordGenerator::OPTION_NUMBERS, true)
+                        ->setOptionValue(ComputerPasswordGenerator::OPTION_SYMBOLS, false);
+
+                    $password = $generator->generatePassword();
+                    $user->setPassword(
+                        $passwordEncoder->encodePassword(
+                            $user,
+                            $password
+                        )
+                    );
+                    array_push($students, $student);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                }
+            }
+            $students = json_encode($students);
+        } else {
+            echo SimpleXLSX::parseError();
+        }
+        if (isset($ra)) {
+            return $this->render('registration/excelParse.html.twig', [
+                'test' => $password,
+            ]);
+        } else {
+            return $this->render('registration/excelParse.html.twig', [
+                'test' => "non",
+            ]);
+        }
     }
 
     private function deletePreviousApiToken($userId)

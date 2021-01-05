@@ -81,6 +81,9 @@
     "egulias/email-validator": {
         "version": "2.1.23"
     },
+    "hackzilla/password-generator": {
+        "version": "1.5.0"
+    },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
     },
@@ -131,6 +134,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "shuchkin/simplexlsx": {
+        "version": "0.8.19"
     },
     "symfony/asset": {
         "version": "v5.1.8"
