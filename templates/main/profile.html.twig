@@ -2,20 +2,23 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "../css/simple.css"/>
     <title>Projet Alternant</title>
 </head>
 <body>
 {% block body %}
-
+<header>
+  <h1>Profil</h1>
     <nav>
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
 
         {% endif %}
-        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profile</a>
+        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profil</a>
         <a href="{{ path('app_logout') }}"> Déconnexion</a>
     </nav>
-
+</header>
+<main>
     <h2>Informations de l'utilisateur</h2>
 
     <ul>
@@ -36,7 +39,7 @@
             <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
         {% endif %}
     {% endif %}
-
+</main>
 {% endblock %}
 </body>
 </html>

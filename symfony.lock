@@ -84,6 +84,12 @@
     "hackzilla/password-generator": {
         "version": "1.5.0"
     },
+    "laminas/laminas-code": {
+        "version": "3.5.0"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.3.0"
+    },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
     },

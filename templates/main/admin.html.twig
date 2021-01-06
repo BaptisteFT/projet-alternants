@@ -2,13 +2,16 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8" />
+    <link rel = "stylesheet" href = "css/simple.css"/>
     <script src="https://unpkg.com/pdf-lib"></script>
     <title>Projet Alternant</title>
 </head>
 <body>
 {% block body %}
+<header>
     <h1>Administration de l'application</h1>
-
+</header>
+<main>
     <div>
         <h2>Utilisateurs de l'application</h2>
         <table>
@@ -39,6 +42,7 @@
             {% endfor %}
         </table>
     </div>
+  </header>
 
 {% endblock %}
 </body>

@@ -2,11 +2,13 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "css/simple.css"/>
     <title>Projet Alternant</title>
 </head>
 <body>
 {% block body %}
-    <p>Votre compte a bien été activer, nous aimerions en savoir plus sur votre entreprise avant de remplir la convention</p>
+<main>
+    <p>Votre compte a bien été activé, nous aimerions en savoir plus sur votre entreprise avant de remplir la convention.</p>
 
     {{ form_start(companyForm) }}
 
@@ -16,6 +18,7 @@
         <button type="submit" class="btn">Valider</button>
 
     {{ form_end(companyForm) }}
+</main>
 {% endblock %}
 </body>
 </html>

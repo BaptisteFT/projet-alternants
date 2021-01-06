@@ -2,15 +2,20 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "css/simple.css"/>
     <title>Projet Alternant</title>
 </head>
 <body>
-{% block body %}
-    <h1>Création des comptes étudiants à partir d'un fichier Excel : </h1>
+<header>
+  {% block body %}
+  <h1>Création des comptes étudiants à partir d'un fichier Excel : </h1>
+</header>
+<main>
     <form action="/excel-parse" method="post" enctype="multipart/form-data">
         <input type="file" name="file-selector" id="file-selector">
         <button type="submit" class="btn">Upload</button>
         {{test}}
+        <main>
         <script>
             const fileSelector = document.getElementById('file-selector');
             fileSelector.addEventListener('change', (event) => {

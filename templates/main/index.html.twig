@@ -2,10 +2,12 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "css/simple.css"/>
     <title>Projet Alternant</title>
 </head>
 <body>
 {% block body %}
+  <header>
     <h1>Bienvenue sur l'index</h1>
 
     <nav>
@@ -15,11 +17,12 @@
             <a href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
 
         {% endif %}
-        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profile</a>
+        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profil</a>
         <a href="{{ path('app_logout') }}"> Déconnexion</a>
     </nav>
+  </header>
 
-
+<main>
     {% if is_granted('ROLE_ADMIN') %}
         <div>
             <h2>Liste des etudiants :</h2>
@@ -88,11 +91,9 @@
         </div>
     {% endif %}
 
-
-
+</main>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src =  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 {% endblock %}
 </body>
 </html>
-
-
-

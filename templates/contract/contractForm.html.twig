@@ -2,13 +2,16 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "css/simple.css"/>
     <title>Projet Alternant</title>
 </head>
 <body>
 {% block body %}
+<header>
     <div>
         <h1>Formulaire de préconvention</h1>
-
+</header>
+<main>
         {{ form_start(form) }}
 
         <h2>Informations</h2>
@@ -55,6 +58,7 @@
         {{ form_end(form) }}
 
     </div>
+  </main>
 {% endblock %}
 </body>
 </html>
