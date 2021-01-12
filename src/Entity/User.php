@@ -69,6 +69,11 @@ class User implements UserInterface
     private $status;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $civility;
+
+    /**
      * @return mixed
      */
     public function getIsActive()
@@ -184,6 +189,7 @@ class User implements UserInterface
 
         return array_unique($roles);
     }
+
 
     public function setRoles(array $roles): self
     {

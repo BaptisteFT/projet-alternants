@@ -58,7 +58,7 @@ class IndexController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $token = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
-        return $this->render("/main/profile.html.twig", [
+        return $this->render("main/profil.html.twig", [
             'user' => $user,
             'token' => $token,
         ]);

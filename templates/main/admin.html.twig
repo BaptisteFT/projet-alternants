@@ -8,8 +8,19 @@
 </head>
 <body>
 {% block body %}
-<header>
+    <header>
     <h1>Administration de l'application</h1>
+    <nav>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
+            <a href="{{ path('admin_panel') }}"> Administration de l'application</a>
+            <a href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
+
+        {% endif %}
+        <a href="{{ path('app_index_index') }}"> Index</a>
+        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profil</a>
+        <a href="{{ path('app_logout') }}"> Déconnexion</a>
+    </nav>
 </header>
 <main>
     <div>
@@ -21,6 +32,7 @@
                 <th>Prénom</th>
                 <th>Statut</th>
                 <th>Activé</th>
+                <th>Roles</th>
                 <th>Actions</th>
             </tr>
             {% for user in users %}
@@ -35,6 +47,11 @@
                         <td>Non</td>
                     {% endif %}
                     <td>
+                        {% for role in user.roles %}
+                        {{ role }}
+                        {% endfor %}
+                    </td>
+                    <td>
                         <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
                         <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
                     </td>
@@ -42,8 +59,13 @@
             {% endfor %}
         </table>
     </div>
-  </header>
 
+
+    <div>
+        <h2>Adresse mail de l'administration USMB</h2>
+
+    </div>
+</main>
 {% endblock %}
 </body>
 </html>
