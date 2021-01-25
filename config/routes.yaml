@@ -1,3 +1,15 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+save_pdf:
+  path: /contract/save-pdf/{contractId}
+  controller: App\Controller\ContractController::savePDF
+validate_pdf:
+  path: /contract/validate-pdf/{contractId}
+  controller: App\Controller\ContractController::validatePDF
+send_pdf:
+  path: /contract/send-pdf/{contractBase64Id}
+  controller : App\Controller\ContractController::sendEmail
+contract_pdf:
+  path: /contract/contract-pdf/{contractId}
+  controller : App\Controller\ContractController::editPDF

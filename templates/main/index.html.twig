@@ -45,6 +45,10 @@
                             <td>
                                 <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>
                                 <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a>
+                                {% if student.status == "CONTRACT_SEND" %}
+                                    <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}"> Pré-convention.pdf</a>
+                                {% endif %}'
+
                             </td>
                         </tr>
                     {% endfor %}
@@ -58,6 +62,10 @@
     {% if is_granted('ROLE_STUDENT') %}
         <div>
             <p>Bonjour {{ app.user.firstName }}</p>
+            {% if app.user.status == "RESEARCH" %}
+                <p>Vous êtes actuellement inscrit dans l'application, vous pouvez partager un lien de connexion avec une entreprise en  </p>
+                <a href="{{ path('create_token', {userId: app.user.id}) }}"> cliquant-ici</a>
+            {% endif %}
         </div>
     {% endif %}
 
@@ -66,34 +74,11 @@
             <p>Bonjour {{ app.user.firstName }}</p>
 
             <p>L'étudiant {{ tokenCreator.LastName }} {{ tokenCreator.firstName }} est l'auteur du lien d'activation, pour remplir sa convention veuillez</p>
-            <a href="{{ path('contract_form', {'userId': tokenCreator.getId()}) }}"> Cliquez ici</a>
-
-            <p>Liste des étudiants actuellement en recherche d'alternances </p>
-            <table>
-                <tr>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Adresse mail</th>
-                    <th>Actions</th>
-                </tr>
-                {% for student in students %}
-                    <tr>
-                        <td>{{ student.firstName }}</td>
-                        <td>{{ student.lastName }}</td>
-                        <td>{{ student.userName }}</td>
-                        <td>
-                            <a href="{{ path('contract_form', {'userId': student.getId()}) }}"> Editer la préconvention</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-
+            <a href="{{ path('contract_form', {'userId': tokenCreator.getId()}) }}"> cliquez ici</a>
         </div>
     {% endif %}
 
 </main>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src =  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 {% endblock %}
 </body>
 </html>

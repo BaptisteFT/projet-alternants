@@ -6,11 +6,13 @@ use App\Entity\ApiToken;
 use App\Entity\User;
 use App\Form\CompanyFormType;
 use App\Form\RegistrationFormType;
+use App\Service\GrantedService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SimpleXLSX;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
@@ -20,7 +22,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/create-user", name="create_user")
      */
-    public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function createUser(Request $request,GrantedService $grantedService, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -35,7 +37,7 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRoles((array) $form->get('role')->getData());
-            if ($this->isRoleStudent($user))
+            if ($this->isRoleStudent($grantedService,$user))
             {
                 $user->setStatus("RESEARCH");
             }
@@ -57,11 +59,14 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    private function isRoleStudent($user){
+    private function isRoleStudent(GrantedService $grantedService,$user){
         $token = new UsernamePasswordToken($user, 'none', 'none', $user->getRoles());
-        $isGranted = $this->get('security.access.decision_manager')
-            ->decide($token, array('ROLE_STUDENT'));
-        return $isGranted;
+        if ($grantedService->isGranted($user, 'ROLE_STUDENT')) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**

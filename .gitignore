@@ -1,2 +1,3 @@
-var
-vandor
+/translations/
+/.idea/
+.gitignore

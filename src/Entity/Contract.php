@@ -23,6 +23,7 @@ class Contract
      */
     private $user;
 
+
     /**
      * @ORM\Column(type="string", length=64)
      */
@@ -519,6 +520,10 @@ class Contract
     {
         $this->user = $user;
     }
+
+
+
+
 
 
 }

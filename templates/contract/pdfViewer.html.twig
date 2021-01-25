@@ -2,16 +2,22 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8" />
-        <link rel = "stylesheet" href = "css/simple.css"/>
+        <link rel = "stylesheet" href = "../../public/css/simple.css"/>
         <script src="https://unpkg.com/pdf-lib"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <title>Projet Alternant</title>
     </head>
 
     <body>
     {% block body %}
         <header>
-            <a href="{{ path('app_logout') }}"> Valider</a>
-            <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Revenir au formulaire</a>
+            {% if contract.user.status == "CONTRACT_SEND" %}
+                <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Editer</a>
+                <a href="{{ path('app_index_index') }}"> Revenir à l'index</a>
+            {% elseif contract.user.status == "RESEARCH" %}
+                <button onclick=" return savePdfForm()"> Valider</button>
+                <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Revenir au formulaire</a>
+            {% endif %}
         </header>
         <main>
             <embed id=pdf src="" width="100%" height="800px" />
@@ -21,6 +27,140 @@
 
     <script>
         fillPdfForm();
+
+        async function savePdfForm(){
+            const url = "{{ absolute_url(asset('pdf/pre-convention.pdf')) }}";
+            const formPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+            const pdfDoc = await PDFLib.PDFDocument.load(formPdfBytes);
+            const form = pdfDoc.getForm()
+
+            /*
+            const fields = form.getFields();
+            fields.forEach(field => {
+                const type = field.constructor.name
+                const name = field.getName()
+                console.log(`${name}`)
+            })
+            */
+
+
+            const repCivility = '{{ contract.representativeCivility }}';
+            if (repCivility === 'false'){
+                const repCivCheckBox = form.getCheckBox('Case à cocher 12')
+                repCivCheckBox.check()
+            }
+            else{
+                const repCivCheckBox = form.getCheckBox('Case à cocher 13')
+                repCivCheckBox.check()
+            }
+
+            const tutorCivility = '{{ contract.tutorCivility }}';
+            if (tutorCivility === 'false'){
+                const tutorCivCheckBox = form.getCheckBox('Case à cocher 18')
+                tutorCivCheckBox.check()
+            }
+            else{
+                const tutorCivCheckBox = form.getCheckBox('Case à cocher 19')
+                tutorCivCheckBox.check()
+            }
+
+            const studentCivility = 'false';
+            if (studentCivility === 'false'){
+                const studentCivCheckBox = form.getCheckBox('Case à cocher 14')
+                studentCivCheckBox.check()
+            }
+            else{
+                const studentCivCheckBox = form.getCheckBox('Case à cocher 15')
+                studentCivCheckBox.check()
+            }
+
+            const contracType = '{{ contract.contractType }}';
+            if (contracType === 'APR'){
+                const contractTypeCheckBox = form.getCheckBox('Case à cocher 7')
+                contractTypeCheckBox.check()
+            }
+            else if (contracType === 'PRO'){
+                const contractTypeCheckBox = form.getCheckBox('Case à cocher 9')
+                contractTypeCheckBox.check()
+            }
+            else if (contractType === 'AUT'){
+                const contractTypeCheckBox = form.getCheckBox('Case à cocher 10')
+                contractTypeCheckBox.check()
+            }
+
+            const socialReason = form.getTextField('Parcours 2')
+            const siretNumber = form.getTextField('Mention 2')
+            const activity = form.getTextField('Parcours 3')
+            const locationStreet = form.getTextField('Parcours 4')
+            const locationCity = form.getTextField('Mention 3')
+            const postalCode = form.getTextField('Parcours 5')
+            const phoneNumber = form.getTextField('Parcours 6')
+            const contractEmail = form.getTextField('Parcours 7')
+            const representativeFirstName = form.getTextField('Parcours 8')
+            const representativeLastName = form.getTextField('Mention 4')
+            const representativeRole = form.getTextField('Parcours 9')
+            const representativeEmail = form.getTextField('Parcours 10')
+            const otherSocialReason = form.getTextField('Parcours 11')
+            const otherLocationStreet = form.getTextField('Mention 5')
+            const otherLocationCity = form.getTextField('Parcours 12')
+            const otherPostalCode = form.getTextField('Parcours 13')
+            const otherPhoneNumber = form.getTextField('Parcours 14')
+            const workerRole = form.getTextField('Parcours 16')
+            const startDate = form.getTextField('Mention 7')
+            const endDate = form.getTextField('Parcours 17')
+            const tutorFirstName = form.getTextField('Parcours 24')
+            const tutorLastName = form.getTextField('Mention 10')
+            const tutorRole = form.getTextField('Parcours 25')
+            const tutorEmail = form.getTextField('Parcours 27')
+            const tutorPhoneNumber = form.getTextField('Parcours 26')
+            const studentFirstName = form.getTextField('Parcours 15')
+            const studentLastName = form.getTextField('Mention 6')
+            const studentEmail = form.getTextField('Parcours 37')
+
+            /* Résolution de bug (2 champs présent dans le pdf de base s'efface)
+            const repUnivFirstName = form.getTextField('Parcours 21')
+            const repUnivLastName = form.getTextField('Mention 9')
+            repUnivFirstName.setText('David')
+            repUnivLastName.setText('Telisson')
+             */
+
+            studentFirstName.setText('{{ contract.user.firstName }}')
+            studentLastName.setText('{{ contract.user.lastName }}')
+            studentEmail.setText('{{ contract.user.userName }}')
+            socialReason.setText('{{ contract.socialReason }}')
+            siretNumber.setText('{{ contract.siretNumber }}')
+            activity.setText('{{ contract.activity }}')
+            locationStreet.setText('{{ contract.locationStreet }}')
+            postalCode.setText('{{ contract.postalCode }}')
+            phoneNumber.setText('{{ contract.phoneNumber }}')
+            locationCity.setText('{{ contract.locationCity }}')
+            contractEmail.setText('{{ contract.contractEmail }}')
+            representativeFirstName.setText('{{ contract.representativeFirstName }}')
+            representativeLastName.setText('{{ contract.representativeLastName }}')
+            representativeRole.setText('{{ contract.representativeRole }}')
+            representativeEmail.setText('{{ contract.representativeEmail }}')
+            otherSocialReason.setText('{{ contract.otherSocialReason }}')
+            otherLocationStreet.setText('{{ contract.otherLocationStreet }}')
+            otherLocationCity.setText('{{ contract.otherLocationCity }}')
+            otherPostalCode.setText('{{ contract.otherPostalCode }}')
+            otherPhoneNumber.setText('{{ contract.otherPhoneNumber }}')
+            workerRole.setText('{{ contract.workerRole }}')
+            startDate.setText('{{ contract.contractStartDate|date("m/d/Y") }}')
+            endDate.setText('{{ contract.contractEndDate|date("m/d/Y") }}')
+            tutorFirstName.setText('{{ contract.tutorFirstName }}')
+            tutorLastName.setText('{{ contract.tutorLastName }}')
+            tutorRole.setText('{{ contract.tutorRole }}')
+            tutorEmail.setText('{{ contract.tutorEmail }}')
+            tutorPhoneNumber.setText('{{ contract.tutorPhoneNumber }}')
+
+            const base64String = await pdfDoc.saveAsBase64()
+
+            $.post("{{ path('save_pdf',{contractId : contract.id }) }}",base64String,function(result){
+                $(location).attr('href', '{{ path('validate_pdf',{contractId : contract.id }) }}')
+            });
+
+
+        }
 
         async function fillPdfForm(){
             const url = "{{ absolute_url(asset('pdf/pre-convention.pdf')) }}";
@@ -148,8 +288,10 @@
             tutorPhoneNumber.setText('{{ contract.tutorPhoneNumber }}')
 
             const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
+            const base64String = await pdfDoc.saveAsBase64()
             document.getElementById('pdf').src = pdfDataUri;
-
+            console.log(base64String.length);
+            console.log("1234".length);
         }
     </script>
 </html>
