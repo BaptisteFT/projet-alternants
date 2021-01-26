@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "css/simple.css"/>
+    <title>Projet Alternant</title>
+</head>
+<body>
+{% block body %}
+    <main>
+        <h2>Validation de l'alternance</h2>
+        <p>Cette opération permet de valider l'alternance pour l'étudiant {{ student.lastName }} {{ student.firstName }}</p> <br>
+        <p>Veuillez sélectionner le contrat d'alternance : </p>
+        <form action="{{ path('upload_work_contract', {'studentId': student.getId() }) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file-selector" id="file-selector">
+            <button type="submit" class="btn">Envoyer</button>
+
+        </form>
+
+        <script>
+            const fileSelector = document.getElementById('file-selector');
+            fileSelector.addEventListener('change', (event) => {
+                const fileList = event.target.files;
+                console.log(fileList);
+                console.log(fileList[0]);
+            });
+        </script>
+    </main>
+{% endblock %}
+</body>
+</html>

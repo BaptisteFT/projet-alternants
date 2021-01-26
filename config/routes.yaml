@@ -13,3 +13,9 @@ send_pdf:
 contract_pdf:
   path: /contract/contract-pdf/{contractId}
   controller : App\Controller\ContractController::editPDF
+upload_work_contract:
+  path: /upload-work-contract/{studentId}
+  controller : App\Controller\IndexController::uploadWorkContract
+view_work_contract:
+  path: /view-work-contract/{studentId}
+  controller : App\Controller\IndexController::viewWorkContract

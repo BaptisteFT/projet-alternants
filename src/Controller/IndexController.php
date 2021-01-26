@@ -6,7 +6,9 @@ namespace App\Controller;
 
 use App\Entity\ApiToken;
 use App\Entity\User;
+use App\Entity\WorkContract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -75,6 +77,48 @@ class IndexController extends AbstractController
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         return $this->render("/main/admin.html.twig", [
             'users' => $users,
+        ]);
+    }
+
+    /**
+     * @Route("/validate-work/{studentId}" , name="validate_work")
+     */
+    public function validateWork($studentId)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $student = $this->getDoctrine()->getRepository(User::class)->find($studentId);
+        return $this->render("/main/validateWork.html.twig", [
+            'student' => $student,
+        ]);
+    }
+
+    /**
+     * @Route("/upload-work-contract/{studentId}" , name="upload_work_contract")
+     */
+    public function uploadWorkContract(Request $request, $studentId){
+        //$filename = $_FILES['file-selector']['name'];
+        //$size = $_FILES['file-selector']['size'];
+        $file = $_FILES['file-selector']['tmp_name'];
+        $fileToString = file_get_contents($file);
+        $student = $this->getDoctrine()->getRepository(User::class)->find($studentId);
+        $workContract = new WorkContract($student, base64_encode($fileToString));
+        $student->setStatus("WORKING");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($workContract);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_index_index');
+    }
+
+    /**
+     * @Route("/view-work-contract/{studentId}" , name="view_work_contract")
+     */
+    public function viewWorkContract($studentId)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $workContract = $this->getDoctrine()->getRepository(WorkContract::class)->findOneByStudent($studentId);
+        return $this->render("/main/viewWorkContract.html.twig", [
+            'workContract' => $workContract,
         ]);
     }
 

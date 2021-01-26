@@ -44,10 +44,13 @@
                             <td>{{ student.status }}</td>
                             <td>
                                 <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>
-                                <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a>
+                                <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a> <br>
                                 {% if student.status == "CONTRACT_SEND" %}
-                                    <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}"> Pré-convention.pdf</a>
-                                {% endif %}'
+                                    <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}"> Pré-convention</a> <br>
+                                    <a href="{{ path('validate_work', {'studentId': student.getId() }) }}">Valider l'alternance</a>
+                                {% elseif student.status == "WORKING" %}
+                                    <a href="{{ path('view_work_contract', {'studentId': student.getId() }) }}"> Contrat d'alternance</a> <br>
+                                {% endif %}
 
                             </td>
                         </tr>
