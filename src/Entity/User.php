@@ -74,6 +74,11 @@ class User implements UserInterface
     private $civility;
 
     /**
+     * @ORM\OneToOne(targetEntity=User::class, orphanRemoval=true)
+     */
+    private $teacher;
+
+    /**
      * @return mixed
      */
     public function getIsActive()
@@ -256,6 +261,22 @@ class User implements UserInterface
     public function setContract($contract): void
     {
         $this->contract = $contract;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTeacher()
+    {
+        return $this->teacher;
+    }
+
+    /**
+     * @param mixed $teacher
+     */
+    public function setTeacher($teacher): void
+    {
+        $this->teacher = $teacher;
     }
 
 
