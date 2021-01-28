@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "css/simple.css"/>
+    <title>Projet Alternant</title>
+</head>
+<body>
+  <header>
+    {% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <h1>Création d'un Utilisateur</h1>
+  </header>
+  <main>
+    {{ form_start(registrationForm) }}
+    <p>
+      {{ form_row(registrationForm.email, {label: 'Adresse Mail',value: user.email}) }}
+    </p>
+    <p>
+      {{ form_row(registrationForm.firstName, {label: 'Prénom',value: user.firstName}) }}
+    </p>
+    <p>
+      {{ form_row(registrationForm.lastName, {label: 'Nom',value: user.lastName}) }}
+    </p>
+    <p>
+      {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe',}) }}
+    </p>
+    <p>
+      {{ form_row(registrationForm.role, {label: 'Role'}) }}
+    </p>
+    <button type="submit" class="btn">Modifier</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
+</main>
+</body>
+</html>

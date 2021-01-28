@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" href ="">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+    <title>Projet Alternant</title>
+</head>
+<body style="background-color: rgb(221, 247, 242);">
+  <header style="background-color: rgb(221, 247, 242); border:0px;">
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    
+ </header>
+  <main style="font-family:'Trebuchet MS';">
+  <div class="col-lg">
+    <div class="card " style="width: 60% ; margin-left: 20% ; margin-top: 60px" >
+      <h5 class="card-header text-white bg-info" style="font-weight: bold; ">
+        Ajout d'un utilisateur
+      </h5>
+      <div class="card-body" style="margin-left: 5%">
+   
+    {{ form_start(registrationForm) }}
+  
+    <div class="form-group" >
+     {{ form_row(registrationForm.email,{label:'Adresse Mail : '}) }}
+    </div>
+  
+    <div class="form-group">
+      {{ form_row(registrationForm.firstName, {label: 'Prénom :'}) }}
+    </div>
+    <div class="form-group">
+      {{ form_row(registrationForm.lastName, {label: 'Nom :'}) }}
+    </div>
+    <div class="form-group">
+      {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe :  '}) }}
+    </div>
+    <div class="form-group">
+      {{ form_row(registrationForm.role, {label: 'Role :'}) }}
+    </div>
+        <button type="submit" class="btn btn-info" style="float:right; font-weight: bold; font-family:'Trebuchet MS';">Ajouter</button>
+    {{ form_end(registrationForm) }}
+  
+  
+
+</div>
+</div>
+</div>
+</main>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" type="text/css" href = ""/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Projet Alternant</title>
+</head>
+<body style="background-color: rgb(221, 247, 242); width: 100vw; min-height: 100vh;">
+<header style="margin-top: 70px; margin-left:100px; color: black; font-size: 27px; font-weight: bold; font-family:'Trebuchet MS';">
+  {% block body %}
+</header>
+<main>
+
+<div class="col-lg"  style="padding: 50px; margin-left:20% ;width: 60%" >
+   <div class="card " >
+    <h5 class="card-header text-white bg-info" style="color: white; font-size: 20px; font-weight: bold; font-family:'Trebuchet MS';">
+          Création des comptes étudiants à partir d'un fichier Excel 
+
+      </h5>
+      <div class="card-body">
+
+    <form action="/excel-parse" method="post" enctype="multipart/form-data" >
+        <input type="file" name="file-selector" id="file-selector">
+        <button type="submit" class="btn border btn-info" style="margin-left: 30%">Upload</button>
+        <main>
+        <script>
+            const fileSelector = document.getElementById('file-selector');
+            fileSelector.addEventListener('change', (event) => {
+                const fileList = event.target.files;
+                console.log(fileList);
+            });
+        </script>
+    </form>
+</div>
+</div>
+</div>
+
+{% endblock %}
+</body>
+</html>

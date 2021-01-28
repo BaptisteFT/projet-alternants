@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+     <meta charset="UTF-8"/>
+    <link rel = "stylesheet" type="text/css" href = ""/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+    <title>Projet Alternant</title>
+</head>
+<body style="background-color: rgb(221, 247, 242); width: 100vw; min-height: 100vh;">
+{% block body %}
+
+
+<nav class="navbar navbar-dark py-0 bg-white navbar-expand-lg py-md-0 border-bottom border-top rounded">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav " >
+           
+		   <li class="nav-item">
+			<a  class="nav-link" style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS';" href="{{ path('app_index_index') }}">Liste des alternants</a>
+           </li>
+		</ul>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item form-inline " >
+                 <p style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS'; margin-top: 10px;">  <i class="fa fa-user fa-lg" style="color: rgb(7, 12, 85);"> </i>&nbsp; {{ app.user.firstName }} </p>
+			
+                <div class="dropdown ">
+                    <button type="button"  class="btn fa fa-angle-double-down fa-lg" data-toggle="dropdown"></button>
+                     <div class="dropdown-menu dropdown-menu-right">
+                       <a class="dropdown-item" href="{{ path('my_profil', {userId: app.user.id}) }}"><i class="fa fa-user-circle fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp; Mon profil</a>
+                       <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fa fa-sign-out fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp; Déconnexion</a> 
+                     </div>
+                </div>  
+            </li>
+			
+          </ul>
+        </div>
+      </nav>
+
+
+
+<!--    <header>
+    <h1>Administration de l'application</h1>
+    <nav>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
+            <a href="{{ path('admin_panel') }}"> Administration de l'application</a>
+            <a href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
+
+        {% endif %}
+        <a href="{{ path('app_index_index') }}"> Index</a>
+        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profil</a>
+        <a href="{{ path('app_logout') }}"> Déconnexion</a>
+    </nav>
+</header>-->
+<main>
+
+
+	<div class="form-inline">
+            <p style="margin-top: 70px; margin-left:100px; color: black; font-size: 27px; font-weight: bold; font-family:'Trebuchet MS';">Utilisateurs de l'application</p>
+              {% if is_granted('ROLE_ADMIN') %}
+             <a class="btn border btn-info" style="font-weight: bold; margin-top: 60px; margin-left:340px; "  href="{{ path('create_user') }}"> Ajouter un utilisateur</a>&nbsp;
+             <a class="btn border btn-info" style="font-weight: bold; margin-top: 60px;" href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
+          
+             {% endif %}
+		     </div>
+    <div>
+        <table class="table caption-top table-bordered table-light " style="width: 90%; margin-left: 100px;">
+        	<thead class="table-info">
+            <tr>
+                <th scope="col">Adresse mail</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Activé</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.userName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.status }}</td>
+                    {% if user.isActive %}
+                        <td>Oui</td>
+                    {% else %}
+                        <td>Non</td>
+                    {% endif %}
+                    <td>
+                        {% for role in user.roles %}
+                        {{ role }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
+                        <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+<!--
+    <div>
+        <h2>Adresse mail de l'administration USMB</h2>
+
+    </div>
+-->
+</main>
+{% endblock %}
+</body>
+</html>
