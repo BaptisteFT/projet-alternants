@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "../css/simple.css"/>
+    <title>Projet Alternant</title>
+</head>
+<body>
+{% block body %}
+    <header>
+        <h1>Review</h1>
+        <nav>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
+                <a href="{{ path('admin_panel') }}"> Administration de l'application</a>
+                <a href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
+
+            {% endif %}
+            <a href="{{ path('app_index_index') }}"> Index</a>
+            <a href="{{ path('app_logout') }}"> Déconnexion</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Informations de l'utilisateur</h2>
+        {% if is_granted('ROLE_TEACHER') %}
+            <table>
+                <tr>
+                    <th>Eleve</th>
+                    <th>Date</th>
+                    <th>Note</th>
+                    <th>Appréciation</th>
+                </tr>
+                {% for rev in reviews %}
+                    <tr>
+                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
+                        <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
+                        <td>{{ rev.date|date("m/d/Y") }}</td>
+                        <td>
+                            {{ rev.rating }}
+                        </td>
+                        <td>{{ rev.content }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% elseif is_granted('ROLE_STUDENT') %}
+            <table>
+                <tr>
+                    <th>Eleve</th>
+                    <th>Tuteur</th>
+                    <th>Date</th>
+                    <th>Note</th>
+                    <th>Appréciation</th>
+                </tr>
+                {% for rev in reviews %}
+                    <tr>
+                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
+                        <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
+                        <td>{{ rev.date|date("m/d/Y h:m") }}</td>
+                        <td>
+                            {{ rev.rating }}
+                        </td>
+                        <td>{{ rev.content }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% elseif is_granted('ROLE_ADMIN') %}
+            <table>
+                <tr>
+                    <th>Eleve</th>
+                    <th>Tuteur</th>
+                    <th>Date</th>
+                    <th>Note</th>
+                    <th>Appréciation</th>
+                </tr>
+                {% for rev in reviews %}
+                    <tr>
+                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
+                        <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
+                        <td>{{ rev.date|date("m/d/Y h:m") }}</td>
+                        <td>
+                            {{ rev.rating }}
+                        </td>
+                        <td>{{ rev.content }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </main>
+{% endblock %}
+</body>
+</html>

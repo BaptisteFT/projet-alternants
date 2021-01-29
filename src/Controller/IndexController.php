@@ -56,6 +56,7 @@ class IndexController extends AbstractController
             $students = $this->getDoctrine()->getRepository(User::class)->findStudentsByTeacher($teacher);
             return $this->render("/main/index.html.twig", [
                 "students" => $students,
+                "teacher" => $teacher,
             ]);
         }
 

@@ -18,6 +18,9 @@
 
         {% endif %}
         <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profil</a>
+        {% if is_granted('ROLE_STUDENT') %}
+            <a href="{{ path('review', {userId: app.user.id}) }}">Mes notes</a>
+        {% endif %}
         <a href="{{ path('app_logout') }}"> Déconnexion</a>
     </nav>
   </header>
@@ -99,7 +102,9 @@
                     <td>{{ student.firstName }}</td>
                     <td>{{ student.lastName }}</td>
                     <td>{{ student.userName }}</td>
-                    <td></td>
+                    <td>
+                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
+                    </td>
                 {% endfor %}
             </table>
             {% else %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" href = "css/simple.css"/>
+    <title>Projet Alternant</title>
+</head>
+<body>
+<header>
+    {% block body %}
+
+    <h1>Nouvelle Review:</h1>
+</header>
+<main>
+    {{ form_start(reviewForm) }}
+    <p>
+        {{ form_row(reviewForm.rating, {label: 'rating '}) }}
+    </p>
+    <p>
+        {{ form_row(reviewForm.content, { label: 'content'}) }}
+    </p>
+    <p>
+        {{ form_row(reviewForm.date, {label: 'date '}) }}
+    </p>
+    <button type="submit" class="btn">Créer</button>
+    {{ form_end(reviewForm) }}
+</main>
+{% endblock %}
+</body>
+</html>
