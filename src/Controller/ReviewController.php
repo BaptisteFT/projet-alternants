@@ -14,13 +14,13 @@ use App\Entity\Review;
 class ReviewController extends AbstractController
 {
     /**
-     * @Route("/review/{teacherId}/{studentId}", name="review")
+     * @Route("/review/{Id}", name="review")
      */
-    public function show_review($teacherId, $studentId): \Symfony\Component\HttpFoundation\Response
+    public function show_review($Id): \Symfony\Component\HttpFoundation\Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_STUDENT')) {
-            $student = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $studentId]);
+            $student = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $Id]);
             $reviews = $this->getDoctrine()->getRepository(Review::class)->findByStudent($student);
             return $this->render("review/show-review.html.twig", [
                 'student' => $student,
@@ -28,7 +28,7 @@ class ReviewController extends AbstractController
             ]);}
         //TUTEUR
         else if ($this->container->get('security.authorization_checker')->isGranted('ROLE_TEACHER')) {
-            $teacher = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $teacherId]);
+            $teacher = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $Id]);
             $reviews = $this->getDoctrine()->getRepository(Review::class)->findByAuthor($teacher);
             return $this->render("review/show-review.html.twig", [
                 'teacher' => $teacher,
@@ -43,6 +43,7 @@ class ReviewController extends AbstractController
             return $this->render('review/show-review.html.twig');
         }
     }
+
     /**
      * @Route("/create-review/{teacherId}/{studentId}", name="create_review")
      */
@@ -64,46 +65,49 @@ class ReviewController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($review);
-
+            //$author->addReview($review);
             $entityManager->flush();
 
 
-            return $this->redirectToRoute('review', ['teacherId'=> $teacherId, 'studentId'=> $studentId]);
+            return $this->redirectToRoute('review', [ 'Id'=> $teacherId]);
         }
 
         return $this->render('review/create-review.html.twig', [
             'reviewForm' => $form->createView(),
         ]);
     }
-    /*
 
-
-    public function addAction(User $student, Request $request)
+    /**
+     * @Route("/delete-review/{reviewId}", name="delete_review")
+     */
+    public function deleteReview($reviewId) : Response
     {
-        $review = new Review();
+        $review = $this->getDoctrine()->getRepository(Review::class)->find($reviewId);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($review);
+        $entityManager->flush();
+        $user = $this->getUser();
+        return $this->redirectToRoute('review', [ 'Id'=>$user->getId()]);
+    }
 
-        $form = $this->createForm(new ReviewFormType()
+    /**
+     * @Route("/update-review/{reviewId}", name="update_review")
+     */
+    public function updateUser(Request $request, $reviewId){
+        $review = $this->getDoctrine()->getRepository(Review::class)->find($reviewId);
+        $form = $this->createForm(ReviewFormType::class, $review);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $review->setAuthor($this->getUser());
-            $review->setApproved(false);
-            $review->setProduct($student);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
 
-            /** @var ReviewService reviewService */
-    /*
-            $reviewService = $this->container->get('ReviewService');
-            $reviewService->save($review);
-
-            return $this->redirect($this->generateUrl('product_view', array(
-                'id' => $student->getId(),
-            )));
+            $user = $this->getUser();
+            return $this->redirectToRoute('review', [ 'Id'=>$user->getId()]);
         }
+        return $this->render('review/modify-review.html.twig', [
+            'reviewForm' => $form->createView(),
+            'review' => $review,
+        ]);
 
-        return $this->render('AppBundle:Review:add.html.twig', array(
-            'form' => $form->createView(),
-            'student' => $student
-        ));
     }
-*/
 }

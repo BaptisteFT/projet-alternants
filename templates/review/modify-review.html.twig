@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <main>
+        {{ form_start(reviewForm) }}
+        <p>
+            {{ form_row(reviewForm.rating, {label: 'rating '}) }}
+        </p>
+        <p>
+            {{ form_row(reviewForm.content, { label: 'content'}) }}
+        </p>
+        <p>
+            {{ form_row(reviewForm.date, {label: 'date '}) }}
+        </p>
+        <button type="submit" class="btn">Modifier</button>
+        {{ form_end(reviewForm) }}
+    </main>
+{% endblock %}

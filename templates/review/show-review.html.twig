@@ -7,7 +7,6 @@
 {% endblock %}
 {% block content %}
     <main>
-
         <h2>Informations de l'utilisateur</h2>
         {% if is_granted('ROLE_TEACHER') %}
             <table>
@@ -20,7 +19,6 @@
                 {% for rev in reviews %}
                     <tr>
                         <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
-                        <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
                         <td>{{ rev.date|date("m/d/Y") }}</td>
                         <td>
                             {{ rev.rating }}
@@ -32,7 +30,6 @@
         {% elseif is_granted('ROLE_STUDENT') %}
             <table>
                 <tr>
-                    <th>Eleve</th>
                     <th>Tuteur</th>
                     <th>Date</th>
                     <th>Note</th>
@@ -40,7 +37,6 @@
                 </tr>
                 {% for rev in reviews %}
                     <tr>
-                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
                         <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
                         <td>{{ rev.date|date("m/d/Y h:m") }}</td>
                         <td>
@@ -68,6 +64,10 @@
                             {{ rev.rating }}
                         </td>
                         <td>{{ rev.content }}</td>
+                        <td>
+                            <a href="{{ path('delete_review', {'reviewId': rev.getId()}) }}"> Supprimer</a>
+                            <a href="{{ path('update_review', {'reviewId': rev.getId()}) }}"> Modifier</a>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
