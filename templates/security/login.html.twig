@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-{% block body %}
-<header>
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+<main>
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -20,8 +16,8 @@
     {% endif %}
 
     <h1 class="h3 mb-3 font-weight-normal">Veuillez vous authentifier</h1>
-  </header>
-  <main>
+
+
     <p>
       <label for="inputEmail">Email</label><br>
       <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
@@ -49,7 +45,6 @@
         Sign in
     </button>
 </form>
-<main>
+</main>
 {% endblock %}
-</body>
-</html>
+

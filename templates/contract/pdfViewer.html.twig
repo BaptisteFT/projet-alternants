@@ -1,29 +1,26 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8" />
-        <link rel = "stylesheet" href = "../../public/css/simple.css"/>
-        <script src="https://unpkg.com/pdf-lib"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <title>Projet Alternant</title>
-    </head>
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+    <script src="https://unpkg.com/pdf-lib"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <div>
+        {% if contract.user.status == "CONTRACT_SEND" %}
+            <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Editer</a>
+            <a href="{{ path('app_index_index') }}"> Revenir à l'index</a>
+        {% elseif contract.user.status == "RESEARCH" %}
+            <button onclick=" return savePdfForm()"> Valider</button>
+            <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Revenir au formulaire</a>
+        {% endif %}
+    </div>
 
-    <body>
-    {% block body %}
-        <header>
-            {% if contract.user.status == "CONTRACT_SEND" %}
-                <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Editer</a>
-                <a href="{{ path('app_index_index') }}"> Revenir à l'index</a>
-            {% elseif contract.user.status == "RESEARCH" %}
-                <button onclick=" return savePdfForm()"> Valider</button>
-                <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Revenir au formulaire</a>
-            {% endif %}
-        </header>
-        <main>
-            <embed id=pdf src="" width="100%" height="800px" />
-        </main>
-    {% endblock %}
-    </body>
+    <main>
+        <embed id=pdf src="" width="100%" height="800px" />
+    </main>
 
     <script>
         fillPdfForm();
@@ -294,4 +291,4 @@
             console.log("1234".length);
         }
     </script>
-</html>
+{% endblock %}

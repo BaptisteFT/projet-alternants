@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-<header>
-    {% block body %}
-
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
     <h1>Nouvelle Review:</h1>
-</header>
+
 <main>
     {{ form_start(reviewForm) }}
     <p>
@@ -26,5 +23,3 @@
     {{ form_end(reviewForm) }}
 </main>
 {% endblock %}
-</body>
-</html>

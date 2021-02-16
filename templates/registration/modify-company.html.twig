@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-{% block body %}
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
 <main>
     <p>Votre compte a bien été activé, nous aimerions en savoir plus sur votre entreprise avant de remplir la convention.</p>
 
@@ -20,5 +19,4 @@
     {{ form_end(companyForm) }}
 </main>
 {% endblock %}
-</body>
-</html>
+

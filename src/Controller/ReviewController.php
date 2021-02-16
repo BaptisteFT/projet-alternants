@@ -64,7 +64,7 @@ class ReviewController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($review);
-            //$author->addReview($review);
+
             $entityManager->flush();
 
 

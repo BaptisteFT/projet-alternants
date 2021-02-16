@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-{% block body %}
-<header>
-        <h1>Formulaire de préconvention</h1></div>
-</header>
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
 <main>
+        <h1>Formulaire de préconvention</h1></div>
+
         {{ form_start(form) }}
 
         <h2>Informations</h2>
@@ -57,5 +55,4 @@
         {{ form_end(form) }}
   </main>
 {% endblock %}
-</body>
-</html>
+

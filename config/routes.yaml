@@ -19,5 +19,3 @@ upload_work_contract:
 view_work_contract:
   path: /view-work-contract/{studentId}
   controller : App\Controller\IndexController::viewWorkContract
-show_review:
-  path: /

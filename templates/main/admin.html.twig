@@ -1,39 +1,26 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8" />
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <script src="https://unpkg.com/pdf-lib"></script>
-    <title>Projet Alternant</title>
-</head>
-<body>
-{% block body %}
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
     <header>
     <h1>Administration de l'application</h1>
-    <nav>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
-            <a href="{{ path('admin_panel') }}"> Administration de l'application</a>
-            <a href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
-
-        {% endif %}
-        <a href="{{ path('app_index_index') }}"> Index</a>
-        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profil</a>
-        <a href="{{ path('app_logout') }}"> Déconnexion</a>
-    </nav>
 </header>
 <main>
     <div>
         <h2>Utilisateurs de l'application</h2>
-        <table>
+        <table class="table table-striped">
             <tr>
-                <th>Adresse mail</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Statut</th>
-                <th>Activé</th>
-                <th>Roles</th>
-                <th>Actions</th>
+                <th scope="col">Adresse mail</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Activé</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Actions</th>
             </tr>
             {% for user in users %}
                 <tr>
@@ -67,5 +54,3 @@
     </div>
 </main>
 {% endblock %}
-</body>
-</html>

@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-  <header>
-    {% block body %}
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-
     <h1>Création d'un Utilisateur</h1>
-  </header>
   <main>
     {{ form_start(registrationForm) }}
     <p>
@@ -33,7 +29,6 @@
     </p>
     <button type="submit" class="btn">Modifier</button>
     {{ form_end(registrationForm) }}
+  </main>
 {% endblock %}
-</main>
-</body>
-</html>
+

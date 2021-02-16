@@ -1,43 +1,26 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-{% block body %}
-  <header>
+{% extends "base.html.twig" %}
+{% block head %}
+{{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <main>
     <h1>Bienvenue sur l'index</h1>
 
-    <nav>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('create_user') }}"> Ajouter un utilisateur</a>
-            <a href="{{ path('admin_panel') }}"> Administration de l'application</a>
-            <a href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
-
-        {% endif %}
-        <a href="{{ path('my_profil', {userId: app.user.id}) }}">Mon profil</a>
-        {% if is_granted('ROLE_STUDENT') %}
-            <a href="{{ path('review', {userId: app.user.id}) }}">Mes notes</a>
-        {% endif %}
-        <a href="{{ path('app_logout') }}"> Déconnexion</a>
-    </nav>
-  </header>
-
-<main>
     {% if is_granted('ROLE_ADMIN') %}
         <div>
             <h2>Liste des étudiants :</h2>
 
             {% if students is not empty %}
-                <table>
+                <table class="table table-striped">
                     <tr>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Adresse mail</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Adresse mail</th>
+                        <th scope="col">Statut</th>
+                        <th scope="col">Actions</th>
                     </tr>
                     {% for student in students %}
                         <tr>
@@ -91,12 +74,12 @@
             <h2>Liste des étudiants dont vous êtes le tuteur :</h2>
 
             {% if students is not empty %}
-            <table>
+            <table class="table table-striped">
                 <tr>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Adresse mail</th>
-                    <th>Actions</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Adresse mail</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 {% for student in students %}
                     <td>{{ student.firstName }}</td>
@@ -112,8 +95,6 @@
             {% endif %}
         </div>
     {% endif %}
-
-</main>
+    </main>
 {% endblock %}
-</body>
-</html>
+

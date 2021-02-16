@@ -1,33 +1,28 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8" />
-    <link rel = "stylesheet" href = "../../public/css/simple.css"/>
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
     <script src="https://unpkg.com/pdf-lib"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Projet Alternant</title>
-</head>
-<body>
-{% block body %}
-    <header>
-        <a href="{{ path('app_index_index') }}"> Revenir à l'index</a>
-    </header>
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
     <main>
         <embed id=pdf src="" width="100%" height="800px" />
     </main>
+
+    <script>
+        loadWorkContract();
+
+        async function loadWorkContract()
+        {
+            const dataUri = 'data:application/pdf;base64,' + "{{ workContract.base64 }}"
+            const pdfDoc = await PDFLib.PDFDocument.load(dataUri)
+            const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true })
+            document.getElementById('pdf').src = pdfDataUri
+
+        }
+    </script>
 {% endblock %}
-</body>
-<script>
-    loadWorkContract();
 
-    async function loadWorkContract()
-    {
-        const dataUri = 'data:application/pdf;base64,' + "{{ workContract.base64 }}"
-        const pdfDoc = await PDFLib.PDFDocument.load(dataUri)
-        const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true })
-        document.getElementById('pdf').src = pdfDataUri
-
-    }
-</script>
-
-</html>

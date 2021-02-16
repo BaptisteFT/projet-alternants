@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-{% block body %}
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
     <main>
         <h2>Validation de l'alternance</h2>
         <p>Cette opération permet de valider l'alternance pour l'étudiant {{ student.lastName }} {{ student.firstName }}</p> <br>
@@ -34,5 +33,3 @@
         </script>
     </main>
 {% endblock %}
-</body>
-</html>
