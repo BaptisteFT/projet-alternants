@@ -138,8 +138,7 @@ class ContractController extends AbstractController
             ->to('projet.alternants.usmb@gmail.com')
             ->subject('Convention Alternant M2')
             ->text('Bonjour ci-joint la convention pré-remplie')
-            ->attach(base64_decode($contractBase64->getBase64()), 'pre-convention.pdf', 'application/pdf')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+            ->attach(base64_decode($contractBase64->getBase64()), 'pre-convention.pdf', 'application/pdf');
         $mailer->send($email);
 
         return $this->redirectToRoute('app_index_index');

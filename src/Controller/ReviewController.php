@@ -11,6 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Review;
 
+/**
+ * @Route("/reviews")
+ */
 class ReviewController extends AbstractController
 {
     /**

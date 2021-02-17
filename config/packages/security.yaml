@@ -50,7 +50,26 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-        #- { path: ^/create-user$, roles: [ROLE_ADMIN, ROLE_SUPER_ADMIN]}
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profil, roles: ROLE_USER }
+        - { path: ^/create-token, roles: ROLE_STUDENT }
+        # Admin acces control :
+        - { path: ^/admin, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/validate-work, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/upload-work-contract, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/create-user, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/delete-user, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/update-user, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/excel-parse, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/send-pdf, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        - { path: ^/validate-pdf, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ] }
+        # Special acces control :
+        - { path: ^/contract, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN, ROLE_COMPANY ] }
+        # Only Company and Admin have acces to contract
+        - { path: ^/reviews, roles : [ ROLE_ADMIN, ROLE_SUPER_ADMIN, ROLE_TEACHER, ROLE_STUDENT]}
+        - { path: ^/update-company, roles: ROLE_COMPANY }
+        # Need to check who can update inside updateCompany
+
+
+
+
