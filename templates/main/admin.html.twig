@@ -6,11 +6,9 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <header>
-    <h1>Administration de l'application</h1>
-</header>
 <main>
     <div>
+        <h1>Administration de l'application</h1>
         <h2>Utilisateurs de l'application</h2>
         <table class="table table-striped">
             <tr>
@@ -53,4 +51,7 @@
 
     </div>
 </main>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}

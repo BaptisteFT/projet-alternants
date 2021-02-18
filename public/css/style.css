@@ -1,4 +1,21 @@
 .background-midnight-blue {
    background:#2c3e50;
 }
+footer {
+   position: fixed;
+   height: 50px;
+   bottom: 0;
+   width: 100%;
+}
+.footer-logo {
+   margin: 5px 90%;
+}
 
+header {
+   position: fixed;
+   top: 0;
+   width: 100%;
+}
+section {
+   margin: 5% 2%;
+}

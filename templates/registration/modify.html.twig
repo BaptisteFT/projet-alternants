@@ -27,8 +27,10 @@
     <p>
       {{ form_row(registrationForm.role, {label: 'Role'}) }}
     </p>
-    <button type="submit" class="btn">Modifier</button>
+    <button type="submit" class="btn btn-warning">Modifier</button>
     {{ form_end(registrationForm) }}
   </main>
 {% endblock %}
-
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

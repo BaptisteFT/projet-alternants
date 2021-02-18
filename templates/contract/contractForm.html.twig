@@ -1,4 +1,5 @@
 {% extends "base.html.twig" %}
+{% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
@@ -10,7 +11,7 @@
         <h1>Formulaire de préconvention</h1></div>
 
         {{ form_start(form) }}
-
+    <div class="mb-3">
         <h2>Informations</h2>
         {{ form_row(form.socialReason, {label: 'Raison Sociale'}) }}
         {{ form_row(form.siretNumber, {label: 'Siret'}) }}
@@ -49,8 +50,8 @@
         {{ form_row(form.tutorLastName, {label: 'Nom'}) }}
         {{ form_row(form.tutorPhoneNumber, {label: 'Numero de téléphone'}) }}
         {{ form_row(form.tutorEmail, {label: 'Email'}) }}
-
-        <button type="submit" class="btn">Envoyer</button>
+    </div>
+        <button type="submit" class="btn btn-success">Envoyer</button>
 
         {{ form_end(form) }}
   </main>

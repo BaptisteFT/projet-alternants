@@ -19,7 +19,7 @@
                     <option value="{{ teacher.userName }}">{{ teacher.firstName }} {{ teacher.lastName }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="btn">Envoyer</button>
+            <button type="submit" class="btn btn-success">Envoyer</button>
 
         </form>
 
@@ -32,4 +32,7 @@
             });
         </script>
     </main>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}

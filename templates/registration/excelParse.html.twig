@@ -9,9 +9,10 @@
   <h1>Création des comptes étudiants à partir d'un fichier Excel : </h1>
 <main>
     <form action="/excel-parse" method="post" enctype="multipart/form-data">
-        <input type="file" name="file-selector" id="file-selector">
-        <button type="submit" class="btn">Upload</button>
-        {{test}}
+        <div class="mb-3">
+        <input class="form-control" type="file" name="file-selector" id="file-selector">
+        </div>
+        <button type="submit" class="btn btn-success">Upload</button>
         <script>
             const fileSelector = document.getElementById('file-selector');
             fileSelector.addEventListener('change', (event) => {
@@ -22,4 +23,6 @@
     </form>
 </main>
 {% endblock %}
-
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

@@ -206,13 +206,9 @@ class RegistrationController extends AbstractController
             echo SimpleXLSX::parseError();
         }
         if (isset($ra)) {
-            return $this->render('registration/excelParse.html.twig', [
-                'test' => $password,
-            ]);
+            return $this->render('registration/excelParse.html.twig');
         } else {
-            return $this->render('registration/excelParse.html.twig', [
-                'test' => "non",
-            ]);
+            return $this->render('registration/excelParse.html.twig');
         }
     }
 

@@ -17,7 +17,10 @@
         <p>
             {{ form_row(reviewForm.date, {label: 'date '}) }}
         </p>
-        <button type="submit" class="btn">Modifier</button>
+        <button type="submit" class="btn btn-warning">Modifier</button>
         {{ form_end(reviewForm) }}
     </main>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
