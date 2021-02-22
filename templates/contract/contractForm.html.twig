@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
@@ -50,7 +50,9 @@
         {{ form_row(form.tutorLastName, {label: 'Nom'}) }}
         {{ form_row(form.tutorPhoneNumber, {label: 'Numero de téléphone'}) }}
         {{ form_row(form.tutorEmail, {label: 'Email'}) }}
+        {{ form_row(form.tutorRole, {label: 'Fonction du tuteur'}) }}
     </div>
+
         <button type="submit" class="btn btn-success">Envoyer</button>
 
         {{ form_end(form) }}

@@ -70,7 +70,6 @@ class ComposerStaticInita71150c09ceaaea1b414ef0b902ac272
             'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\Notifier\\' => 27,
             'Symfony\\Component\\Mime\\' => 23,
-            'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 39,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\Intl\\' => 23,
             'Symfony\\Component\\HttpKernel\\' => 29,
@@ -308,10 +307,6 @@ class ComposerStaticInita71150c09ceaaea1b414ef0b902ac272
         'Symfony\\Component\\Mime\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/mime',
-        ),
-        'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/google-mailer',
         ),
         'Symfony\\Component\\Mailer\\' => 
         array (
@@ -578,6 +573,7 @@ class ComposerStaticInita71150c09ceaaea1b414ef0b902ac272
         'App\\Entity\\ApiToken' => __DIR__ . '/../..' . '/src/Entity/ApiToken.php',
         'App\\Entity\\Contract' => __DIR__ . '/../..' . '/src/Entity/Contract.php',
         'App\\Entity\\ContractBase64' => __DIR__ . '/../..' . '/src/Entity/ContractBase64.php',
+        'App\\Entity\\Notification' => __DIR__ . '/../..' . '/src/Entity/Notification.php',
         'App\\Entity\\Review' => __DIR__ . '/../..' . '/src/Entity/Review.php',
         'App\\Entity\\User' => __DIR__ . '/../..' . '/src/Entity/User.php',
         'App\\Entity\\WorkContract' => __DIR__ . '/../..' . '/src/Entity/WorkContract.php',
@@ -589,6 +585,7 @@ class ComposerStaticInita71150c09ceaaea1b414ef0b902ac272
         'App\\Repository\\ApiTokenRepository' => __DIR__ . '/../..' . '/src/Repository/ApiTokenRepository.php',
         'App\\Repository\\ContractBase64Repository' => __DIR__ . '/../..' . '/src/Repository/ContractBase64Repository.php',
         'App\\Repository\\ContractRepository' => __DIR__ . '/../..' . '/src/Repository/ContractRepository.php',
+        'App\\Repository\\NotificationRepository' => __DIR__ . '/../..' . '/src/Repository/NotificationRepository.php',
         'App\\Repository\\ReviewRepository' => __DIR__ . '/../..' . '/src/Repository/ReviewRepository.php',
         'App\\Repository\\UserRepository' => __DIR__ . '/../..' . '/src/Repository/UserRepository.php',
         'App\\Repository\\WorkContractRepository' => __DIR__ . '/../..' . '/src/Repository/WorkContractRepository.php',
@@ -3941,8 +3938,6 @@ class ComposerStaticInita71150c09ceaaea1b414ef0b902ac272
         'Symfony\\Component\\Intl\\Util\\IcuVersion' => __DIR__ . '/..' . '/symfony/intl/Util/IcuVersion.php',
         'Symfony\\Component\\Intl\\Util\\IntlTestHelper' => __DIR__ . '/..' . '/symfony/intl/Util/IntlTestHelper.php',
         'Symfony\\Component\\Intl\\Util\\Version' => __DIR__ . '/..' . '/symfony/intl/Util/Version.php',
-        'Symfony\\Component\\Mailer\\Bridge\\Google\\Transport\\GmailSmtpTransport' => __DIR__ . '/..' . '/symfony/google-mailer/Transport/GmailSmtpTransport.php',
-        'Symfony\\Component\\Mailer\\Bridge\\Google\\Transport\\GmailTransportFactory' => __DIR__ . '/..' . '/symfony/google-mailer/Transport/GmailTransportFactory.php',
         'Symfony\\Component\\Mailer\\DataCollector\\MessageDataCollector' => __DIR__ . '/..' . '/symfony/mailer/DataCollector/MessageDataCollector.php',
         'Symfony\\Component\\Mailer\\DelayedEnvelope' => __DIR__ . '/..' . '/symfony/mailer/DelayedEnvelope.php',
         'Symfony\\Component\\Mailer\\Envelope' => __DIR__ . '/..' . '/symfony/mailer/Envelope.php',

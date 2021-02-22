@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ApiToken;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Form\CompanyFormType;
 use App\Form\RegistrationFormType;
@@ -153,6 +154,7 @@ class RegistrationController extends AbstractController
         $apiToken = new ApiToken($user, $creator);
         $entityManager->persist($apiToken);
         $entityManager->flush();
+
 
         return $this->redirectToRoute('my_profil', array('userId' => $userId));
 

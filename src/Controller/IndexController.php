@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\ApiToken;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\WorkContract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -117,8 +118,6 @@ class IndexController extends AbstractController
      * @Route("/upload-work-contract/{studentId}" , name="upload_work_contract")
      */
     public function uploadWorkContract(Request $request, $studentId){
-        //$filename = $_FILES['file-selector']['name'];
-        //$size = $_FILES['file-selector']['size'];
         $file = $_FILES['file-selector']['tmp_name'];
         $teacher = $this->getDoctrine()->getRepository(User::class)->findUserByName($_POST['teacher-select']);
         $fileToString = file_get_contents($file);
@@ -126,7 +125,9 @@ class IndexController extends AbstractController
         $workContract = new WorkContract($student, base64_encode($fileToString));
         $student->setTeacher($teacher);
         $student->setStatus("WORKING");
+        $log = new Notification("L'étudiant ".$student->getFirstName()." ".$student->getLastName()." est désormais en alternance","student-working",1);
         $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($log);
         $entityManager->persist($workContract);
         $entityManager->flush();
 
@@ -144,6 +145,7 @@ class IndexController extends AbstractController
             'workContract' => $workContract,
         ]);
     }
+
 
     private function findByStudents($users) {
         $students = [];

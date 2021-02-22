@@ -1,0 +1,64 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <h2>Notifications : </h2>
+
+    {% if backlog is not empty %}
+        <table class="table table-striped">
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Type</th>
+                <th scope="col">Date</th>
+                <th scope="col">Heure</th>
+                <th scope="col">Actions</th>
+            </tr>
+            {% for log in backlog %}
+                <tr>
+                    <td>{{ log.text }}</td>
+                    <td>{{ log.type }}</td>
+                    <td>{{ log.createdAt|date("m/d/Y") }}</td>
+                    <td>{{ log.createdAt|date("h:i") }}</td>
+                    <td>
+                        <a href="{{ path('archive-notification', {logId: log.id}) }}">Archiver</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <span>Pas de notifications</span>
+    {% endif %}
+
+
+    <h2>Notifications Archivées : </h2>
+
+    {% if archivedBacklog is not empty %}
+        <table class="table table-striped">
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Type</th>
+                <th scope="col">Date</th>
+                <th scope="col">Heure</th>
+                <th scope="col">Actions</th>
+            </tr>
+            {% for log in archivedBacklog %}
+                <tr>
+                    <td>{{ log.text }}</td>
+                    <td>{{ log.type }}</td>
+                    <td>{{ log.createdAt|date("m/d/Y") }}</td>
+                    <td>{{ log.createdAt|date("h:i") }}</td>
+                    <td>
+                        <a href="{{ path('delete-notification', {logId: log.id}) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <span>Pas de notifications</span>
+    {% endif %}
+
+{% endblock %}
