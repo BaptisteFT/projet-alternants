@@ -10,13 +10,16 @@
     <p>Votre compte a bien été activé, nous aimerions en savoir plus sur votre entreprise avant de remplir la convention.</p>
 
     {{ form_start(companyForm) }}
-
-        {{ form_row(companyForm.email, {label: "Adresse Mail de l'entreprise",value: ""}) }}
+    <div class="mb-3">
+        {{ form_row(companyForm.email, {label: "Adresse e-mail de l'entreprise",value: ""}) }}
         {{ form_row(companyForm.firstName, {label: "Nom de l'entreprise"}) }}
         {{ form_row(companyForm.plainPassword, {label: "Mot de passe du compte"}) }}
-        <button type="submit" class="btn">Valider</button>
+    </div>
+        <button type="submit" class="btn btn-success">Valider</button>
 
     {{ form_end(companyForm) }}
 </main>
 {% endblock %}
-
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

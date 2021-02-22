@@ -1,4 +1,5 @@
 {% extends "base.html.twig" %}
+{% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
 {% block head %}
     {{ parent() }}
 {% endblock %}
@@ -28,8 +29,10 @@
     <p>
       {{ form_row(registrationForm.role, {label: 'Role '}) }}
     </p>
-        <button type="submit" class="btn">Créer</button>
+        <button type="submit" class="btn btn-success">Créer</button>
     {{ form_end(registrationForm) }}
   </main>
 {% endblock %}
-
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

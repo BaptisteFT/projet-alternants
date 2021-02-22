@@ -19,7 +19,10 @@
     <p>
         {{ form_row(reviewForm.date, {label: 'date '}) }}
     </p>
-    <button type="submit" class="btn">Créer</button>
+    <button type="submit" class="btn btn-success">Créer</button>
     {{ form_end(reviewForm) }}
 </main>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
