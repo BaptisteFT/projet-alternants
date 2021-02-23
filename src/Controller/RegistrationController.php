@@ -199,8 +199,10 @@ class RegistrationController extends AbstractController
                     );
                     array_push($students, $student);
                     $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($user);
-                    $entityManager->flush();
+                    if (!$this->studentAlreadyExist($user)){
+                        $entityManager->persist($user);
+                        $entityManager->flush();
+                    }
                 }
             }
             $students = json_encode($students);
@@ -223,6 +225,18 @@ class RegistrationController extends AbstractController
             $entityManager->remove($apiToken);
             $entityManager->remove($user);
             $entityManager->flush();
+        }
+    }
+
+    private function studentAlreadyExist($user)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $userRepo = $entityManager->getRepository(User::class);
+        if ($userRepo->findOneBy(['email' => $user->getEmail()])) {
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
