@@ -67,7 +67,7 @@ security:
         - { path: ^/contract, roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN, ROLE_COMPANY ] }
         # Only Company and Admin have acces to contract
         - { path: ^/reviews, roles : [ ROLE_ADMIN, ROLE_SUPER_ADMIN, ROLE_TEACHER, ROLE_STUDENT]}
-        - { path: ^/update-company, roles: ROLE_COMPANY }
+        # - { path: ^/update-company, roles: ROLE_COMPANY }
         # Need to check who can update inside updateCompany
 
 

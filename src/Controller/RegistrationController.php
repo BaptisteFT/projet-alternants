@@ -151,7 +151,7 @@ class RegistrationController extends AbstractController
         $user->setIsActive(false);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
-        $apiToken = new ApiToken($user, $creator);
+        $apiToken = new ApiToken($user, $creator, false);
         $entityManager->persist($apiToken);
         $entityManager->flush();
 
@@ -218,6 +218,7 @@ class RegistrationController extends AbstractController
 
     private function deletePreviousApiToken($userId)
     {
+
         $apiToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
         if ($apiToken != null){
             $user = $apiToken->getUser();
@@ -226,6 +227,7 @@ class RegistrationController extends AbstractController
             $entityManager->remove($user);
             $entityManager->flush();
         }
+
     }
 
     private function studentAlreadyExist($user)

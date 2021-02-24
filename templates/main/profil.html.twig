@@ -19,9 +19,10 @@
         {% if token is not null %}
             <h2>lien de connexion actif :</h2>
             <p>Url : {{ token.generateUrl }}</p> <br>
-            <p>Date d'expiration :  {{ token.expireDate|date("m/d/Y h:m") }}</p> <br>
+            <p>Date d'expiration :  {{ token.expireDate|date("m/d/Y") }}</p> <br>
             <p>vous pouvez regénérer un lien en appuyant sur le button ci-dessous</p>
             <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
+            {{ dump(token) }}
         {% else %}
             <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
             <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>

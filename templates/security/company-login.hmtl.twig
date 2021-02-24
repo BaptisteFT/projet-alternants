@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <main>
+        <p>Le lien de connexion est activé, vous pouvez créé un nouveau compte ou vous pouvez vous connecter.</p>
+
+        <form method="post" action="{{ path('existing_company_login', {'token': token}) }}">
+            <p>
+                <label for="inputEmail">Email</label><br>
+                <input type="email"  name="email" id="inputEmail" class="form-control" required autofocus>
+            </p>
+            <p>
+                <label for="inputPassword">Mot de passe</label><br>
+                <input type="password" name="password" id="inputPassword" class="form-control" required>
+            </p>
+
+            <button class="btn btn-lg btn-primary" type="submit">
+                Connexion
+            </button>
+        </form>
+
+        <a class="btn btn-info" href="{{ path('new_company_login', {'token': token}) }}">Inscription</a>
+    </main>
+{% endblock %}

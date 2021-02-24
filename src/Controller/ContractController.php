@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\ApiToken;
 use App\Entity\Contract;
 use App\Entity\ContractBase64;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Form\ContractFormType;
 use Symfony\Component\HttpFoundation\Request;

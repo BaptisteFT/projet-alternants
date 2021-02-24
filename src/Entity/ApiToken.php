@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ApiTokenRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,11 +24,7 @@ class ApiToken
      */
     private $token;
 
-    /**
-     * @ORM\OneToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $creator;
+
 
     /**
      * @ORM\Column(type="datetime")
@@ -38,19 +36,43 @@ class ApiToken
      */
     private $isActive;
 
+
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="apiToken")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="apiTokens")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
-    public function __construct(User $user, User $creator)
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $creator;
+
+
+
+    public function __construct(User $user, User $creator, bool $isAlreadyUsed)
     {
-        $this->token = bin2hex(random_bytes(16));
-        $this->user = $user;
-        $this->expireDate = new \DateTime('+1 hour');
-        $this->creator = $creator;
-        $this->setIsActive(false);
+        if ($isAlreadyUsed)
+        {
+            $this->expireDate = new \DateTime();
+            $this->creator = $creator;
+            $this->token = bin2hex(random_bytes(16));
+            $this->user = $user;
+            $this->setIsActive(true);
+        }
+        else
+        {
+            $timeZone = new \DateTimeZone('Europe/Paris');
+            $datetime = new \DateTime();
+            $datetime->setTimezone($timeZone);
+            $datetime->modify('+7 day');
+            $this->token = bin2hex(random_bytes(16));
+            $this->user = $user;
+            $this->expireDate = $datetime;
+            $this->creator = $creator;
+            $this->setIsActive(false);
+        }
     }
 
     public function getId(): ?int
@@ -73,10 +95,6 @@ class ApiToken
         return $this->user;
     }
 
-    public function getCreator(): ?User
-    {
-        return $this->creator;
-    }
 
     public function generateUrl(): ?string
     {
@@ -98,6 +116,30 @@ class ApiToken
     {
         $this->isActive = $isActive;
     }
+
+
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+
+
 
 
 }
