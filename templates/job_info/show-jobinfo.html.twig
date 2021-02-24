@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <main>
+        <h2>Fiche de Poste</h2>
+
+        {% if is_granted('ROLE_STUDENT') or is_granted('ROLE_TEACHER') %}
+            <table>
+                <tr>
+                    <th>Eleve</th>
+                    <th>Intitulé du poste</th>
+                    <th>Description</th>
+                </tr>
+                {% for info in infos %}
+                    <tr>
+                        <td>{{ info.student.firstName }} {{ info.student.lastName }}</td>
+                        <td>
+                            {{ info.title }}
+                        </td>
+                        <td>{{ info.description }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% elseif is_granted('ROLE_ADMIN') %}
+            <table>
+                <tr>
+                    <th>Eleve</th>
+                    <th>Intitulé du poste</th>
+                    <th>Description</th>
+                </tr>
+                {% for info in infos %}
+                    <tr>
+                        <td>{{ info.student.firstName }} {{ info.student.lastName }}</td>
+                        <td>
+                            {{ info.title }}
+                        </td>
+                        <td>{{ info.description }}</td>
+                        <td>
+                            <a href="{{ path('delete_jobinfo', {'jobinfoId': info.getId()}) }}"> Supprimer</a>
+                            <a href="{{ path('update_jobinfo', {'jobinfoId': info.getId()}) }}"> Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </main>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

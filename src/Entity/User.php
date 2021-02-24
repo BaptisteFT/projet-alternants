@@ -84,6 +84,11 @@ class User implements UserInterface
      */
     private $reviews;
 
+    /**
+     * @ORM\OneToOne(targetEntity=JobInfo::class, mappedBy="student", cascade={"persist", "remove"})
+     */
+    private $jobInfo;
+
 
 
 
@@ -311,6 +316,23 @@ class User implements UserInterface
             if ($review->getStudent() === $this) {
                 $review->setStudent(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getJobInfo(): ?JobInfo
+    {
+        return $this->jobInfo;
+    }
+
+    public function setJobInfo(JobInfo $jobInfo): self
+    {
+        $this->jobInfo = $jobInfo;
+
+        // set the owning side of the relation if necessary
+        if ($jobInfo->getStudent() !== $this) {
+            $jobInfo->setStudent($this);
         }
 
         return $this;
