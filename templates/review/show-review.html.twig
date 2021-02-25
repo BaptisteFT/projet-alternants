@@ -1,0 +1,99 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href = "../css/my_CSS.css"/>
+{% endblock %}
+{% block content %}
+<body style=" background-color:rgb(221, 247, 242); ">
+    <main>
+        <p style="color: #0B317D; font-size: 30px; font-weight: bold;font-family:'Trebuchet MS';text-align: center;">Notes de l'utilisateur</p>
+        {% if is_granted('ROLE_TEACHER') %}
+            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+			<thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
+                <tr>
+                    <th scope="col">Eleve</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation</th>
+                </tr>
+			</thead>
+			<tbody>
+                {% for rev in reviews %}
+                    <tr style="font-family:'Trebuchet MS';">
+                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
+                        <td>{{ rev.date|date("m/d/Y") }}</td>
+                        <td>
+                            {{ rev.rating }}
+                        </td>
+                        <td>{{ rev.content }}</td>
+                    </tr>
+                {% endfor %}
+			</tbody>
+            </table>
+        {% elseif is_granted('ROLE_STUDENT') %}
+            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+			<thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
+                <tr>
+                    <th scope="col">Tuteur</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation</th>
+                </tr>
+			</thead>
+			<tbody>
+                {% for rev in reviews %}
+                    <tr style="font-family:'Trebuchet MS';">
+                        <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
+                        <td>{{ rev.date|date("m/d/Y h:m") }}</td>
+                        <td>
+                            {{ rev.rating }}
+                        </td>
+                        <td>{{ rev.content }}</td>
+                    </tr>
+                {% endfor %}
+			</tbody>
+            </table>
+        {% elseif is_granted('ROLE_ADMIN') %}
+            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+			<thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
+                <tr>
+                    <th scope="col">Eleve</th>
+                    <th scope="col">Tuteur</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation</th>
+                </tr>
+			</thead>
+			<tbody>
+                {% for rev in reviews %}
+                    <tr style="font-family:'Trebuchet MS';">
+                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
+                        <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
+                        <td>{{ rev.date|date("m/d/Y h:m") }}</td>
+                        <td>
+                            {{ rev.rating }}
+                        </td>
+                        <td>{{ rev.content }}</td>
+                        <td>
+                            <a href="{{ path('delete_review', {'reviewId': rev.getId()}) }}"> Supprimer</a>
+                            <a href="{{ path('update_review', {'reviewId': rev.getId()}) }}"> Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+			</tbody>
+            </table>
+        {% endif %}
+    </main>
+	</body>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

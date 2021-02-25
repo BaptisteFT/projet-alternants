@@ -1,19 +1,24 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
-    <title>Projet Alternant</title>
-</head>
-<body>
-  <header>
-    {% block body %}
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel = "stylesheet" type="text/css" href = "../css/my_CSS.css"/>
+{% endblock %}
+{% block content %}
+<body class="bd">
+<div class="formBody">
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-
-    <h1>Création d'un Utilisateur</h1>
-  </header>
+    <p class="grandTitre">Modification d'un Utilisateur</p>
   <main>
     {{ form_start(registrationForm) }}
     <p>
@@ -31,9 +36,12 @@
     <p>
       {{ form_row(registrationForm.role, {label: 'Role'}) }}
     </p>
-    <button type="submit" class="btn">Modifier</button>
+    <button type="submit" class="btn border bttn2 RightAlign">Modifier</button>
     {{ form_end(registrationForm) }}
+  </main>
+   </div>
+  </body>
 {% endblock %}
-</main>
-</body>
-</html>
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

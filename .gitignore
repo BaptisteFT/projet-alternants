@@ -1,2 +1,5 @@
+/translations/
+/.idea/
+.gitignore
 var
-vandor
+vendor/

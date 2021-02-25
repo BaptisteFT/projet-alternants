@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <link rel = "stylesheet" href = "css/simple.css"/>
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+	
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel = "stylesheet" type="text/css" href = "../css/my_CSS.css"/>
+{% endblock %}
 
-    <title>Projet Alternant</title>
-</head>
-<body style="background-color: rgb(221, 247, 242); width: 100vw; min-height: 100vh;">
-{% block body %}
-<header style="background-color: rgb(221, 247, 242); border:0px;">
+{% block content %}
+<body class="bd">
+<main>
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -21,22 +20,20 @@
         </div>
     {% endif %}
 
-  </header>
-  <main>
-   <div class="col-lg"  style="padding: 50px; margin-left:3%;" >
-   <div class="card " >
-    <h5 class="card-header text-white bg-info" style="color: white; font-size: 20px; font-weight: bold; font-family:'Trebuchet MS';">
+    <div class="col Login" style="width: 45rem; margin-left:21%;">
+    <div class="card " >
+    <h5 class="card-header text-white cardHeader">
         Authentification
       </h5>
-	  <div class="card-body">
-      <div class="form-group">
-      <label for="inputEmail" style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS';">Email</label><br>
+    <div class="card-body">
+    <div class="form-group">
+      <label for="inputEmail" class="myLabel">Email</label><br>
       <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Entrez votre E-mail" required autofocus>
-      </div>
-      <div class="form-group">
-      <label for="inputPassword" style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS';">Mot de passe</label><br>
-      <input type="password" name="password" placeholder="Entrez votre mot de passe" id="inputPassword" class="form-control" required>
-      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="myLabel">Mot de passe</label><br>
+      <input type="password" name="password" id="inputPassword" class="form-control"  placeholder="Entrez votre mot de passe" required>
+    </div>
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
@@ -52,14 +49,14 @@
         </div>
     #}
 
-    <button type="submit" class="btn btn-info" style="margin-left: 430px; font-weight: bold; color: white; font-size: 16px;  font-family:'Trebuchet MS';">
-        S'authentifier
+    <button class="btn bttn2" type="submit" style="float:right">
+        Connexion
     </button>
-    </div>	
+	 </div>	
 	</div>
-</div>	
+</div>
 </form>
-<main>
-{% endblock %}
+</main>
 </body>
-</html>
+{% endblock %}
+

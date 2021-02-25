@@ -60,7 +60,7 @@ main {
 header {
 	background: var(--accent-bg);
 	border-bottom: 1px solid var(--border);
-    padding: 1.5rem 15rem;
+  padding: 1.5rem 15rem;
   margin-bottom: 3rem;
 }
 
@@ -364,9 +364,4 @@ pre code {
     background: none;
     margin: 0;
     padding: 0;
-}
-
-/* Pour body */
-b{
-	background: #DDF7F2;
 }

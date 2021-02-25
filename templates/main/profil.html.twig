@@ -1,84 +1,51 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8"/>
-    <link rel = "stylesheet" type="text/css" href = ""/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
-    <title>Projet Alternant</title>
-</head>
-<body style="background-color: rgb(221, 247, 242); width: 100vw; min-height: 100vh;" >
-{% block body %}
-
-<nav class="navbar navbar-dark py-0 bg-white navbar-expand-lg py-md-0 border-bottom border-top rounded">
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav " >
-           
-           <li class="nav-item">
-            <a  class="nav-link" style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS';" href="{{ path('admin_panel') }}"> Administration de l'application</a>
-           </li>
-
-           <li class="nav-item" style="margin-left: 20px">
-            <a  class="nav-link" style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS';" href="{{ path('app_index_index') }}"> Liste des Alternants</a>
-           </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item form-inline " >
-                 <p style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS'; margin-top: 10px;">  <i class="fa fa-user fa-lg" style="color: rgb(7, 12, 85);"> </i>&nbsp; {{ app.user.firstName }} </p>
-            
-                <div class="dropdown ">
-                    <button type="button"  class="btn fa fa-angle-double-down fa-lg" data-toggle="dropdown"></button>
-                     <div class="dropdown-menu dropdown-menu-right">
-                       <a class="dropdown-item" href="{{ path('my_profil', {userId: app.user.id}) }}"><i class="fa fa-user-circle fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp; Mon profil</a>
-                       <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fa fa-sign-out fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp; Déconnexion</a> 
-                     </div>
-                </div>  
-            </li>
-            
-          </ul>
-        </div>
-      </nav>
-
-
+    <link rel = "stylesheet" type="text/css" href = "../css/my_CSS.css"/>
+{% endblock %}
+{% block content %}
+<body class="bd">
 <main>
-
-
-<div class="col-lg"  style="padding: 50px; margin-left:20% ;width: 60% ; font-family:'Trebuchet MS'" >
-   <div class="card " >
-    <h5 class="card-header text-white bg-info" style="color: white; font-size: 20px; font-weight: bold;">
+<div class="col-lg profil">
+  
+    <div class="card">
+    <h5 class="card-header cardHeader">
           Informations de l'utilisateur 
-
-      </h5>
-      <div class="card-body">
-
-<ul >
-        <li > <label style="font-weight: bold;"> Nom : </label> {{ user.lastName }}</li>
-        <li > <label style="font-weight: bold;">Prénom : </label> {{ user.firstName }}</li>
-        <li>  <label style="font-weight: bold;">Email : </label> {{ user.email }}</li>
+    </h5>
+	<div class="card-body">
+    <ul style="font-family:'Trebuchet MS';">
+        <li> <label class="myLabel">Nom :  </label>{{ user.lastName }}</li>
+        <li> <label class="myLabel">Prénom :</label>  {{ user.firstName }}</li>
+        <li> <label class="myLabel">Email : </label> {{ user.email }}</li>
     </ul>
 
     {% if is_granted('ROLE_STUDENT') %}
         {% if token is not null %}
-            <h2>lien de connexion actif :</h2>
-            <p>Url : {{ token.generateUrl }}</p> <br>
-            <p>Date d'expiration :  {{ token.expireDate|date("m/d/Y h:m") }}</p> <br>
-            <p>vous pouvez regénérer un lien en appuyant sur le button ci-dessous</p>
-            <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
+            <p class="text">Lien de connexion actif :</p>
+			<ul style="font-family:'Trebuchet MS';">
+            <li> <label class="myLabel">Url : </label> {{ token.generateUrl }}</li>
+            <li><label class="myLabel">Date d'expiration : </label> {{ token.expireDate|date("m/d/Y h:m") }}</li>
+            <li>Vous pouvez regénérer un lien en appuyant sur le button suivant :  <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a></li> 
+			</ul>
         {% else %}
             <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
             <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
         {% endif %}
     {% endif %}
-    
 </div>
 </div>
 </div>
-
 </main>
-{% endblock %}
 </body>
-</html>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

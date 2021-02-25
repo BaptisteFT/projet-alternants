@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel = "stylesheet" type="text/css" href = "../css/my_CSS.css"/>
+{% endblock %}
+{% block content %}
+<body class="bd">
+<main>
+    <div class="card" style="width : 70%; margin-left : 17%; margin-top:10%">
+    <h5 class="card-header cardHeader">
+          Validation de l'alternance
+    </h5>
+	<div class="card-body">
+	 <ul style="font-family:'Trebuchet MS';">
+       <li> <p>Cette opération permet de valider l'alternance pour l'étudiant : {{ student.lastName }} {{ student.firstName }}</p> </li>
+        <li><p>Veuillez sélectionner le contrat d'alternance : </p></li>
+	 </ul>
+        <form action="{{ path('upload_work_contract', {'studentId': student.getId() }) }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file-selector" id="file-selector">
+
+            <select name="teacher-select" id="teacher-select">
+                <option value="">Veuillez assigner un tuteur à l'étudiant</option>
+                {% for teacher in teachers %}
+                    <option value="{{ teacher.userName }}">{{ teacher.firstName }} {{ teacher.lastName }}</option>
+                {% endfor %}
+            </select>
+          &nbsp;  <button type="submit" class="btn bttn2">Envoyer</button>
+
+        </form>
+
+        <script>
+            const fileSelector = document.getElementById('file-selector');
+            fileSelector.addEventListener('change', (event) => {
+                const fileList = event.target.files;
+                console.log(fileList);
+                console.log(fileList[0]);
+            });
+        </script>
+		</div>
+	</div>
+    </main>
+</body>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

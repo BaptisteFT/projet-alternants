@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -74,6 +75,25 @@ class User implements UserInterface
     private $civility;
 
     /**
+     * @ORM\OneToOne(targetEntity=User::class, orphanRemoval=true)
+     */
+    private $teacher;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="student", orphanRemoval=true)
+     */
+    private $reviews;
+
+
+
+
+    public function __construct()
+    {
+        $this->apiTokens = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getIsActive()
@@ -87,14 +107,6 @@ class User implements UserInterface
     public function setIsActive($isActive): void
     {
         $this->isActive = $isActive;
-    }
-
-
-
-
-    public function __construct()
-    {
-        $this->apiTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +269,54 @@ class User implements UserInterface
     {
         $this->contract = $contract;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTeacher()
+    {
+        return $this->teacher;
+    }
+
+    /**
+     * @param mixed $teacher
+     */
+    public function setTeacher($teacher): void
+    {
+        $this->teacher = $teacher;
+    }
+
+    /**
+     * @return Collection|Review[]
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->removeElement($review)) {
+            // set the owning side to null (unless already changed)
+            if ($review->getStudent() === $this) {
+                $review->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 
 

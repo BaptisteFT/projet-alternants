@@ -1,63 +1,31 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8"/>
-    <link rel = "stylesheet" type="text/css" href = ""/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% extends "base.html.twig" %}
+{% block head %}
+{{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   
-    <title>Projet Alternant</title>
-</head>
-<body style="background-color: rgb(221, 247, 242); width: 100vw; min-height: 100vh;">
-{% block body %}
- 
-  
-     <nav class="navbar navbar-dark py-0 bg-white navbar-expand-lg py-md-0 border-bottom border-top rounded">
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav " >
-           
-		   <li class="nav-item">
-			<a  class="nav-link" style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS';" href="{{ path('admin_panel') }}"> Administration de l'application</a>
-           </li>
-		</ul>
-		<ul class="navbar-nav ml-auto">
-			<li class="nav-item form-inline " >
-                 <p style="color: black; font-size: 16px; font-weight: bold; font-family:'Trebuchet MS'; margin-top: 10px;">  <i class="fa fa-user fa-lg" style="color: rgb(7, 12, 85);"> </i>&nbsp; {{ app.user.firstName }} </p>
-			
-                <div class="dropdown ">
-                    <button type="button"  class="btn fa fa-angle-double-down fa-lg" data-toggle="dropdown"></button>
-                     <div class="dropdown-menu dropdown-menu-right">
-                       <a class="dropdown-item" href="{{ path('my_profil', {userId: app.user.id}) }}"><i class="fa fa-user-circle fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp; Mon profil</a>
-                       <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fa fa-sign-out fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp; Déconnexion</a> 
-                     </div>
-                </div>  
-            </li>
-			
-          </ul>
-        </div>
-      </nav>
-	  
+	<link rel = "stylesheet" type="text/css" href = "../css/my_CSS.css"/>
+{% endblock %}
+{% block content %}
+<body class="bd">
+    <main>
+    <p class="grandTitre">Bienvenue sur l'index</p>
 
-
-<main>
     {% if is_granted('ROLE_ADMIN') %}
-            <div class="form-inline">
-            <p style="margin-top: 70px; margin-left:120px; color: black; font-size: 27px; font-weight: bold; font-family:'Trebuchet MS';">Liste des alternants</p>
-              <!--
-              {% if is_granted('ROLE_ADMIN') %}
-             <a class="btn border btn-info" style="font-weight: bold; margin-top: 60px; margin-left:320px; "  href="{{ path('create_user') }}"> Ajouter un utilisateur</a>&nbsp;
-             <a class="btn border btn-info" style="font-weight: bold; margin-top: 60px;" href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
-          
-             {% endif %}
-         -->
-		     </div>
-            {% if students is not empty %}
-			    
-                <table  class="table caption-top table-bordered table-light " style="width: 80%; margin-left: 120px;">
-				<thead class="table-info">
+        <div>
+		    <div class="form-inline" style="margin-left: 2%">
+            <p class="title">Liste des étudiants :</p>
+             <a class="btn border bttn2"  href="{{ path('create_user') }}" style="margin-left: 26%"> Ajouter un utilisateur</a>&nbsp;
+             <a class="btn border bttn2"  href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
+            </div>
+		   {% if students is not empty %}
+                <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+				<thead class="table tableHeader" >
                     <tr>
                         <th scope="col">Prénom</th>
                         <th scope="col">Nom</th>
@@ -65,67 +33,93 @@
                         <th scope="col">Statut</th>
                         <th scope="col">Actions</th>
                     </tr>
-					</thead>
-					<tbody>
+				</thead>
+				<tbody>
                     {% for student in students %}
-                        <tr>
+					
+                        <tr class="tableContent">
                             <td>{{ student.firstName }}</td>
                             <td>{{ student.lastName }}</td>
                             <td>{{ student.userName }}</td>
                             <td>{{ student.status }}</td>
-                            <td>
+                            <td >
                                 <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>&nbsp;
-                                <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a>
+                                <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a> <br>
+                                {% if student.status == "CONTRACT_SEND" %}
+                                    <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}"> Pré-convention</a> <br>
+                                    <a href="{{ path('validate_work', {'studentId': student.getId() }) }}">Valider l'alternance</a>
+                                {% elseif student.status == "WORKING" %}
+                                    <a href="{{ path('view_work_contract', {'studentId': student.getId() }) }}"> Contrat d'alternance</a> <br>
+                                {% endif %}
+
                             </td>
                         </tr>
                     {% endfor %}
 					</tbody>
                 </table>
             {% else %}
-                <p>Aucun Etudiants</p>
+                <p>Aucun étudiants</p>
             {% endif %}
-        
+        </div>
     {% endif %}
 
     {% if is_granted('ROLE_STUDENT') %}
         <div>
-            <p>Bonjour {{ app.user.firstName }}</p>
+            <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+            {% if app.user.status == "RESEARCH" %}
+                <p style="font-family:'Trebuchet MS';">Vous êtes actuellement inscrit dans l'application, vous pouvez partager un lien de connexion avec une entreprise en  </p>
+                <a href="{{ path('create_token', {userId: app.user.id}) }}"> cliquant-ici</a>
+            {% endif %}
         </div>
     {% endif %}
 
     {% if is_granted('ROLE_COMPANY') %}
         <div>
-            <p>Bonjour {{ app.user.firstName }}</p>
+            <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
 
-            <p>L'étudiant {{ tokenCreator.LastName }} {{ tokenCreator.firstName }} est l'auteur du lien d'activation, pour remplir sa convention veuillez</p>
-            <a href="{{ path('contract_form', {'userId': tokenCreator.getId()}) }}"> Cliquez ici</a>
-
-            <p>Liste des étudiants actuellement en recherche d'alternances </p>
-            <table>
-                <tr>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Adresse mail</th>
-                    <th>Actions</th>
-                </tr>
-                {% for student in students %}
-                    <tr>
-                        <td>{{ student.firstName }}</td>
-                        <td>{{ student.lastName }}</td>
-                        <td>{{ student.userName }}</td>
-                        <td>
-                            <a href="{{ path('contract_form', {'userId': student.getId()}) }}"> Editer la préconvention</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-
+            <p style="font-family:'Trebuchet MS';">L'étudiant {{ tokenCreator.LastName }} {{ tokenCreator.firstName }} est l'auteur du lien d'activation, pour remplir sa convention veuillez :  <a href="{{ path('contract_form', {'userId': tokenCreator.getId()}) }}"> cliquez ici</a></p>
+           
         </div>
     {% endif %}
 
-</main>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src =  "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-{% endblock %}
+    {% if is_granted('ROLE_TEACHER') %}
+        <div>
+            <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+
+            <p class="title">Liste des étudiants dont vous êtes le tuteur :</p>
+
+            {% if students is not empty %}
+            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+			<thead class="table tableHeader" >
+                <tr>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Adresse mail</th>
+                    <th scope="col">Actions</th>
+                </tr>
+			</thead>
+			<tbody>
+                {% for student in students %}
+				 <tr class="tableContent">
+                    <td >{{ student.firstName }}</td>
+                    <td >{{ student.lastName }}</td>
+                    <td >{{ student.userName }}</td>
+                    <td >
+                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
+                    </td>
+				</tr>
+                {% endfor %}
+			</tbody>
+            </table>
+            {% else %}
+                <p class="myLabel">Aucun étudiants</p>
+            {% endif %}
+        </div>
+    {% endif %}
+    </main>
 </body>
-</html>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
