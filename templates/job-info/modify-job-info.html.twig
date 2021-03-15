@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <h1>Modifier la Fiche de Poste:</h1>
+
+    <main>
+        {{ form_start(jobinfoForm) }}
+        <p>
+            {{ form_row(jobinfoForm.title, {label: 'title '}) }}
+        </p>
+        <p>
+            {{ form_row(jobinfoForm.description, { label: 'description'}) }}
+        </p>
+        <p>
+            {{ form_row(jobinfoForm.student, {label: 'student '}) }}
+        </p>
+        <button type="submit" class="btn btn-success">Modifier</button>
+        {{ form_end(jobinfoForm) }}
+    </main>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

@@ -31,6 +31,7 @@
                             <td>
                                 <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>
                                 <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a> <br>
+                                <a href="{{ path('my_profil', {'userId' : student.getId()}) }}"> Voir le profil</a>
                                 {% if student.status == "CONTRACT_SEND" %}
                                     <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}"> Pré-convention</a> <br>
                                     <a href="{{ path('validate_work', {'studentId': student.getId() }) }}">Valider l'alternance</a>

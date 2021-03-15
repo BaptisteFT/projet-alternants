@@ -28,6 +28,36 @@
             <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
         {% endif %}
     {% endif %}
+
+    {% if user.status == "WORKING"%}
+        {% if infos is not empty %}
+            <h2>Fiche de Poste</h2>
+            <table>
+                <tr>
+                    <th>Eleve</th>
+                    <th>Intitulé du poste</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+                {% for info in infos %}
+                    <tr>
+                        <td>{{ info.student.firstName }} {{ info.student.lastName }}</td>
+                        <td>
+                            {{ info.title }}
+                        </td>
+                        <td>{{ info.description }}</td>
+                        <td>
+                            <a href="{{ path('delete_jobinfo', {'jobinfoId': info.getId()}) }}"> Supprimer</a>
+                            <a href="{{ path('update_jobinfo', {'jobinfoId': info.getId()}) }}"> Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>vous pouvez renseigner votre fiche de poste en <a href="{{ path('create_jobinfo', {'studentId': user.id}) }}" >cliquant ici</a> </p>
+
+            {% endif %}
+    {% endif %}
 </main>
 {% endblock %}
 {% block footer %}

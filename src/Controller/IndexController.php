@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\ApiToken;
+use App\Entity\JobInfo;
 use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\WorkContract;
@@ -89,8 +90,12 @@ class IndexController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $token = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
+        $jobinfos = $this->getDoctrine()->getRepository(JobInfo::class)->findByStudent($user->getId());
+
+
         return $this->render("main/profil.html.twig", [
             'user' => $user,
+            'infos' => $jobinfos,
             'token' => $token,
         ]);
     }

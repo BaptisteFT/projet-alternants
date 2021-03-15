@@ -60,10 +60,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
+
         ;
     }
     */
+    public function findByJobInfo($jobinfoId)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.id = :val')
+            ->setParameter('val', $jobinfoId)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 
     public function findStudentsInResearch()
     {

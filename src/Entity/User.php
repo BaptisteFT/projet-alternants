@@ -310,7 +310,7 @@ class User implements UserInterface
     /**
      * @param mixed $teacher
      */
-    public function setTeacher(?self $teacher): self
+    public function setTeacher( $teacher): void
     {
         $this->teacher = $teacher;
     }
