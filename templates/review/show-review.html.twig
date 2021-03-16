@@ -7,27 +7,33 @@
 {% endblock %}
 {% block content %}
     <main>
-        <h2>Informations de l'utilisateur</h2>
+        <h2>Revue de l'alternance</h2>
         {% if is_granted('ROLE_TEACHER') %}
-            <table>
-                <tr>
-                    <th>Eleve</th>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>Appréciation</th>
-                </tr>
-                {% for rev in reviews %}
+            {% if reviews is not empty %}
+                <table>
                     <tr>
-                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
-                        <td>{{ rev.date|date("m/d/Y") }}</td>
-                        <td>
-                            {{ rev.rating }}
-                        </td>
-                        <td>{{ rev.content }}</td>
+                        <th>Eleve</th>
+                        <th>Date</th>
+                        <th>Note</th>
+                        <th>Appréciation</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% for rev in reviews %}
+                        <tr>
+                            <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
+                            <td>{{ rev.date|date("m/d/Y") }}</td>
+                            <td>
+                                {{ rev.rating }}
+                            </td>
+                            <td>{{ rev.content }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p>Aucune revue d'alternance disponible</p>
+            {% endif %}
+
         {% elseif is_granted('ROLE_STUDENT') %}
+        {% if reviews is not empty %}
             <table>
                 <tr>
                     <th>Tuteur</th>
@@ -46,7 +52,12 @@
                     </tr>
                 {% endfor %}
             </table>
+        {% else %}
+            <p>Aucune revue d'alternance disponible</p>
+        {% endif %}
+
         {% elseif is_granted('ROLE_ADMIN') %}
+        {% if reviews is not empty %}
             <table>
                 <tr>
                     <th>Eleve</th>
@@ -71,6 +82,9 @@
                     </tr>
                 {% endfor %}
             </table>
+            {% else %}
+                <p>Aucune revue d'alternance disponible</p>
+            {% endif %}
         {% endif %}
     </main>
 {% endblock %}

@@ -7,26 +7,55 @@
 {% endblock %}
 {% block content %}
 <main>
-    <h2>Informations de l'utilisateur</h2>
+    <div>
+        <h2>Informations de l'utilisateur</h2>
+        <form>
+            <div class="form-group row">
+                <label for="lastNameInput" class="col-sm-2 col-form-label">Nom :</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="lastNameInput" value="{{ user.lastName }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="firstNameInput" class="col-sm-2 col-form-label">Prénom :</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="firstNameInput" value="{{ user.firstName }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="emailInput" class="col-sm-2 col-form-label">Nom :</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="emailInput" value="{{ user.email }}">
+                </div>
+            </div>
 
-    <ul>
-        <li>Nom :  {{ user.lastName }}</li>
-        <li>Prénom :  {{ user.firstName }}</li>
-        <li>Email :  {{ user.email }}</li>
-    </ul>
-
+        </form>
+    </div>
     {% if is_granted('ROLE_STUDENT') %}
+        <div class="token-div">
         {% if token is not null %}
-            <h2>lien de connexion actif :</h2>
-            <p>Url : {{ token.generateUrl }}</p> <br>
-            <p>Date d'expiration :  {{ token.expireDate|date("m/d/Y") }}</p> <br>
-            <p>vous pouvez regénérer un lien en appuyant sur le button ci-dessous</p>
-            <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
-            {{ dump(token) }}
-        {% else %}
-            <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
-            <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
-        {% endif %}
+            <h2>lien de connexion actif</h2>
+            <form>
+                <div class="form-group row">
+                <label for="urlInput" class="col-sm-2 col-form-label">Url :</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="urlInput" value="{{ token.generateUrl }}">
+                </div>
+                </div>
+                <div class="form-group row">
+                    <label for="dateInput" class="col-sm-2 col-form-label">Date d'expiration :</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="urlInput" value="{{ token.expireDate|date("m/d/Y") }}">
+                    </div>
+                </div>
+                <a class="btn btn-outline-success" href="{{ path('create_token', {userId: user.id}) }}"> Générer</a>
+                <button class="btn btn-outline-primary" id="copy" type="button">Copier</button>
+                {% else %}
+                    <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
+                    <a class="btn btn-outline-success" href="{{ path('create_token', {userId: user.id}) }}"> Générer</a>
+                {% endif %}
+            </form>
+        </div>
     {% endif %}
 
     {% if user.status == "WORKING"%}
@@ -58,6 +87,16 @@
 
             {% endif %}
     {% endif %}
+    <script>
+        var toCopy  = document.getElementById( 'urlInput' ),
+            btnCopy = document.getElementById( 'copy' );
+
+        btnCopy.addEventListener( 'click', function(){
+            toCopy.select();
+            document.execCommand( 'copy' );
+            return false;
+        } );
+    </script>
 </main>
 {% endblock %}
 {% block footer %}
