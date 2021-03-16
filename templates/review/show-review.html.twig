@@ -7,15 +7,15 @@
 {% endblock %}
 {% block content %}
     <main>
-        <h2>Revue de l'alternance</h2>
         {% if is_granted('ROLE_TEACHER') %}
+            <h2>Notations des étudiants : </h2>
             {% if reviews is not empty %}
-                <table>
+                <table class="table table-striped">
                     <tr>
-                        <th>Eleve</th>
-                        <th>Date</th>
-                        <th>Note</th>
-                        <th>Appréciation</th>
+                        <th scope="col">Eleve</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Note</th>
+                        <th scope="col">Appréciation</th>
                     </tr>
                     {% for rev in reviews %}
                         <tr>
@@ -33,13 +33,14 @@
             {% endif %}
 
         {% elseif is_granted('ROLE_STUDENT') %}
+            <h2>Revue de l'alternance : </h2>
         {% if reviews is not empty %}
-            <table>
+            <table class="table table-striped">
                 <tr>
-                    <th>Tuteur</th>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>Appréciation</th>
+                    <th scope="col">Tuteur</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation</th>
                 </tr>
                 {% for rev in reviews %}
                     <tr>
@@ -57,14 +58,16 @@
         {% endif %}
 
         {% elseif is_granted('ROLE_ADMIN') %}
+            <h2>Revue des alternances : </h2>
         {% if reviews is not empty %}
-            <table>
+            <table class="table table-striped">
                 <tr>
-                    <th>Eleve</th>
-                    <th>Tuteur</th>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>Appréciation</th>
+                    <th scope="col">Eleve</th>
+                    <th scope="col">Tuteur</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 {% for rev in reviews %}
                     <tr>

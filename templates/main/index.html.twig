@@ -104,28 +104,26 @@
     {% if is_granted('ROLE_TEACHER') %}
         <div>
             <p>Bonjour {{ app.user.firstName }}</p>
-
-            <h2>Liste des étudiants dont vous êtes le tuteur :</h2>
-
             {% if students is not empty %}
-            <table class="table table-striped">
-                <tr>
-                    <th scope="col">Prénom</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Adresse mail</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                {% for student in students %}
-                    <td>{{ student.firstName }}</td>
-                    <td>{{ student.lastName }}</td>
-                    <td>{{ student.userName }}</td>
+                <h2>Liste des étudiants dont vous êtes le tuteur :</h2>
+                <table class="table table-striped">
+                    <tr>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Adresse mail</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    {% for student in students %}
+                        <td>{{ student.firstName }}</td>
+                        <td>{{ student.lastName }}</td>
+                        <td>{{ student.userName }}</td>
                     <td>
                         <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
                     </td>
                 {% endfor %}
             </table>
             {% else %}
-                <p>Aucun étudiants</p>
+                <p>Vous n'avez aucun étudiant sous votre tutelle</p>
             {% endif %}
         </div>
     {% endif %}
