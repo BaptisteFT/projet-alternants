@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\ApiToken;
+use App\Entity\JobInfo;
 use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\WorkContract;
@@ -40,12 +41,22 @@ class IndexController extends AbstractController
         {
             //$students = $this->getDoctrine()->getRepository(User::class)->findStudentsInResearch();
             $user = $this->getUser();
-            $apitoken= $this->getDoctrine()->getRepository(ApiToken::class)->findOneByUser($user->getId());
-            $creator = $apitoken->getCreator();
+            $apitokens= $this->getDoctrine()->getRepository(ApiToken::class)->findBy(["user" => $user, "isActive" => true]);
+            $students = [];
+            $researchStudents = [];
+            foreach ($apitokens as $token)
+            {
+                if ($token->getCreator()->getStatus() == "RESEARCH"){
+                    array_push($researchStudents, $token->getCreator());
+                }
+                elseif ($token->getCreator()->getStatus() == "CONTRACT_SEND" || $token->getCreator()->getStatus() == "WORKING" ){
+                    array_push($students,$token->getCreator());
+                }
+            }
             return $this->render("/main/index.html.twig", [
-                //'students' => $students,
+                'researchStudents' => $researchStudents,
                 'user' => $user,
-                'tokenCreator' => $creator
+                'students' => $students,
             ]);
         }
 
@@ -79,8 +90,12 @@ class IndexController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $token = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
+        $jobinfos = $this->getDoctrine()->getRepository(JobInfo::class)->findByStudent($user->getId());
+
+
         return $this->render("main/profil.html.twig", [
             'user' => $user,
+            'infos' => $jobinfos,
             'token' => $token,
         ]);
     }

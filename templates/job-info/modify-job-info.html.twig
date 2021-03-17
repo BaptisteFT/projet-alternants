@@ -4,6 +4,8 @@
 {% endblock %}
 {% block header %}
     {{ parent() }}
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -12,27 +14,27 @@
     <link rel = "stylesheet" type="text/css" href = "../css/my_CSS.css"/>
 {% endblock %}
 {% block content %}
-<body style="background-color:rgb(221, 247, 242); font-family:'Trebuchet MS';">
-<div style=" width: 60%;margin-left: 20%;font-family:'Trebuchet MS';font-weight: bold;">
-<p style="color: #0B317D; font-size: 30px; font-weight: bold; text-align: center">Modifier review </p>
+<body class="bd">
+<div class="formBody">
+    <p class="grandTitre">Modifier la Fiche de Poste</p>
+
     <main>
-	{{ form_start(reviewForm) }}
-	<div class="mb-3">
+        {{ form_start(jobinfoForm) }}
         <p>
-            {{ form_row(reviewForm.rating, {label: 'rating '}) }}
+            {{ form_row(jobinfoForm.title, {label: 'title '}) }}
         </p>
         <p>
-            {{ form_row(reviewForm.content, { label: 'content'}) }}
+            {{ form_row(jobinfoForm.description, { label: 'description'}) }}
         </p>
         <p>
-            {{ form_row(reviewForm.date, {label: 'date '}) }}
+            {{ form_row(jobinfoForm.student, {label: 'student '}) }}
         </p>
-	</div>
-    <button type="submit" class="btn btn-warning">Modifier</button>
-    {{ form_end(reviewForm) }}      
+        <button type="submit" class="btn border bttn2 RightAlign ">Modifier</button>
+        {{ form_end(jobinfoForm) }}
     </main>
-</div>
-</body>
+     </div>
+
+     </body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}

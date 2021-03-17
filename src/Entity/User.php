@@ -67,6 +67,13 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=16, nullable=true)
      */
+    /* Le statut permet de connaitre l'état de l'étudiant dans le cycle de l'application
+    Liste des statuts possible :
+    NULL : le compte n'est pas actif
+    OTHER : l'utilisateur n'est pas un étudiant
+    RESEARCH : l'étudiant est en recherche d'alternance
+    CONTRACT_SEND : l'entreprise a remplie la pré-convention de l'étudiant
+    WORKING : l'étudiant est actuellement en alternance */
     private $status;
 
     /**
@@ -75,7 +82,7 @@ class User implements UserInterface
     private $civility;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, orphanRemoval=true)
+     * @ORM\ManyToOne (targetEntity=User::class, inversedBy="studentsTeacher")
      */
     private $teacher;
 
@@ -84,6 +91,27 @@ class User implements UserInterface
      */
     private $reviews;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="studentsCompany")
+     */
+    private $company;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="company")
+     */
+    private $studentsCompany;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="teacher")
+     */
+    private $studentsTeacher;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity=ApiToken::class, mappedBy="user")
+     */
+    private $apiTokens;
+
 
 
 
@@ -91,6 +119,7 @@ class User implements UserInterface
     {
         $this->apiTokens = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->studentsCompany = new ArrayCollection();
     }
 
     /**
@@ -273,7 +302,7 @@ class User implements UserInterface
     /**
      * @return mixed
      */
-    public function getTeacher()
+    public function getTeacher() : ?self
     {
         return $this->teacher;
     }
@@ -281,7 +310,7 @@ class User implements UserInterface
     /**
      * @param mixed $teacher
      */
-    public function setTeacher($teacher): void
+    public function setTeacher( $teacher): void
     {
         $this->teacher = $teacher;
     }
@@ -316,6 +345,109 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getCompany(): ?self
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?self $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getStudentsCompany(): Collection
+    {
+        return $this->studentsCompany;
+    }
+
+    public function addStudentsCompany(self $studentsCompany): self
+    {
+        if (!$this->studentsCompany->contains($studentsCompany)) {
+            $this->studentsCompany[] = $studentsCompany;
+            $studentsCompany->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentsCompany(self $studentsCompany): self
+    {
+        if ($this->studentsCompany->removeElement($studentsCompany)) {
+            // set the owning side to null (unless already changed)
+            if ($studentsCompany->getCompany() === $this) {
+                $studentsCompany->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getStudentsTeacher(): Collection
+    {
+        return $this->studentsTeacher;
+    }
+
+    public function addStudentsTeacher(self $studentsTeacher): self
+    {
+        if (!$this->studentsTeacher->contains($studentsTeacher)) {
+            $this->studentsTeacher[] = $studentsTeacher;
+            $studentsTeacher->setTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentsTeacher(self $studentsTeacher): self
+    {
+        if ($this->studentsTeacher->removeElement($studentsTeacher)) {
+            // set the owning side to null (unless already changed)
+            if ($studentsTeacher->getTeacher() === $this) {
+                $studentsTeacher->setTeacher(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    /**
+     * @return Collection|ApiToken[]
+     */
+    public function getApiTokens(): Collection
+    {
+        return $this->apiTokens;
+    }
+
+    public function addApiToken(ApiToken $apiToken): self
+    {
+        if (!$this->apiTokens->contains($apiToken)) {
+            $this->apiTokens[] = $apiToken;
+            $apiToken->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApiToken(ApiToken $apiToken): self
+    {
+        if ($this->apiTokens->removeElement($apiToken)) {
+            // set the owning side to null (unless already changed)
+            if ($apiToken->getUser() === $this) {
+                $apiToken->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 
 
 

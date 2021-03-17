@@ -4,7 +4,9 @@
 {% endblock %}
 {% block header %}
     {{ parent() }}
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -12,45 +14,55 @@
     <link rel="stylesheet" type="text/css" href = "../css/my_CSS.css"/>
 {% endblock %}
 {% block content %}
-<body style=" background-color:rgb(221, 247, 242); ">
+<body style=" background-color:rgb(221, 247, 242); font-family:'Trebuchet MS' ">
     <main>
-        <p style="color: #0B317D; font-size: 30px; font-weight: bold;font-family:'Trebuchet MS';text-align: center;">Notes de l'utilisateur</p>
+
         {% if is_granted('ROLE_TEACHER') %}
+            <p style="color: #0B317D; font-size: 30px; font-weight: bold;text-align: center;">Notations des étudiants </p>
+            {% if reviews is not empty %}
             <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-			<thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
-                <tr>
-                    <th scope="col">Eleve</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Note</th>
-                    <th scope="col">Appréciation</th>
-                </tr>
-			</thead>
-			<tbody>
-                {% for rev in reviews %}
-                    <tr style="font-family:'Trebuchet MS';">
-                        <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
-                        <td>{{ rev.date|date("m/d/Y") }}</td>
-                        <td>
-                            {{ rev.rating }}
-                        </td>
-                        <td>{{ rev.content }}</td>
+            <thead class="table" style="background-color:#0B317D; color:white">
+
+                   <tr>
+                        <th scope="col">Eleve</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Note</th>
+                        <th scope="col">Appréciation</th>
                     </tr>
-                {% endfor %}
-			</tbody>
-            </table>
+            </thead>
+            <tbody>
+                    {% for rev in reviews %}
+                        <tr>
+                            <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
+                            <td>{{ rev.date|date("m/d/Y") }}</td>
+                            <td>
+                                {{ rev.rating }}
+                            </td>
+                            <td>{{ rev.content }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p >Aucune revue d'alternance disponible</p>
+            {% endif %}
+
         {% elseif is_granted('ROLE_STUDENT') %}
+            <p style="color: #0B317D; font-size: 30px; font-weight: bold;text-align: center;">Revue de l'alternance </p>
+        {% if reviews is not empty %}
             <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-			<thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
+            <thead class="table" style="background-color:#0B317D; color:white;">
+
                 <tr>
                     <th scope="col">Tuteur</th>
                     <th scope="col">Date</th>
                     <th scope="col">Note</th>
                     <th scope="col">Appréciation</th>
                 </tr>
-			</thead>
-			<tbody>
+            </thead>
+            <tbody>
                 {% for rev in reviews %}
-                    <tr style="font-family:'Trebuchet MS';">
+                    <tr>
                         <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
                         <td>{{ rev.date|date("m/d/Y h:m") }}</td>
                         <td>
@@ -59,22 +71,32 @@
                         <td>{{ rev.content }}</td>
                     </tr>
                 {% endfor %}
-			</tbody>
+                </tbody>
             </table>
+        {% else %}
+            <p>Aucune revue d'alternance disponible</p>
+        {% endif %}
+
         {% elseif is_granted('ROLE_ADMIN') %}
-            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-			<thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
+            <p style="color: #0B317D; font-size: 30px; font-weight: bold;text-align: center;">Revue des alternances  </p>
+        {% if reviews is not empty %}
+
+        <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+            <thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
+            
                 <tr>
                     <th scope="col">Eleve</th>
                     <th scope="col">Tuteur</th>
                     <th scope="col">Date</th>
                     <th scope="col">Note</th>
                     <th scope="col">Appréciation</th>
+                    <th scope="col">Actions</th>
                 </tr>
-			</thead>
-			<tbody>
+
+            </thead>
+            <tbody>
                 {% for rev in reviews %}
-                    <tr style="font-family:'Trebuchet MS';">
+                    <tr>
                         <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
                         <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
                         <td>{{ rev.date|date("m/d/Y h:m") }}</td>
@@ -88,11 +110,13 @@
                         </td>
                     </tr>
                 {% endfor %}
-			</tbody>
+                </tbody>
             </table>
+            {% else %}
+                <p>Aucune revue d'alternance disponible</p>
+            {% endif %}
         {% endif %}
     </main>
-	</body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}

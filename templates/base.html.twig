@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="fr">
 <head>
     {% block head %}
     <meta charset="UTF-8">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -24,38 +24,45 @@
                                 <li class="nav-item" >
                                     <a class="nav-link active" aria-current="page" href="{{ path('app_index_index') }}"><i class="fa fa-home fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp;Index</a>
                                 </li>
-								 {% if is_granted('ROLE_ADMIN') %}
-								   <li class="nav-item">
-								   <a  class="nav-link" href="{{ path('admin_panel') }}"> Panneau d'administration</a>
+                                 {% if is_granted('ROLE_ADMIN') %}
+                                   <li class="nav-item">
+                                   <a  class="nav-link" href="{{ path('admin_panel') }}"> Panneau d'administration</a>
                                    </li>
-								   {% endif %}
-						</ul>
-						
-						<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-						         {% if is_granted('ROLE_ADMIN') %}
-								   <li class="nav-item">
-								   <a class="nav-link" href="{{ path('notification-backlog') }}"> <i class="fa fa-bell fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp;Notifications</a>
-								   </li>  
+                                   {% endif %}
+                        </ul>
+                        
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                 {% if is_granted('ROLE_ADMIN') %}
+                                   <li class="nav-item">
+                                   <a class="nav-link" href="{{ path('notification-backlog') }}"> <i class="fa fa-bell fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp;Notifications</a>
+                                   </li>  
                           
                                  {% endif %}
                                 {% if is_granted('ROLE_STUDENT') %}
                                     <li class="nav-item">
-									
+                                    
                                          <a class="nav-link" href="{{ path('review', {Id: app.user.id}) }}"><i class="fa fa-clipboard fa-lg " style="color: rgb(7, 12, 85);"></i>&nbsp;Mes notes</a>
                                     </li>
                                 {% endif %}
-								
+                                
+                                 {% if is_granted('ROLE_TEACHER') %}
+                                    <li class="nav-item">
+                                    
+                                         <a class="nav-link" href="{{ path('review', {Id: app.user.id}) }}"><i class="fa fa-clipboard fa-lg " style="color: rgb(7, 12, 85);"></i>&nbsp;Notation</a>
+                                    </li>
+                                {% endif %}
+                                
                                        <div class="dropdown ">
                                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                    <i class="fa fa-user fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp; {{ app.user.firstName }} 
                                         </a>
-										
-										<div class="dropdown-menu">
+                                        
+                                        <div class="dropdown-menu">
                                            <a class="dropdown-item link-light" href="{{ path('my_profil', {userId: app.user.id}) }}"><i class="fa fa-user-circle fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp;Profil</a>
                                            <a class="dropdown-item link-light" href="{{ path('app_logout') }}" ><i class="fa fa-sign-out fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp;Logout</a>
-										</div>
+                                        </div>
                                     </div>
-		
+        
                               
 
                             {% endif %}

@@ -4,7 +4,7 @@
 {% endblock %}
 {% block header %}
     {{ parent() }}
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -18,11 +18,11 @@
     <h5 class="card-header cardHeader">
           Validation de l'alternance
     </h5>
-	<div class="card-body">
-	 <ul style="font-family:'Trebuchet MS';">
+    <div class="card-body">
+     <ul style="font-family:'Trebuchet MS';">
        <li> <p>Cette opération permet de valider l'alternance pour l'étudiant : {{ student.lastName }} {{ student.firstName }}</p> </li>
         <li><p>Veuillez sélectionner le contrat d'alternance : </p></li>
-	 </ul>
+     </ul>
         <form action="{{ path('upload_work_contract', {'studentId': student.getId() }) }}" method="post" enctype="multipart/form-data">
             <input type="file" name="file-selector" id="file-selector">
 
@@ -44,8 +44,8 @@
                 console.log(fileList[0]);
             });
         </script>
-		</div>
-	</div>
+        </div>
+    </div>
     </main>
 </body>
 {% endblock %}
