@@ -6,52 +6,61 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-<main>
-    <div>
-        <h1>Administration de l'application</h1>
-        <h2>Utilisateurs de l'application</h2>
-        <table class="table table-striped">
-            <tr>
-                <th scope="col">Adresse mail</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Statut</th>
-                <th scope="col">Activé</th>
-                <th scope="col">Roles</th>
-                <th scope="col">Actions</th>
-            </tr>
-            {% for user in users %}
+    <body class="bd">
+    <main>
+        <div>
+            <p class="grandTitre">Administration de l'application<p>
+            <p class="title" style="margin-left: 5%">Utilisateurs de l'application</p>
+            <table class="table caption-top table-hover table-light " style="width: 90%; margin-left: 5%;">
+                <thead class="table tableHeader">
+
                 <tr>
-                    <td>{{ user.userName }}</td>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.status }}</td>
-                    {% if user.isActive %}
-                        <td>Oui</td>
-                    {% else %}
-                        <td>Non</td>
-                    {% endif %}
-                    <td>
-                        {% for role in user.roles %}
-                        {{ role }}
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
-                        <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
-                    </td>
+                    <th scope="col">Adresse mail</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Activé</th>
+                    <th scope="col">Roles</th>
+                    <th scope="col">Actions</th>
                 </tr>
-            {% endfor %}
-        </table>
-    </div>
+
+                </thead>
+                {% for user in users %}
+                    <tr style="font-family:'Trebuchet MS';">
+
+                        <td>{{ user.userName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.status }}</td>
+                        {% if user.isActive %}
+                            <td>Oui</td>
+                        {% else %}
+                            <td>Non</td>
+                        {% endif %}
+                        <td>
+                            {% for role in user.roles %}
+                                {{ role }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
+                            <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
 
 
-    <div>
-        <h2>Adresse mail de l'administration USMB</h2>
+        <div>
 
-    </div>
-</main>
+            <p class="title" style="margin-left: 5%">Adresse mail de l'administration USMB</p>
+
+        </div>
+    </main>
+    </body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
 {% endblock %}
+

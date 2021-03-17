@@ -3,18 +3,58 @@
     {{ parent() }}
     <script src="https://unpkg.com/pdf-lib"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <title> Projet Alternant</title>
+
 {% endblock %}
 {% block header %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
+
+    <body style="background-color:rgb(221, 247, 242)";>
     <div>
         {% if contract.user.status == "CONTRACT_SEND" %}
-            <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Editer</a>
-            <a href="{{ path('app_index_index') }}"> Revenir à l'index</a>
+
+
+
+            <ul  style="margin-left:5% ; list-style-type: none; margin-top:3% ; font-family:'Trebuchet MS'" >
+                <li >
+                    <a class="nav-link" style="color:black" href="{{ path('update_contract_form', {userId: contract.user.id }) }}">
+                        <i class="fa fa-edit fa-lg" style="color: rgb(7, 12, 85);"></i> Editer
+                    </a>
+                </li>
+
+                <li>
+                    <a class="nav-link"  style="color:black" href="{{ path('app_index_index') }}">
+                        <i class="fa fa-arrow-left fa-lg" style="color: rgb(7, 12, 85);"></i>
+                        Revenir à l'index
+                    </a>
+                </li>
+
+            </ul>
+
+
+
+
+
+
         {% elseif contract.user.status == "RESEARCH" %}
-            <button onclick=" return savePdfForm()"> Valider</button>
-            <a href="{{ path('update_contract_form', {userId: contract.user.id }) }}"> Revenir au formulaire</a>
+            <ul  style="margin-left:5% ; list-style-type: none; margin-top:3% ; font-family:'Trebuchet MS'" >
+                <li style="margin-left:12px" >
+                    <button onclick=" return savePdfForm()" class="btn" style="font-weight: bold; color: white; font-size: 16px; font-family:'Trebuchet MS'; background-color : #0B317D;"> Valider</button>
+                </li>
+
+                <li>
+                    <a class="nav-link"  style="color:black" href="{{ path('update_contract_form', {userId: contract.user.id }) }}">
+                        <i class="fa fa-arrow-left fa-lg" style="color: rgb(7, 12, 85);"></i>
+                        Revenir au formulaire
+                    </a>
+                </li>
+
+            </ul>
+
         {% endif %}
     </div>
 
@@ -36,7 +76,8 @@
             fields.forEach(field => {
                 const type = field.constructor.name
                 const name = field.getName()
-                console.log(`${name}`)
+
+                console.log(${name})
             })
             */
 
@@ -170,7 +211,9 @@
             fields.forEach(field => {
                 const type = field.constructor.name
                 const name = field.getName()
-                console.log(`${name}`)
+
+                console.log(${name})
+
             })
             */
 
@@ -291,4 +334,7 @@
             console.log("1234".length);
         }
     </script>
+
+    </body>
 {% endblock %}
+

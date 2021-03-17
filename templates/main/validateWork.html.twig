@@ -6,32 +6,46 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
+    <body class="bd">
     <main>
-        <h2>Validation de l'alternance</h2>
-        <p>Cette opération permet de valider l'alternance pour l'étudiant {{ student.lastName }} {{ student.firstName }}</p> <br>
-        <p>Veuillez sélectionner le contrat d'alternance : </p>
-        <form action="{{ path('upload_work_contract', {'studentId': student.getId() }) }}" method="post" enctype="multipart/form-data">
-            <input type="file" name="file-selector" id="file-selector">
+        <div class="card" style="width : 70%; margin-left : 17%; margin-top:10%">
+            <h5 class="card-header cardHeader">
+                Validation de l'alternance
+            </h5>
+            <div class="card-body">
+                <ul style="font-family:'Trebuchet MS';">
+                    <li> <p>Cette opération permet de valider l'alternance pour l'étudiant : {{ student.lastName }} {{ student.firstName }}</p> </li>
+                    <li><p>Veuillez sélectionner le contrat d'alternance : </p></li>
+                </ul>
 
-            <select name="teacher-select" id="teacher-select">
-                <option value="">Veuillez assigner un tuteur à l'étudiant</option>
-                {% for teacher in teachers %}
-                    <option value="{{ teacher.userName }}">{{ teacher.firstName }} {{ teacher.lastName }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit" class="btn btn-success">Envoyer</button>
+                <form action="{{ path('upload_work_contract', {'studentId': student.getId() }) }}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file-selector" id="file-selector">
 
-        </form>
+                    <select name="teacher-select" id="teacher-select">
+                        <option value="">Veuillez assigner un tuteur à l'étudiant</option>
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher.userName }}">{{ teacher.firstName }} {{ teacher.lastName }}</option>
+                        {% endfor %}
+                    </select>
 
-        <script>
-            const fileSelector = document.getElementById('file-selector');
-            fileSelector.addEventListener('change', (event) => {
-                const fileList = event.target.files;
-                console.log(fileList);
-                console.log(fileList[0]);
-            });
-        </script>
+                    &nbsp;  <button type="submit" class="btn bttn2">Envoyer</button>
+
+
+                </form>
+
+                <script>
+                    const fileSelector = document.getElementById('file-selector');
+                    fileSelector.addEventListener('change', (event) => {
+                        const fileList = event.target.files;
+                        console.log(fileList);
+                        console.log(fileList[0]);
+                    });
+                </script>
+
+            </div>
+        </div>
     </main>
+    </body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}

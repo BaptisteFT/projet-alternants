@@ -6,31 +6,38 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
-    <h1>Création d'un Utilisateur</h1>
-  <main>
-    {{ form_start(registrationForm) }}
-    <p>
-      {{ form_row(registrationForm.email, {label: 'Adresse Mail',value: user.email}) }}
-    </p>
-    <p>
-      {{ form_row(registrationForm.firstName, {label: 'Prénom',value: user.firstName}) }}
-    </p>
-    <p>
-      {{ form_row(registrationForm.lastName, {label: 'Nom',value: user.lastName}) }}
-    </p>
-    <p>
-      {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe',}) }}
-    </p>
-    <p>
-      {{ form_row(registrationForm.role, {label: 'Role'}) }}
-    </p>
-    <button type="submit" class="btn btn-warning">Modifier</button>
-    {{ form_end(registrationForm) }}
-  </main>
+    <body class="bd">
+    <div class="formBody">
+        {% for flashError in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+        {% endfor %}
+        <p class="grandTitre">Modification d'un Utilisateur</p>
+
+        <main>
+            {{ form_start(registrationForm) }}
+            <p>
+                {{ form_row(registrationForm.email, {label: 'Adresse Mail',value: user.email}) }}
+            </p>
+            <p>
+                {{ form_row(registrationForm.firstName, {label: 'Prénom',value: user.firstName}) }}
+            </p>
+            <p>
+                {{ form_row(registrationForm.lastName, {label: 'Nom',value: user.lastName}) }}
+            </p>
+            <p>
+                {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe',}) }}
+            </p>
+            <p>
+                {{ form_row(registrationForm.role, {label: 'Role'}) }}
+            </p>
+
+            <button type="submit" class="btn border bttn2 RightAlign">Modifier</button>
+            {{ form_end(registrationForm) }}
+        </main>
+    </div>
+    </body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
 {% endblock %}
+

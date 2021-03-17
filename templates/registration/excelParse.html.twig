@@ -1,28 +1,43 @@
 {% extends "base.html.twig" %}
 {% block head %}
     {{ parent() }}
+
 {% endblock %}
 {% block header %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
-  <h1>Création des comptes étudiants à partir d'un fichier Excel : </h1>
-<main>
-    <form action="/excel-parse" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-        <input class="form-control" type="file" name="file-selector" id="file-selector">
+
+    <body class="bd">
+    <main>
+        <div class="card" style="width : 60%; margin-left : 20%; margin-top:10%">
+            <h5 class="card-header cardHeader">
+                Création des comptes étudiants à partir d'un fichier Excel :
+            </h5>
+            <div class="card-body">
+
+                <form action="/excel-parse" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input class="form-control" type="file" name="file-selector" id="file-selector">
+                    </div>
+
+                    <button type="submit" class="btn border bttn2 RightAlign ">Télécharger</button>
+
+                    <script>
+                        const fileSelector = document.getElementById('file-selector');
+                        fileSelector.addEventListener('change', (event) => {
+                            const fileList = event.target.files;
+                            console.log(fileList);
+                        });
+                    </script>
+                </form>
+
+            </div>
         </div>
-        <button type="submit" class="btn btn-success">Upload</button>
-        <script>
-            const fileSelector = document.getElementById('file-selector');
-            fileSelector.addEventListener('change', (event) => {
-                const fileList = event.target.files;
-                console.log(fileList);
-            });
-        </script>
-    </form>
-</main>
+    </main>
+    </body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
 {% endblock %}
+

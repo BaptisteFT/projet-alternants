@@ -4,24 +4,41 @@
 {% endblock %}
 {% block header %}
     {{ parent() }}
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel = "stylesheet" type="text/css" href = "../css/my_CSS.css"/>
 {% endblock %}
 {% block content %}
-    <h1>Nouvelle Fiche de Poste:</h1>
+    <body class="bd">
+    <div class="formBody">
+        <p class="grandTitre">Nouvelle Fiche de Poste:</p>
 
-    <main>
-        {{ form_start(jobinfoForm) }}
-        <p>
-            {{ form_row(jobinfoForm.title, {label: 'title '}) }}
-        </p>
-        <p>
-            {{ form_row(jobinfoForm.description, { label: 'description'}) }}
-        </p>
-        <p>
-            {{ form_row(jobinfoForm.student, {label: 'student '}) }}
-        </p>
-        <button type="submit" class="btn btn-success">Créer</button>
-        {{ form_end(jobinfoForm) }}
-    </main>
+
+        <main>
+            {{ form_start(jobinfoForm) }}
+            <p>
+                {{ form_row(jobinfoForm.title, {label: 'title '}) }}
+            </p>
+            <p>
+                {{ form_row(jobinfoForm.description, { label: 'description'}) }}
+            </p>
+            <p>
+                {{ form_row(jobinfoForm.student, {label: 'student '}) }}
+            </p>
+
+            <button type="submit" class="btn border bttn2 RightAlign ">Créer</button>
+            {{ form_end(jobinfoForm) }}
+        </main>
+    </div>
+
+    </body>
+
+
 {% endblock %}
 {% block footer %}
     {{ parent() }}

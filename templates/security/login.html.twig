@@ -3,48 +3,60 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-<main>
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <body class="bd">
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+    <main>
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous authentifier</h1>
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
 
 
-    <p>
-      <label for="inputEmail">Email</label><br>
-      <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    </p>
-    <p>
-      <label for="inputPassword">Mot de passe</label><br>
-      <input type="password" name="password" id="inputPassword" class="form-control" required>
-    </p>
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+            <div class="col Login" style="width: 45rem; margin-left:21%;">
+                <div class="card " >
+                    <h5 class="card-header text-white cardHeader">
+                        Authentification
+                    </h5>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="inputEmail" class="myLabel">Email</label><br>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Entrez votre E-mail" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword" class="myLabel">Mot de passe</label><br>
+                            <input type="password" name="password" id="inputPassword" class="form-control"  placeholder="Entrez votre mot de passe" required>
+                        </div>
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
+                        {#
+                        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                        See https://symfony.com/doc/current/security/remember_me.html
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Connexion
-    </button>
-</form>
-</main>
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me"> Remember me
+                            </label>
+                        </div>
+                        #}
+
+
+                        <button class="btn bttn2" type="submit" style="float:right">
+                            Connexion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    </body>
 {% endblock %}
 

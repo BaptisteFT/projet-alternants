@@ -6,98 +6,119 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-<main>
-    <div>
-        <h2>Informations de l'utilisateur</h2>
-        <form>
-            <div class="form-group row">
-                <label for="lastNameInput" class="col-sm-2 col-form-label">Nom :</label>
-                <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="lastNameInput" value="{{ user.lastName }}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="firstNameInput" class="col-sm-2 col-form-label">Prénom :</label>
-                <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="firstNameInput" value="{{ user.firstName }}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="emailInput" class="col-sm-2 col-form-label">Nom :</label>
-                <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="emailInput" value="{{ user.email }}">
-                </div>
-            </div>
-
-        </form>
-    </div>
-    {% if is_granted('ROLE_STUDENT') %}
-        <div class="token-div">
-        {% if token is not null %}
-            <h2>lien de connexion actif</h2>
+    <body class="bd" style="font-family:'Trebuchet MS'">
+    <main>
+        <div>
+            <p class="grandTitre" style="text-align:left !important">Informations de l'utilisateur</p>
             <form>
                 <div class="form-group row">
-                <label for="urlInput" class="col-sm-2 col-form-label">Url :</label>
-                <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="urlInput" value="{{ token.generateUrl }}">
-                </div>
-                </div>
-                <div class="form-group row">
-                    <label for="dateInput" class="col-sm-2 col-form-label">Date d'expiration :</label>
+                    <label for="lastNameInput" class="col-sm-2 col-form-label myLabel" >Nom :</label>
+
                     <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="urlInput" value="{{ token.expireDate|date("m/d/Y") }}">
+                        <input type="text" readonly class="form-control-plaintext" id="lastNameInput" value="{{ user.lastName }}">
                     </div>
                 </div>
-                <a class="btn btn-outline-success" href="{{ path('create_token', {userId: user.id}) }}"> Générer</a>
-                <button class="btn btn-outline-primary" id="copy" type="button">Copier</button>
-                {% else %}
-                    <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
-                    <a class="btn btn-outline-success" href="{{ path('create_token', {userId: user.id}) }}"> Générer</a>
-                {% endif %}
+                <div class="form-group row">
+                    <label for="firstNameInput" class="col-sm-2 col-form-label myLabel">Prénom :</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="firstNameInput" value="{{ user.firstName }}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="emailInput" class="col-sm-2 col-form-label myLabel">Email :</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="emailInput" value="{{ user.email }}">
+                    </div>
+                </div>
+
             </form>
         </div>
-    {% endif %}
+        {% if is_granted('ROLE_STUDENT') %}
+            <div class="token-div">
+                {% if token is not null %}
 
-    {% if user.status == "WORKING"%}
-        {% if infos is not empty %}
-            <h2>Fiche de Poste</h2>
-            <table>
-                <tr>
-                    <th>Eleve</th>
-                    <th>Intitulé du poste</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-                {% for info in infos %}
+                <p class="grandTitre" style="text-align:left !important">lien de connexion actif</p>
+                <form>
+                    <div class="form-group row">
+                        <label for="urlInput" class="col-sm-2 col-form-label myLabel">Url :</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="urlInput" value="{{ token.generateUrl }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <label for="dateInput" class="col-sm-2 col-form-label myLabel">Date d'expiration :</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="urlInput" value="{{ token.expireDate|date("m/d/Y") }}">
+                        </div>
+                    </div>
+
+                    <a class="btn bttn2" href="{{ path('create_token', {userId: user.id}) }}"> Générer</a>
+                    <button class="btn btn-primary" id="copy" type="button">Copier</button>
+                    {% else %}
+                        <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
+                        <a class="btn bttn2" href="{{ path('create_token', {userId: user.id}) }}"> Générer</a>
+
+                    {% endif %}
+                </form>
+            </div>
+        {% endif %}
+
+        {% if user.status == "WORKING"%}
+            {% if infos is not empty %}
+
+                <p class="grandTitre" style="text-align:left !important">Fiche de Poste</p>
+
+                <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+                    <thead class="table tableHeader">
+
                     <tr>
-                        <td>{{ info.student.firstName }} {{ info.student.lastName }}</td>
-                        <td>
-                            {{ info.title }}
-                        </td>
-                        <td>{{ info.description }}</td>
-                        <td>
-                            <a href="{{ path('delete_jobinfo', {'jobinfoId': info.getId()}) }}"> Supprimer</a>
-                            <a href="{{ path('update_jobinfo', {'jobinfoId': info.getId()}) }}"> Modifier</a>
-                        </td>
+                        <th scope="col">Eleve</th>
+                        <th scope="col">Intitulé du poste</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
                     </tr>
-                {% endfor %}
-            </table>
+                    </thead>
+
+                    {% for info in infos %}
+                        <tr>
+                            <td>{{ info.student.firstName }} {{ info.student.lastName }}</td>
+                            <td>
+                                {{ info.title }}
+                            </td>
+                            <td>{{ info.description }}</td>
+                            <td>
+                                <a href="{{ path('delete_jobinfo', {'jobinfoId': info.getId()}) }}"> Supprimer</a>
+                                <a href="{{ path('update_jobinfo', {'jobinfoId': info.getId()}) }}"> Modifier</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
             {% else %}
-            <p>vous pouvez renseigner votre fiche de poste en <a href="{{ path('create_jobinfo', {'studentId': user.id}) }}" >cliquant ici</a> </p>
+
+                <br>
+                <p >vous pouvez renseigner votre fiche de poste en <a href="{{ path('create_jobinfo', {'studentId': user.id}) }}" >cliquant ici</a> </p>
+
 
             {% endif %}
-    {% endif %}
-    <script>
-        var toCopy  = document.getElementById( 'urlInput' ),
-            btnCopy = document.getElementById( 'copy' );
+        {% endif %}
+        <script>
+            var toCopy  = document.getElementById( 'urlInput' ),
+                btnCopy = document.getElementById( 'copy' );
 
-        btnCopy.addEventListener( 'click', function(){
-            toCopy.select();
-            document.execCommand( 'copy' );
-            return false;
-        } );
-    </script>
-</main>
+            btnCopy.addEventListener( 'click', function(){
+                toCopy.select();
+                document.execCommand( 'copy' );
+                return false;
+            } );
+        </script>
+    </main>
+
+    </body>
+
 {% endblock %}
 {% block footer %}
     {{ parent() }}

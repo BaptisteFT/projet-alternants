@@ -1,133 +1,184 @@
 {% extends "base.html.twig" %}
 {% block head %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 {% block header %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
+    <body class="bd">
     <main>
-    <h1>Bienvenue sur l'index</h1>
+        <p class="grandTitre">Bienvenue sur l'index</p>
 
-    {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
+
         <div>
-            <h2>Liste des étudiants :</h2>
+            <div class="form-inline" style="margin-left: 2%">
+                <p class="title">Liste des étudiants :</p>
+                <a class="btn border bttn2"  href="{{ path('create_user') }}" style="margin-left: 26%"> Ajouter un utilisateur</a>&nbsp;
+                <a class="btn border bttn2"  href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
 
-            {% if students is not empty %}
-                <table class="table table-striped">
-                    <tr>
-                        <th scope="col">Prénom</th>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Adresse mail</th>
-                        <th scope="col">Statut</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    {% for student in students %}
+                {% if students is not empty %}
+                    <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+                        <thead class="table tableHeader" >
+
                         <tr>
-                            <td>{{ student.firstName }}</td>
-                            <td>{{ student.lastName }}</td>
-                            <td>{{ student.userName }}</td>
-                            <td>{{ student.status }}</td>
-                            <td>
-                                <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>
-                                <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a> <br>
-                                <a href="{{ path('my_profil', {'userId' : student.getId()}) }}"> Voir le profil</a>
-                                {% if student.status == "CONTRACT_SEND" %}
-                                    <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}"> Pré-convention</a> <br>
-                                    <a href="{{ path('validate_work', {'studentId': student.getId() }) }}">Valider l'alternance</a>
-                                {% elseif student.status == "WORKING" %}
-                                    <a href="{{ path('view_work_contract', {'studentId': student.getId() }) }}"> Contrat d'alternance</a> <br>
-                                {% endif %}
-
-                            </td>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Adresse mail</th>
+                            <th scope="col">Statut</th>
+                            <th scope="col">Actions</th>
                         </tr>
-                    {% endfor %}
-                </table>
-            {% else %}
-                <p>Aucun étudiants</p>
-            {% endif %}
-        </div>
-    {% endif %}
 
-    {% if is_granted('ROLE_STUDENT') %}
-        <div>
-            <p>Bonjour {{ app.user.firstName }}</p>
-            {% if app.user.status == "RESEARCH" %}
-                <p>Vous êtes actuellement inscrit dans l'application, vous pouvez partager un lien de connexion avec une entreprise en  </p>
-                <a href="{{ path('create_token', {userId: app.user.id}) }}"> cliquant-ici</a>
+                        </thead>
+                        <tbody>
+                        {% for student in students %}
+
+                            <tr class="tableContent">
+
+                                <td>{{ student.firstName }}</td>
+                                <td>{{ student.lastName }}</td>
+                                <td>{{ student.userName }}</td>
+                                <td>{{ student.status }}</td>
+
+                                <td>
+                                    <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>&nbsp;
+                                    <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a> <br>
+                                    {% if student.status == "CONTRACT_SEND" %}
+                                        <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}"> Pré-convention</a> <br>
+                                        <a href="{{ path('validate_work', {'studentId': student.getId() }) }}">Valider l'alternance</a>
+                                    {% elseif student.status == "WORKING" %}
+                                        <a href="{{ path('view_work_contract', {'studentId': student.getId() }) }}"> Contrat d'alternance</a> <br>
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                {% else %}
+                    <p>Aucun étudiants</p>
+                {% endif %}
+            </div>
             {% endif %}
-            {# {% if app.user.status == "CONTRACT_SEND" %}
-                <p>L'entreprise {{ app.user.company.firstName}} a remplie votre pré-convention, vous n'avez plus rien à faire</p>
+
+            {% if is_granted('ROLE_STUDENT') %}
+                <div>
+
+                    <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+                    {% if app.user.status == "RESEARCH" %}
+                        <p style="font-family:'Trebuchet MS';">Vous êtes actuellement inscrit dans l'application, vous pouvez partager un lien de connexion avec une entreprise en
+
+                            <a style="font-family:'Trebuchet MS';" href="{{ path('create_token', {userId: app.user.id}) }}"> cliquant-ici</a>
+
+                        </p>
+
+                    {% endif %}
+                    {# {% if app.user.status == "CONTRACT_SEND" %}
+                <p style="font-family:'Trebuchet MS';">L'entreprise {{ app.user.company.firstName}} a remplie votre pré-convention, vous n'avez plus rien à faire</p>
             {% endif %}
             {% if app.user.status == "WORKING" %}
-                <p>Vous êtes actuellement en alternance avec l'entreprise {{ app.user.company.firstName}}.</p>
-                <p>Vôtre tuteur académique assigné est {{ app.user.teacher.lastName }} {{ app.user.teacher.firstName }},
+                <p class="myLabel" >Vous êtes actuellement en alternance avec l'entreprise {{ app.user.company.firstName}}.</p>
+                <p style="font-family:'Trebuchet MS';">Vôtre tuteur académique assigné est {{ app.user.teacher.lastName }} {{ app.user.teacher.firstName }},
                 veuillez prendre contact avec lui au plus vite.</p>
             {% endif %} #}
-        </div>
-    {% endif %}
-
-    {% if is_granted('ROLE_COMPANY') %}
-        <div>
-            <p>Bonjour {{ app.user.firstName }}</p>
-
-            {% if researchStudents is not empty %}
-                {% for student in researchStudents %}
-                    <p>L'étudiant {{ student.LastName }} {{ student.firstName }} à partagé un lien d'activation avec vous, pour remplir sa pré-convention veuillez</p>
-                    <a href="{{ path('contract_form', {'userId': student.getId()}) }}"> cliquez ici</a>
-               {% endfor %}
+                </div>
             {% endif %}
 
-            {% if students is not empty %}
-                <h3>Etudiants alternants de l'entreprise :</h3>
+            {% if is_granted('ROLE_COMPANY') %}
+                <div>
 
-                <table class="table table-striped">
-                    <tr>
-                        <th scope="col">Prénom</th>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Adresse mail</th>
-                        <th scope="col">Statut</th>
-                    </tr>
-                    <tr>
-                        {% for student in students %}
-                        <td>{{ student.firstName }}</td>
-                        <td>{{ student.lastName }}</td>
-                        <td>{{ student.userName }}</td>
-                        <td>{{ student.status }}
+                    <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+
+                    {% if researchStudents is not empty %}
+                        {% for student in researchStudents %}
+                            <p style="font-family:'Trebuchet MS';" >L'étudiant {{ student.LastName }} {{ student.firstName }} à partagé un lien d'activation avec vous, pour remplir sa pré-convention veuillez
+                                <a style="font-family:'Trebuchet MS';" href="{{ path('contract_form', {'userId': student.getId()}) }}"> cliquez ici</a>
+                            </p>
+
+
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if students is not empty %}
+
+                        <p class="title" style="margin-left:0px">Etudiants alternants de l'entreprise :</p>
+
+                        <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+                            <thead class="table tableHeader" >
+
+
+                            <tr>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Adresse mail</th>
+                                <th scope="col">Statut</th>
+                            </tr>
+
+                            </thead>
+                            <tbody>
+                            <tr class="tableContent">
+
+                                {% for student in students %}
+                                <td>{{ student.firstName }}</td>
+                                <td>{{ student.lastName }}</td>
+                                <td>{{ student.userName }}</td>
+                                <td>{{ student.status }}
+                                    {% endfor %}
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if is_granted('ROLE_TEACHER') %}
+                <div>
+
+
+                    <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+                    {% if students is not empty %}
+                        <p class="title">Liste des étudiants dont vous êtes le tuteur :</p>
+
+                        <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+                            <thead class="table tableHeader" >
+
+                            <tr>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Adresse mail</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+
+                            </thead>
+                            <tbody>
+                            {% for student in students %}
+                                <tr class="tableContent">
+
+                                    <td>{{ student.firstName }}</td>
+                                    <td>{{ student.lastName }}</td>
+                                    <td>{{ student.userName }}</td>
+                                    <td>
+                                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
+                                    </td>
+
+                                </tr>
                             {% endfor %}
-                    </tr>
-                </table>
-            {% endif %}
-        </div>
-    {% endif %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p class="myLabel">Vous n'avez aucun étudiant sous votre tutelle</p>
 
-    {% if is_granted('ROLE_TEACHER') %}
-        <div>
-            <p>Bonjour {{ app.user.firstName }}</p>
-            {% if students is not empty %}
-                <h2>Liste des étudiants dont vous êtes le tuteur :</h2>
-                <table class="table table-striped">
-                    <tr>
-                        <th scope="col">Prénom</th>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Adresse mail</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    {% for student in students %}
-                        <td>{{ student.firstName }}</td>
-                        <td>{{ student.lastName }}</td>
-                        <td>{{ student.userName }}</td>
-                    <td>
-                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
-                    </td>
-                {% endfor %}
-            </table>
-            {% else %}
-                <p>Vous n'avez aucun étudiant sous votre tutelle</p>
+                    {% endif %}
+                </div>
             {% endif %}
-        </div>
-    {% endif %}
     </main>
+
+    </body>
+
 {% endblock %}
 
 {% block footer %}
