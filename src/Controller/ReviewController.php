@@ -63,6 +63,9 @@ class ReviewController extends AbstractController
             $review->setStudent($student);
             $review->setRating($form->get('rating')->getData());
             $review->setContent($form->get('content')->getData());
+            $review->setContentTwo($form->get('contentTwo')->getData());
+            $review->setContentThree($form->get('contentThree')->getData());
+            $review->setContentFour($form->get('contentFour')->getData());
             $review->setDate($form->get('date')->getData());
 
             $entityManager = $this->getDoctrine()->getManager();

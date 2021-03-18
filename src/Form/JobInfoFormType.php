@@ -6,6 +6,7 @@ use App\Entity\JobInfo;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,19 +15,10 @@ class JobInfoFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description')
-            ->add('student', EntityType::class, [
-                // looks for choices from this entity
-                'class' => User::class,
-
-                // uses the User.username property as the visible option string
-                'choice_label' => 'firstname',
-
-                // used to render a select box, check boxes or radios
-                // 'multiple' => true,
-                // 'expanded' => true,
-            ]);
+            ->add('companyName',TextType::class)
+            ->add('context',TextType::class)
+            ->add('goal',TextType::class)
+            ->add('technology',TextType::class)
         ;
     }
 

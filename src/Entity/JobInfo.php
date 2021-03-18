@@ -20,7 +20,7 @@ class JobInfo
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $companyName;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class)
@@ -31,21 +31,31 @@ class JobInfo
     /**
      * @ORM\Column(type="string", length=3000)
      */
-    private $description;
+    private $goal;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $technology;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $context;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getCompanyName(): ?string
     {
-        return $this->title;
+        return $this->companyName;
     }
 
-    public function setTitle(string $title): self
+    public function setCompanyName(string $companyName): self
     {
-        $this->title = $title;
+        $this->companyName = $companyName;
 
         return $this;
     }
@@ -62,14 +72,38 @@ class JobInfo
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getGoal(): ?string
     {
-        return $this->description;
+        return $this->goal;
     }
 
-    public function setDescription(string $description): self
+    public function setGoal(string $goal): self
     {
-        $this->description = $description;
+        $this->goal = $goal;
+
+        return $this;
+    }
+
+    public function getTechnology(): ?string
+    {
+        return $this->technology;
+    }
+
+    public function setTechnology(?string $technology): self
+    {
+        $this->technology = $technology;
+
+        return $this;
+    }
+
+    public function getContext(): ?string
+    {
+        return $this->context;
+    }
+
+    public function setContext(?string $context): self
+    {
+        $this->context = $context;
 
         return $this;
     }

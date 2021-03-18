@@ -45,6 +45,7 @@
                         <td>
                             <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
                             <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
+                            <a href="{{ path('my_profil', {'userId': user.getId()}) }}"> Voir le profil </a>
                         </td>
                     </tr>
                 {% endfor %}

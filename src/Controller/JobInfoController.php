@@ -23,13 +23,15 @@ class JobInfoController extends AbstractController
         $jobinfo = new JobInfo();
         $form = $this->createForm(JobInfoFormType::class, $jobinfo);
         $form->handleRequest($request);
+        $student = $this->getDoctrine()->getRepository(User::class)->find($studentId);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $jobinfo->setStudent($form->get('student')->getData());
-            $jobinfo->setTitle($form->get('title')->getData());
-            $jobinfo->setDescription($form->get('description')->getData());
-
+            $jobinfo->setStudent($student);
+            $jobinfo->setCompanyName($form->get('companyName')->getData());
+            $jobinfo->setGoal($form->get('goal')->getData());
+            $jobinfo->setContext($form->get('context')->getData());
+            $jobinfo->setTechnology($form->get('technology')->getData());
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($jobinfo);
@@ -68,7 +70,7 @@ class JobInfoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('my_profil', [ 'userId' => $student->getId()]);
+            return $this->redirectToRoute('my_profil', [ 'userId' => $jobinfo->getStudent()->getId()]);
         }
         return $this->render('job-info/modify-job-info.html.twig', [
             'jobinfoForm' => $form->createView(),

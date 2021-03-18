@@ -54,10 +54,29 @@ class Review
     private $author;
 
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $contentTwo;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $contentThree;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $contentFour;
+
+
 
     public function __construct()
     {
-        $this->date = new \DateTime();
+        $timeZone = new \DateTimeZone('Europe/Paris');
+        $datetime = new \DateTime();
+        $datetime->setTimezone($timeZone);
+        $this->date = $datetime;
     }
 
     /**
@@ -159,6 +178,43 @@ class Review
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+
+    public function getContentTwo(): ?string
+    {
+        return $this->contentTwo;
+    }
+
+    public function setContentTwo(string $contentTwo): self
+    {
+        $this->contentTwo = $contentTwo;
+
+        return $this;
+    }
+
+    public function getContentThree(): ?string
+    {
+        return $this->contentThree;
+    }
+
+    public function setContentThree(string $contentThree): self
+    {
+        $this->contentThree = $contentThree;
+
+        return $this;
+    }
+
+    public function getContentFour(): ?string
+    {
+        return $this->contentFour;
+    }
+
+    public function setContentFour(string $contentFour): self
+    {
+        $this->contentFour = $contentFour;
 
         return $this;
     }
