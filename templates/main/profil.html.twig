@@ -39,7 +39,7 @@
             <div class="token-div">
                 {% if token is not null %}
 
-                <p class="grandTitre" style="text-align:left !important">lien de connexion actif</p>
+                <p class="grandTitre" style="text-align:left !important">lien de connexion des entreprise</p>
                 <form>
                     <div class="form-group row">
                         <label for="urlInput" class="col-sm-2 col-form-label myLabel">Url :</label>
@@ -52,7 +52,7 @@
                         <label for="dateInput" class="col-sm-2 col-form-label myLabel">Date d'expiration :</label>
 
                         <div class="col-sm-10">
-                            <input type="text" readonly class="form-control-plaintext" id="urlInput" value="{{ token.expireDate|date("m/d/Y") }}">
+                            <input type="text" readonly class="form-control-plaintext" id="dateInput" value="{{ token.expireDate|date("m/d/Y") }}">
                         </div>
                     </div>
 
@@ -65,6 +65,27 @@
                     {% endif %}
                 </form>
             </div>
+        {% endif %}
+
+        {% if user.studentToken is not null and user.studentToken.isActive == false %}
+            <h2>lien de connexion de l'étudiant<h2>
+                    <form>
+                        <div class="form-group row">
+                            <label for="studentUrlInput" class="col-sm-2 col-form-label myLabel">Url :</label>
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="studentUrlInput" value="{{ user.studentToken.generateUrl }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <label for="studentDateInput" class="col-sm-2 col-form-label myLabel">Date d'expiration :</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="studentDateInput" value="{{ user.studentToken.expireDate|date("m/d/Y") }}">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" id="student-copy" type="button">Copier</button>
+                    </form>
         {% endif %}
 
         {% if user.status == "WORKING"%}
@@ -110,13 +131,26 @@
         {% endif %}
         <script>
             var toCopy  = document.getElementById( 'urlInput' ),
-                btnCopy = document.getElementById( 'copy' );
+                btnCopy = document.getElementById( 'copy' ),
+                toCopy2 = document.getElementById( 'studentUrlInput' ),
+                btnCopy2 = document.getElementById( 'student-copy' );
 
-            btnCopy.addEventListener( 'click', function(){
-                toCopy.select();
-                document.execCommand( 'copy' );
-                return false;
-            } );
+            if (toCopy != null && btnCopy != null){
+                btnCopy.addEventListener( 'click', function(){
+                    toCopy.select();
+                    document.execCommand( 'copy' );
+                    return false;
+                } );
+            }
+
+            if (toCopy2 != null && btnCopy2 != null){
+                btnCopy2.addEventListener('click', function (){
+                    toCopy2.select();
+                    document.execCommand( 'copy' );
+                    return false;
+                });
+            }
+
         </script>
     </main>
 

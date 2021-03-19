@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ApiToken;
 use App\Entity\Notification;
+use App\Entity\StudentToken;
 use App\Entity\User;
 use App\Form\CompanyFormType;
 use App\Form\RegistrationFormType;
@@ -132,6 +133,26 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * @Route("/update-student-password/{userId}", name="update_student_password")
+     */
+    public function updateStudentPassword($userId, UserPasswordEncoderInterface $passwordEncoder){
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $_POST['password']
+                )
+            );
+        $studentToken =$this->getDoctrine()->getRepository(StudentToken::class)->find($user->getStudentToken()->getId());
+        $studentToken->setIsActive(true);
+        $userToken = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
+        $this->get('security.token_storage')->setToken($userToken);
+        $this->get('session')->set('_security_main', serialize($userToken));
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('app_index_index');
+    }
+
+    /**
      * @Route("/create-token/{userId}", name="create_token")
      */
     public function createApiToken($userId, UserPasswordEncoderInterface $passwordEncoder){
@@ -201,6 +222,8 @@ class RegistrationController extends AbstractController
                     $entityManager = $this->getDoctrine()->getManager();
                     if (!$this->studentAlreadyExist($user)){
                         $entityManager->persist($user);
+                        $studentToken = new StudentToken($user);
+                        $entityManager->persist($studentToken);
                         $entityManager->flush();
                     }
                 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ApiToken;
+use App\Entity\StudentToken;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,6 +61,66 @@ class SecurityController extends AbstractController
 
 
     }
+
+    /**
+     * @Route("/login-student-token/{token}", name="app_student_token_login")
+     */
+    public function studentTokenLogin($token){
+        if ($this->checkStudentToken($token)){
+            $studentToken = $this->getDoctrine()->getRepository(StudentToken::class)->findOneBy(['token' => $token]);
+            $student = $studentToken->getStudent();
+            return $this->render('security/student-login.html.twig', [
+                "token" => $token,
+                "tokenUser" => $student
+            ]);
+
+
+        }
+        else{
+            $this->deleteStudentTokenIfExist($token);
+            return $this->render('security/error-token.html.twig');
+        }
+
+
+    }
+
+    private function checkStudentToken($token){
+        $res = true;
+        $studentToken = $this->getDoctrine()->getRepository(StudentToken::class)->findOneBy(['token' => $token]);
+        // Vérification si le token existe
+        if ($studentToken == null){
+            $res = false;
+        }
+        // Vérification de la date d'expiration
+        $timeZone = new \DateTimeZone('Europe/Paris');
+        $datetime = new \DateTime();
+        $datetime->setTimezone($timeZone);
+        if ($studentToken->getExpireDate()->getTimestamp() < $datetime->getTimestamp())
+        {
+            $res = false;
+        }
+
+        // Vérification si le token à déja été utilisé
+        if ($studentToken->getIsActive())
+        {
+            $res = false;
+        }
+
+        return $res;
+    }
+
+    private function deleteStudentTokenIfExist($token){
+        $studentToken = $this->getDoctrine()->getRepository(StudentToken::class)->findOneBy(['token' => $token]);
+        if ($studentToken == !null){
+            if ($studentToken->getIsActive() == false)
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($studentToken);
+                $entityManager->flush();
+            }
+        }
+    }
+
     /**
      * @Route("/new-company-login/{token}", name="new_company_login")
      */

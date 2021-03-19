@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\ApiToken;
 use App\Entity\JobInfo;
 use App\Entity\Notification;
+use App\Entity\StudentToken;
 use App\Entity\User;
 use App\Entity\WorkContract;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -91,12 +92,14 @@ class IndexController extends AbstractController
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $token = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
         $jobinfos = $this->getDoctrine()->getRepository(JobInfo::class)->findByStudent($user->getId());
+        $studentToken = $this->getDoctrine()->getRepository(StudentToken::class)->find($user->getId());
 
 
         return $this->render("main/profil.html.twig", [
             'user' => $user,
             'infos' => $jobinfos,
             'token' => $token,
+            'studentToken' => $studentToken,
         ]);
     }
 

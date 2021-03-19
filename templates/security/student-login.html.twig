@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <body class="bd">
+    <main>
+        <p>Le lien de connexion est activé, veuillez changer votre mot de passe.</p>
+
+        <form method="post" action="{{ path('update_student_password', {'userId': tokenUser.id}) }}">
+            <p>
+                <label for="inputPassword" class="myLabel">Mot de passe</label><br>
+                <input type="password" name="password" id="inputPassword" class="form-control" required>
+            </p>
+
+            <button class="btn bttn2" type="submit">
+                Valider
+            </button>
+        </form>
+    </main>
+    </body>
+
+{% endblock %}

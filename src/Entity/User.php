@@ -112,6 +112,11 @@ class User implements UserInterface
      */
     private $apiTokens;
 
+    /**
+     * @ORM\OneToOne(targetEntity=StudentToken::class, mappedBy="student", cascade={"persist", "remove"})
+     */
+    private $studentToken;
+
 
 
 
@@ -444,6 +449,23 @@ class User implements UserInterface
             if ($apiToken->getUser() === $this) {
                 $apiToken->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getStudentToken(): ?StudentToken
+    {
+        return $this->studentToken;
+    }
+
+    public function setStudentToken(StudentToken $studentToken): self
+    {
+        $this->studentToken = $studentToken;
+
+        // set the owning side of the relation if necessary
+        if ($studentToken->getStudent() !== $this) {
+            $studentToken->setStudent($this);
         }
 
         return $this;
