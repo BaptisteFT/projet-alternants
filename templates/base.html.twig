@@ -35,12 +35,11 @@
                     </ul>
 
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        {% if is_granted('ROLE_ADMIN') %}
+
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('notification-backlog') }}"> <i class="fa fa-bell fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp;Notifications</a>
+                                <a class="nav-link" href="{{ path('notification_backlog', {userId: app.user.id}) }}"> <i class="fa fa-bell fa-lg" style="color: rgb(7, 12, 85);"></i>&nbsp;Notifications</a>
                             </li>
 
-                        {% endif %}
                         {% if is_granted('ROLE_STUDENT') %}
                             <li class="nav-item">
 

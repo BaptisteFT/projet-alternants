@@ -117,6 +117,11 @@ class User implements UserInterface
      */
     private $studentToken;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Notification::class, mappedBy="user")
+     */
+    private $notifications;
+
 
 
 
@@ -125,6 +130,7 @@ class User implements UserInterface
         $this->apiTokens = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->studentsCompany = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     /**
@@ -466,6 +472,33 @@ class User implements UserInterface
         // set the owning side of the relation if necessary
         if ($studentToken->getStudent() !== $this) {
             $studentToken->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->removeElement($notification)) {
+            $notification->removeUser($this);
         }
 
         return $this;

@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Notification;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,16 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class NotificationController extends AbstractController
 {
     /**
-     * @Route("/notification-backlog" , name="notification-backlog")
+     * @Route("/notification-backlog/{userId}" , name="notification_backlog")
      */
-    public function notificationBacklog()
+    public function notificationBacklog($userId)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $backlog = $this->getDoctrine()->getRepository(Notification::class)->findNewNotification();
-        $archivedBacklog = $this->getDoctrine()->getRepository(Notification::class)->findArchivedNotification();
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $backlog = $this->findNotificationByUserId($userId);
         return $this->render("/main/notification-backlog.html.twig", [
             'backlog' => $backlog,
-            'archivedBacklog' => $archivedBacklog,
         ]);
     }
 
@@ -36,7 +35,7 @@ class NotificationController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($log);
         $entityManager->flush();
-        return $this->redirectToRoute('notification-backlog');
+        return $this->redirectToRoute('notification_backlog');
 
     }
 
@@ -50,6 +49,33 @@ class NotificationController extends AbstractController
         $log->setIsArchived(true);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
-        return $this->redirectToRoute('notification-backlog');
+        return $this->redirectToRoute('notification_backlog');
+    }
+
+    private function findNotificationByUserId($userId){
+        $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
+        $notificationsByUser = [];
+        foreach ($notifications as $notif){
+            foreach ($notif->getUser() as $user){
+                if ($user->getId() == $userId){
+                    array_push($notificationsByUser, $notif);
+                }
+            }
+        }
+        return $notificationsByUser;
+
+    }
+
+    public function notificationNumber($userId){
+        $notifications = $this->getDoctrine()->getRepository(Notification::class)->findAll();
+        $notificationsCount = 0;
+        foreach ($notifications as $notif){
+            foreach ($notif->getUser() as $user){
+                if ($user->getId() == $userId){
+                    $notificationsCount += 1;
+                }
+            }
+        }
+        return $notificationsCount;
     }
 }

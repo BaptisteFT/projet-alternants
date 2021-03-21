@@ -8,27 +8,25 @@
 {% block content %}
     <body class="bd">
     <p class="title2">Notifications: </p>
+    {{ dump(backlog) }}
 
     {% if backlog is not empty %}
-        <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
+        <table class="table caption-top table-hover table-light ">
             <thead class="table tableHeader">
 
             <tr>
                 <th scope="col">Description</th>
                 <th scope="col">Type</th>
-                <th scope="col">Date</th>
-                <th scope="col">Heure</th>
                 <th scope="col">Actions</th>
             </tr>
 
             </thead>
             {% for log in backlog %}
-                <tr style="font-family:'Trebuchet MS';">
+                <tr>
 
                     <td>{{ log.text }}</td>
                     <td>{{ log.type }}</td>
-                    <td>{{ log.createdAt|date("m/d/Y") }}</td>
-                    <td>{{ log.createdAt|date("h:i") }}</td>
+
                     <td>
                         <a href="{{ path('archive-notification', {logId: log.id}) }}">Archiver</a>
                     </td>
@@ -36,44 +34,6 @@
             {% endfor %}
         </table>
     {% else %}
-
         <span style="margin-left: 10%;">Aucune notification à afficher </span>
     {% endif %}
-
-
-    <p class="title2">Notifications Archivées : </p>
-
-    {% if archivedBacklog is not empty %}
-        <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-            <thead class="table tableHeader">
-
-            <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Type</th>
-                <th scope="col">Date</th>
-                <th scope="col">Heure</th>
-                <th scope="col">Actions</th>
-            </tr>
-
-            </thead>
-            {% for log in archivedBacklog %}
-                <tr style="font-family:'Trebuchet MS';">
-
-                    <td>{{ log.text }}</td>
-                    <td>{{ log.type }}</td>
-                    <td>{{ log.createdAt|date("m/d/Y") }}</td>
-                    <td>{{ log.createdAt|date("h:i") }}</td>
-                    <td>
-                        <a href="{{ path('delete-notification', {logId: log.id}) }}">Supprimer</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-
-        <span style="margin-left: 10%; font-family:'Trebuchet MS';">Aucune notification à afficher </span>
-    {% endif %}
-    <body>
-
-
 {% endblock %}

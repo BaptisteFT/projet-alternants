@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Notification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Select;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,47 +37,5 @@ class NotificationRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    /**
-     * @return Notification[] Returns an array of Notification objects
-     */
-    public function findNewNotification()
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.isArchived = :val')
-            ->setParameter('val', false)
-            ->orderBy('n.priority', 'ASC')
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    /**
-     * @return Notification[] Returns an array of Notification objects
-     */
-    public function findArchivedNotification()
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.isArchived = :val')
-            ->setParameter('val', true)
-            ->orderBy('n.priority', 'ASC')
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    public function getNumberOfNewNotification()
-    {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT COUNT
-            FROM App\Entity\Notification n
-            WHERE n.isArchived = :value'
-        )->setParameter('value', false);
-
-        // returns an array of Product objects
-        return $query->getResult();
-    }
 
 }

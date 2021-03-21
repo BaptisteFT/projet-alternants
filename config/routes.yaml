@@ -22,3 +22,6 @@ view_work_contract:
 my_profil:
   path: /my_profile/{userId}
   controller : App\Controller\IndexController::myProfil
+notification_backlog:
+  path: /notification/notification-backlog/{userId}
+  controller: App\Controller\NotificationController::notificationBacklog

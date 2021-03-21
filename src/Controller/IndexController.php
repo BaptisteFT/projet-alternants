@@ -143,9 +143,16 @@ class IndexController extends AbstractController
         $workContract = new WorkContract($student, base64_encode($fileToString));
         $student->setTeacher($teacher);
         $student->setStatus("WORKING");
-        $log = new Notification("L'étudiant ".$student->getFirstName()." ".$student->getLastName()." est désormais en alternance","student-working",1);
+        $logAdmin = new Notification("L'étudiant ".$student->getFirstName()." ".$student->getLastName()." est désormais en alternance","student-working",1);
+        $logTutor = new Notification("Vous avez été assigné pour être le tuteur de ".$student->getFirstName()." ".$student->getLastName(),"tutor-assign",1);
+        $logTutor->addUser($teacher);
+        $adminList =  $this->getDoctrine()->getRepository(User::class)->findAllAdmin();
+        foreach ($adminList as $admin){
+            $logAdmin->addUser($admin);
+        }
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($log);
+        $entityManager->persist($logAdmin);
+        $entityManager->persist($logTutor);
         $entityManager->persist($workContract);
         $entityManager->flush();
 

@@ -94,6 +94,10 @@ class ContractController extends AbstractController
         $contractBase64 = $this->getDoctrine()->getRepository(ContractBase64::class)->findOneByContract($contractId);
         $contract->getUser()->setStatus("CONTRACT_SEND");
         $log = new Notification("L'entreprise ".$this->getUser()->getUsername()." à complété la pré-convention de ".$contract->getUser()->getLastName()." ".$contract->getUser()->getFirstName()  ,"contract-send",1);
+        $adminList =  $this->getDoctrine()->getRepository(User::class)->findAllAdmin();
+        foreach ($adminList as $admin){
+            $log->addUser($admin);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($log);
         $entityManager->flush();
