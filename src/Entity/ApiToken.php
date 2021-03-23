@@ -98,7 +98,7 @@ class ApiToken
 
     public function generateUrl(): ?string
     {
-        return "http://localhost:8000/login-token/".$this->getToken();
+        return "/login-token/".$this->getToken();
     }
 
     /**

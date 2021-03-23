@@ -75,16 +75,13 @@
                             <a style="font-family:'Trebuchet MS';" href="{{ path('create_token', {userId: app.user.id}) }}"> cliquant-ici</a>
 
                         </p>
-
                     {% endif %}
-                    {# {% if app.user.status == "CONTRACT_SEND" %}
-                <p style="font-family:'Trebuchet MS';">L'entreprise {{ app.user.company.firstName}} a remplie votre pré-convention, vous n'avez plus rien à faire</p>
-            {% endif %}
-            {% if app.user.status == "WORKING" %}
-                <p class="myLabel" >Vous êtes actuellement en alternance avec l'entreprise {{ app.user.company.firstName}}.</p>
-                <p style="font-family:'Trebuchet MS';">Vôtre tuteur académique assigné est {{ app.user.teacher.lastName }} {{ app.user.teacher.firstName }},
-                veuillez prendre contact avec lui au plus vite.</p>
-            {% endif %} #}
+                    {% if app.user.status == "CONTRACT_SEND" %}
+                        <p>L'entreprise {{ app.user.company.firstName}} a remplie votre pré-convention</p>
+                    {% endif %}
+                    {% if app.user.status == "WORKING" %}
+                        <p >vous pouvez renseigner votre fiche de poste en <a href="{{ path('create_jobinfo', {'studentId': app.user.id}) }}" >cliquant ici</a> </p>
+                    {% endif %}
                 </div>
             {% endif %}
 
@@ -163,7 +160,7 @@
                                     <td>{{ student.lastName }}</td>
                                     <td>{{ student.userName }}</td>
                                     <td>
-                                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
+                                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une notation</a>
                                     </td>
 
                                 </tr>

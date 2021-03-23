@@ -8,7 +8,6 @@
 {% block content %}
     <body class="bd">
     <p class="title2">Notifications: </p>
-    {{ dump(backlog) }}
 
     {% if backlog is not empty %}
         <table class="table caption-top table-hover table-light ">
@@ -28,7 +27,7 @@
                     <td>{{ log.type }}</td>
 
                     <td>
-                        <a href="{{ path('archive-notification', {logId: log.id}) }}">Archiver</a>
+                        <a href="{{ path('delete-notification', {logId: log.id}) }}">Archiver</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -30,7 +30,7 @@
                 {% for rev in reviews %}
                     <tr>
                         <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
-                        <td>{{ rev.date|date("m/d/Y") }}</td>
+                        <td>{{ rev.date|date("d/m/Y") }}</td>
                         <td>
                             {{ rev.rating }}
                         </td>

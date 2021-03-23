@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\ApiToken;
+use App\Entity\ContractBase64;
+use App\Entity\JobInfo;
 use App\Entity\Notification;
+use App\Entity\Review;
 use App\Entity\StudentToken;
 use App\Entity\User;
+use App\Entity\WorkContract;
 use App\Form\CompanyFormType;
 use App\Form\RegistrationFormType;
 use App\Service\GrantedService;
@@ -78,9 +82,51 @@ class RegistrationController extends AbstractController
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
         $entityManager = $this->getDoctrine()->getManager();
+        $this->safeDeleteUser($userId);
         $entityManager->remove($user);
         $entityManager->flush();
         return $this->redirectToRoute('app_index_index');
+    }
+
+    private function safeDeleteUser($userId){
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userId);
+        $contract = $user->getContract();
+        if ($contract != null){
+            $contractBase64 = $this->getDoctrine()->getRepository(ContractBase64::class)->findOneByContract($contract->getId());
+            if ($contractBase64 != null){
+                $entityManager->remove($contractBase64);
+                $entityManager->remove($contract);
+            }
+            else{
+                $entityManager->remove($contract);
+            }
+        }
+        $workContract = $this->getDoctrine()->getRepository(WorkContract::class)->findOneByStudent($userId);
+        if ($workContract != null){
+            $entityManager->remove($workContract);
+        }
+        $companyToken = $this->getDoctrine()->getRepository(ApiToken::class)->findOneByCreator($userId);
+        if ($companyToken != null){
+            $entityManager->remove($companyToken);
+        }
+        $studentToken = $user->getStudentToken();
+        if ($studentToken != null){
+            $entityManager->remove($studentToken);
+        }
+        $jobInfos = $this->getDoctrine()->getRepository(JobInfo::class)->findByStudent($userId);
+        foreach ($jobInfos as $jobInfo){
+            $entityManager->remove($jobInfo);
+        }
+        $notifications = $user->getNotifications();
+        foreach ($notifications as $notif){
+            $entityManager->remove($notif);
+        }
+        $reviews = $user->getReviews();
+        foreach ($reviews as $review){
+            $entityManager->remove($review);
+        }
+        $entityManager->flush();
     }
 
     /**

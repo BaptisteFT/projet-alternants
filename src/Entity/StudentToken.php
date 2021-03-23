@@ -51,7 +51,7 @@ class StudentToken
 
     public function generateUrl(): ?string
     {
-        return "http://localhost:8000/login-student-token/".$this->getToken();
+        return "/login-student-token/".$this->getToken();
     }
 
     public function getId(): ?int

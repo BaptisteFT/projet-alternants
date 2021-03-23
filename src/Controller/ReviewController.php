@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Form\ReviewFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,7 +72,9 @@ class ReviewController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
             $entityManager->persist($review);
-            //$author->addReview($review);
+            $notif = new Notification("Votre tuteur ".$author->getLastName()." ".$author->getFirstName()." vous à assigné une note","review", 2);
+            $notif->addUser($student);
+            $entityManager->persist($notif);
             $entityManager->flush();
 
 
