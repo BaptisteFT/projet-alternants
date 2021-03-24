@@ -6,16 +6,16 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-<body style=" background-color:rgb(221, 247, 242); font-family:'Trebuchet MS' ">
+<body>
 <main>
 
     {% if is_granted('ROLE_TEACHER') %}
-        <p style="color: #0B317D; font-size: 30px; font-weight: bold;text-align: center;">Notations des étudiants </p>
+        <h1>Notations des étudiants </h1>
         {% if reviews is not empty %}
-            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-                <thead class="table" style="background-color:#0B317D; color:white">
+            <table class="table caption-top table-hover table-light ">
+                <thead class="table">
 
-                <tr>
+                <tr class="table-header">
                     <th scope="col">Eleve</th>
                     <th scope="col">Date</th>
                     <th scope="col">Note</th>
@@ -30,7 +30,7 @@
                 {% for rev in reviews %}
                     <tr>
                         <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
-                        <td>{{ rev.date|date("d/m/Y") }}</td>
+                        <td>{{ rev.date|date("m/d/Y") }}</td>
                         <td>
                             {{ rev.rating }}
                         </td>
@@ -44,17 +44,17 @@
                 </tbody>
             </table>
         {% else %}
-            <p >Aucune revue d'alternance disponible</p>
+            <p >Aucune revue disponible</p>
         {% endif %}
 
     {% elseif is_granted('ROLE_STUDENT') %}
-        <p style="color: #0B317D; font-size: 30px; font-weight: bold;text-align: center;">Revue de l'alternance </p>
+        <h1 class="text-center">Revue de l'alternance</h1>
         {% if reviews is not empty %}
-            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-                <thead class="table" style="background-color:#0B317D; color:white;">
+            <table class="table caption-top table-hover table-light">
+                <thead class="table">
 
 
-                <tr>
+                <tr class="table-header">
                     <th scope="col">Tuteur</th>
                     <th scope="col">Date</th>
                     <th scope="col">Note</th>
@@ -68,7 +68,7 @@
                 <tbody>
 
                 {% for rev in reviews %}
-                    <tr>
+                    <tr class="table-header">
                         <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
                         <td>{{ rev.date|date("m/d/Y h:m") }}</td>
                         <td>
@@ -85,18 +85,18 @@
 
             </table>
         {% else %}
-            <p>Aucune revue d'alternance disponible</p>
+            <p>Aucune revue disponible</p>
         {% endif %}
 
     {% elseif is_granted('ROLE_ADMIN') %}
 
-        <p style="color: #0B317D; font-size: 30px; font-weight: bold;text-align: center;">Revue des alternances  </p>
+        <h1>Revue des alternances  </h1>
         {% if reviews is not empty %}
 
-            <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-                <thead class="table" style="background-color:#0B317D; color:white;font-family:'Trebuchet MS';">
+            <table class="table caption-top table-hover table-light ">
+                <thead class="table" >
 
-                <tr>
+                <tr class="table-header">
                     <th scope="col">Eleve</th>
                     <th scope="col">Tuteur</th>
                     <th scope="col">Date</th>
@@ -133,7 +133,7 @@
 
             </table>
         {% else %}
-            <p>Aucune revue d'alternance disponible</p>
+            <p>Aucune revue disponible</p>
         {% endif %}
     {% endif %}
 </main>

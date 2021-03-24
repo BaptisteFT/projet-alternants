@@ -3,5 +3,5 @@ twig:
     form_themes: ['bootstrap_4_layout.html.twig']
     globals:
         root_url: 'http://localhost:8000'
-        university_email: ''
+        university_email: 'example@example.com'
 

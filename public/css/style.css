@@ -1,19 +1,110 @@
 footer {
-   position: fixed;
-   height: 50px;
-   bottom: 0;
-   width: 100%;
+    position: fixed;
+    height: 5%;
+    bottom: 0;
+    width: 100%;
 }
+
 .footer-logo {
-   margin: 5px 90%;
+    margin: auto 2%;
 }
 
 header {
-   position: fixed;
-   top: 0;
-   width: 100%;
-}
-section {
-   margin: 5% 2%;
+    position: fixed;
+    top: 0;
+    height: 10%;
+    width: 100%;
 }
 
+nav {
+    height: 100%;
+}
+
+section {
+    margin: 5% 10%;
+}
+
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: #e5e5e5;
+}
+
+.link-text {
+    position: absolute;
+    text-align: center;
+    display: none;
+    animation: text .3s ease-in-out forwards;
+}
+
+.nav-item:hover .link-text {
+    display: flex;
+    text-align: center;
+}
+
+.nav-item:hover i {
+    transition: all .3s ease-in-out;
+    transform: translateY(-20%);
+}
+
+.nav-link {
+}
+
+i {
+    color: rgb(7, 12, 85);
+}
+
+h1 {
+    color: #0B317D;
+}
+
+.card-header {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #0B317D;
+}
+
+.btn-primary {
+    background-color: #0B317D;
+}
+
+
+/*------------------------------------------*/
+.table thead {
+    color: #FFFFFF;
+    background-color: #0B317D;
+}
+
+
+.profile {
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 8%;
+}
+
+.excel-add {
+    font-weight: bold;
+    margin-top: 60px;
+}
+
+.register-card {
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 60px;
+}
+
+.file-card {
+    padding: 50px;
+    margin-left: 20%;
+    width: 60%;
+}
+
+.form-body {
+    width: 60%;
+    margin-left: 20%;
+}
+
+h2 {
+    color: #0B317D;
+    font-size: 25px;
+}

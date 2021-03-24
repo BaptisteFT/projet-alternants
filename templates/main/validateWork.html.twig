@@ -6,32 +6,31 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
+    <body>
     <main>
-        <div class="card" style="width : 70%; margin-left : 17%; margin-top:10%">
-            <h5 class="card-header cardHeader">
+        <div class="card">
+            <h5 class="card-header">
                 Validation de l'alternance
             </h5>
             <div class="card-body">
-                <ul style="font-family:'Trebuchet MS';">
-                    <li> <p>Cette opération permet de valider l'alternance pour l'étudiant : {{ student.lastName }} {{ student.firstName }}</p> </li>
-                    <li><p>Veuillez sélectionner le contrat d'alternance : </p></li>
-                </ul>
-
+            <h2>Valider l'alternance pour l'étudiant : {{ student.lastName }} {{ student.firstName }} ?</h2>
+                <div class="form-group row">
                 <form action="{{ path('upload_work_contract', {'studentId': student.getId() }) }}" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file-selector" id="file-selector">
-
-                    <select name="teacher-select" id="teacher-select">
-                        <option value="">Veuillez assigner un tuteur à l'étudiant</option>
+                    <label for="file-selector" class="col-sm-2 col-form-label fw-bold">Veuillez sélectionner le contrat d'alternance : </label>
+                    <input class="form-control" type="file" name="file-selector" id="file-selector">
+                    <label for="teacher-select" class="col-sm-2 col-form-label fw-bold">Assigner un tuteur à l'étudiant :</label>
+                    <select class="form-select" aria-label="Assigner un tuteur à l'étudiant" name="teacher-select" id="teacher-select">
                         {% for teacher in teachers %}
                             <option value="{{ teacher.userName }}">{{ teacher.firstName }} {{ teacher.lastName }}</option>
                         {% endfor %}
                     </select>
-
-                    &nbsp;  <button type="submit" class="btn bttn2">Envoyer</button>
-
+                    <br>
+                    <span class="d-flex flex-row-reverse">
+                    &nbsp;  <button type="submit" class="btn btn-primary">Assigner</button>
+                    </span>
 
                 </form>
+                </div>
 
                 <script>
                     const fileSelector = document.getElementById('file-selector');

@@ -3,17 +3,17 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
+    <body>
     <main>
         <p>Le lien de connexion est activé, veuillez changer votre mot de passe.</p>
 
         <form method="post" action="{{ path('update_student_password', {'userId': tokenUser.id}) }}">
             <p>
-                <label for="inputPassword" class="myLabel">Mot de passe</label><br>
+                <label for="inputPassword" class="fw-bold">Mot de passe</label><br>
                 <input type="password" name="password" id="inputPassword" class="form-control" required>
             </p>
 
-            <button class="btn bttn2" type="submit">
+            <button class="btn btn-primary" type="submit">
                 Valider
             </button>
         </form>

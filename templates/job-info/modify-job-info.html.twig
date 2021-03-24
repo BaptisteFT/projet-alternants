@@ -6,9 +6,9 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
-    <div class="formBody">
-        <p class="grandTitre">Modifier la Fiche de Poste</p>
+    <body>
+    <div class="form-body">
+        <h1>Modifier la Fiche de Poste</h1>
 
 
         <main>
@@ -26,8 +26,9 @@
                 {{ form_row(jobinfoForm.technology, { label: 'Technologies utilisées'}) }}
             </p>
 
-
-            <button type="submit" class="btn border bttn2 RightAlign ">Modifier</button>
+            <span class="d-flex flex-row-reverse">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+                </span>
             {{ form_end(jobinfoForm) }}
         </main>
     </div>

@@ -2,31 +2,31 @@
 {% block head %}
     {{ parent() }}
 {% endblock %}
+
+
+
 {% block content %}
-    <body class="bd" style="font-family:'Trebuchet MS'">
+    <body>
     <main>
 
 
-        <p>Le lien de connexion est activé, vous pouvez créé un nouveau compte ou vous pouvez vous connecter.</p>
+        <p>Le lien de connexion est activé, vous pouvez créer un nouveau compte ou vous connecter.</p>
 
         <form method="post" action="{{ path('existing_company_login', {'token': token}) }}">
             <p>
 
-                <label for="inputEmail" class="myLabel">Email</label><br>
-                <input type="email"  name="email" id="inputEmail" class="form-control" required autofocus>
+                <label for="inputEmail" class="fw-bold">Email</label><br>
+                <input type="email" name="email" id="inputEmail" class="form-control" required autofocus>
             </p>
             <p>
-                <label for="inputPassword" class="myLabel">Mot de passe</label><br>
+                <label for="inputPassword" class="fw-bold">Mot de passe</label><br>
                 <input type="password" name="password" id="inputPassword" class="form-control" required>
             </p>
 
-            <button class="btn bttn2" type="submit">
-
-                Connexion
-            </button>
+            <button class="btn btn-primary" type="submit">Connexion</button>
+            <a class="btn btn-info" href="{{ path('new_company_login', {'token': token}) }}">Inscription</a>
         </form>
 
-        <a class="btn btn-info" href="{{ path('new_company_login', {'token': token}) }}">Inscription</a>
     </main>
     </body>
 

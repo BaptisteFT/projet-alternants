@@ -3,7 +3,7 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
+    <body>
 
     <main>
         <form method="post">
@@ -18,18 +18,18 @@
             {% endif %}
 
 
-            <div class="col Login" style="width: 45rem; margin-left:21%;">
-                <div class="card " >
-                    <h5 class="card-header text-white cardHeader">
+            <div class="col">
+                <div class="card" >
+                    <h5 class="card-header text-white">
                         Authentification
                     </h5>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="inputEmail" class="myLabel">Email</label><br>
+                            <label for="inputEmail" class="fw-bold">Email</label><br>
                             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Entrez votre E-mail" required autofocus>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword" class="myLabel">Mot de passe</label><br>
+                            <label for="inputPassword" class="fw-bold">Mot de passe</label><br>
                             <input type="password" name="password" id="inputPassword" class="form-control"  placeholder="Entrez votre mot de passe" required>
                         </div>
 
@@ -49,7 +49,7 @@
                         #}
 
 
-                        <button class="btn bttn2" type="submit" style="float:right">
+                        <button class="btn btn-primary" type="submit">
                             Connexion
                         </button>
                     </div>

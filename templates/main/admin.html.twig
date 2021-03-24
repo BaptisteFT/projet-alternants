@@ -6,15 +6,15 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
+    <body>
     <main>
         <div>
-            <p class="grandTitre">Administration de l'application<p>
-            <p class="title" style="margin-left: 5%">Utilisateurs de l'application</p>
-            <table class="table caption-top table-hover table-light " style="width: 90%; margin-left: 5%;">
-                <thead class="table tableHeader">
+            <h1 class="text-center">Administration de l'application</h1>
+            <h2>Utilisateurs de l'application</h2>
+            <table class="table caption-top table-hover table-light ">
+                <thead class="table">
 
-                <tr>
+                <tr class="table-header">
                     <th scope="col">Adresse mail</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
@@ -26,16 +26,17 @@
 
                 </thead>
                 {% for user in users %}
-                    <tr style="font-family:'Trebuchet MS';">
+                    <tr>
 
                         <td>{{ user.userName }}</td>
                         <td>{{ user.lastName }}</td>
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.status }}</td>
                         {% if user.isActive %}
-                            <td>Oui</td>
+                            <td><i class="fa fa-check" aria-hidden="true" style="color: #2f9604;"></i></td>
                         {% else %}
-                            <td>Non</td>
+                            <td><i class="fa fa-close" aria-hidden="true" style="color: #d21a1a;"></i>
+                            </td>
                         {% endif %}
                         <td>
                             {% for role in user.roles %}
@@ -43,9 +44,9 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
-                            <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
-                            <a href="{{ path('my_profil', {'userId': user.getId()}) }}"> Voir le profil </a>
+                            <a href="{{ path('update_user', {'userId': user.getId()}) }}"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Editer"> <i class="fa fa-pencil" aria-hidden="true" ></i></a>
+                            <a href="{{ path('delete_user', {'userId': user.getId()}) }}"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Supprimer"> <i class="fa fa-times" aria-hidden="true"></i></a>
+                            <a href="{{ path('my_profil', {'userId': user.getId()}) }}"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Profil"> <i class="fa fa-address-card" aria-hidden="true"></i> </a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -55,7 +56,7 @@
 
         <div>
 
-            <p class="title" style="margin-left: 5%">Adresse mail de l'administration USMB</p>
+            <h2 class="text-center">Adresse mail de l'administration USMB : <a href="mailto:{{ university_email }}">{{ university_email }}</a></h2>
 
         </div>
     </main>

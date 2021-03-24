@@ -6,37 +6,37 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body style="background-color:rgb(221, 247, 242); font-family:'Trebuchet MS';">
-    <div style=" width: 60%;margin-left: 20%;font-family:'Trebuchet MS';font-weight: bold;">
-        <main>
-            <p style="  color: #0B317D; font-size: 30px; font-weight: bold; text-align: center">Nouvelle Review</p>
-            {{ form_start(reviewForm) }}
-            <div class="mb-3">
+    <body>
+    <main>
+        <h1>Nouvelle Review</h1>
+        {{ form_start(reviewForm) }}
+        <div class="mb-3">
 
-                <p>
-                    {{ form_row(reviewForm.rating, {label: 'Note'}) }}
-                </p>
-                <p>
-                    {{ form_row(reviewForm.content, { label: 'Appréciation 1'}) }}
-                </p>
-                <p>
-                    {{ form_row(reviewForm.contentTwo, { label: 'Appréciation 2'}) }}
-                </p>
-                <p>
-                    {{ form_row(reviewForm.contentThree, { label: 'Appréciation 3'}) }}
-                </p>
-                <p>
-                    {{ form_row(reviewForm.contentFour, { label: 'Appréciation 4'}) }}
-                </p>
-                <p>
-                    {{ form_row(reviewForm.date, {label: 'Date '}) }}
-                </p>
+            <p>
+                {{ form_row(reviewForm.rating, {label: 'Note'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.content, { label: 'Appréciation 1'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.contentTwo, { label: 'Appréciation 2'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.contentThree, { label: 'Appréciation 3'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.contentFour, { label: 'Appréciation 4'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.date, {label: 'Date '}) }}
+            </p>
 
-            </div>
-            <button type="submit" class="btn" style="float: right; color: white; font-size: 16px;font-family:'Trebuchet MS'; background-color : #0B317D;">Créer</button>
-            {{ form_end(reviewForm) }}
-        </main>
-    </div>
+        </div>
+        <span class="d-flex flex-row-reverse">
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </span>
+        {{ form_end(reviewForm) }}
+    </main>
     </body>
 
 {% endblock %}

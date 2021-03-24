@@ -8,10 +8,11 @@
 {% endblock %}
 {% block content %}
 
-    <body class="bd">
+    <body>
     <main>
-        <div class="card" style="width : 60%; margin-left : 20%; margin-top:10%">
-            <h5 class="card-header cardHeader">
+        <div class="card">
+            <h5 class="card-header">
+                <i class="fa fa-folder-open" aria-hidden="true" style="color: #FFFFFF"></i>
                 Création des comptes étudiants à partir d'un fichier Excel :
             </h5>
             <div class="card-body">
@@ -20,8 +21,9 @@
                     <div class="mb-3">
                         <input class="form-control" type="file" name="file-selector" id="file-selector">
                     </div>
-
-                    <button type="submit" class="btn border bttn2 RightAlign ">Télécharger</button>
+                    <span class="d-flex flex-row-reverse">
+                        <button type="submit" class="btn btn btn-primary">Importer</button>
+                    </span>
 
                     <script>
                         const fileSelector = document.getElementById('file-selector');

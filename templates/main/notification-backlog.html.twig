@@ -6,12 +6,12 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
-    <p class="title2">Notifications: </p>
+    <body>
+    <h2>Notifications: </h2>
 
     {% if backlog is not empty %}
-        <table class="table caption-top table-hover table-light ">
-            <thead class="table tableHeader">
+        <table class="table caption-top table-hover table-light">
+            <thead class="table table-header">
 
             <tr>
                 <th scope="col">Description</th>
@@ -33,6 +33,11 @@
             {% endfor %}
         </table>
     {% else %}
-        <span style="margin-left: 10%;">Aucune notification à afficher </span>
+
+        <span >Aucune notification à afficher </span>
     {% endif %}
+
+    <body>
+
+
 {% endblock %}

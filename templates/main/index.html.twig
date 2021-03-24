@@ -6,23 +6,25 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
+    <body>
     <main>
-        <p class="grandTitre">Bienvenue sur l'index</p>
+        <h1 class="text-center">Bienvenue sur l'index</h1>
 
         {% if is_granted('ROLE_ADMIN') %}
 
         <div>
-            <div class="form-inline" style="margin-left: 2%">
-                <p class="title">Liste des étudiants :</p>
-                <a class="btn border bttn2"  href="{{ path('create_user') }}" style="margin-left: 26%"> Ajouter un utilisateur</a>&nbsp;
-                <a class="btn border bttn2"  href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a>
-
+            <div class="form-inline">
+                <h2>Liste des étudiants :</h2>
+                <span class="d-flex flex-row-reverse">
+                    <a class="btn border btn btn-primary"  href="{{ path('create_user') }}"><i class="fa fa-user-plus" aria-hidden="true" style="color: #FFFFFF;"></i>
+ Ajouter un utilisateur</a>&nbsp;
+                    <a class="btn border btn btn-primary"  href="{{ path('excel_parse') }}"><i class="fa fa-upload" aria-hidden="true" style="color: #FFFFFF;"></i> Ajout des étudiants automatique</a>
+                </span>
                 {% if students is not empty %}
-                    <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-                        <thead class="table tableHeader" >
+                    <table class="table caption-top table-hover table-light">
+                        <thead class="table table-header" >
 
-                        <tr>
+                        <tr class="table-header">
                             <th scope="col">Prénom</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Adresse mail</th>
@@ -34,7 +36,7 @@
                         <tbody>
                         {% for student in students %}
 
-                            <tr class="tableContent">
+                            <tr class="table-header">
 
                                 <td>{{ student.firstName }}</td>
                                 <td>{{ student.lastName }}</td>
@@ -42,14 +44,16 @@
                                 <td>{{ student.status }}</td>
 
                                 <td>
-                                    <a href="{{ path('update_user', {'userId': student.getId()}) }}"> Modifier</a>&nbsp;
-                                    <a href="{{ path('delete_user', {'userId': student.getId()}) }}"> Supprimer</a> <br>
-                                    <a href="{{ path('my_profil', {'userId': student.getId()}) }}"> Voir le profil </a>
+                                    <a href="{{ path('update_user', {'userId': student.getId()}) }}" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Editer"> <i class="fa fa-pencil" aria-hidden="true" ></i></a>&nbsp;
+                                    <a href="{{ path('delete_user', {'userId': student.getId()}) }}" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Supprimer"> <i class="fa fa-times" aria-hidden="true"></i></a> <br>
+                                    <a href="{{ path('my_profil', {'userId': student.getId()}) }}" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Profil"> <i class="fa fa-address-card" aria-hidden="true"></i>
+                                    </a>
                                     {% if student.status == "CONTRACT_SEND" %}
-                                        <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}">Pré-convention</a> <br>
-                                        <a href="{{ path('validate_work', {'studentId': student.getId() }) }}">Valider l'alternance</a>
+                                        <a href="{{ path('contract_pdf', {'contractId': student.getContract().getId() }) }}" data-bs-container="body" data-bs-toggle="popover" data-bs-animation='false' data-bs-placement="right"  data-bs-trigger="hover" data-bs-content="Pré-Convention"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> <br>
+                                        <a href="{{ path('validate_work', {'studentId': student.getId() }) }}" data-bs-container="body" data-bs-toggle="popover" data-bs-animation='false' data-bs-placement="right"  data-bs-trigger="hover" data-bs-content="Valider l'alternance"><i class="fa fa-check" aria-hidden="true"></i></a>
                                     {% elseif student.status == "WORKING" %}
-                                        <a href="{{ path('view_work_contract', {'studentId': student.getId() }) }}">Contrat d'alternance</a> <br>
+                                        <a href="{{ path('view_work_contract', {'studentId': student.getId() }) }}" data-bs-container="body" data-bs-toggle="popover" data-bs-animation='false' data-bs-placement="left"  data-bs-trigger="hover" data-bs-content="Contrat d'alternance"><i class="fa fa-file" aria-hidden="true"></i>
+                                        </a> <br>
                                     {% endif %}
 
                                 </td>
@@ -68,32 +72,34 @@
             {% if is_granted('ROLE_STUDENT') %}
                 <div>
 
-                    <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+                    <p class="fw-bold">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
                     {% if app.user.status == "RESEARCH" %}
-                        <p style="font-family:'Trebuchet MS';">Vous êtes actuellement inscrit dans l'application, vous pouvez partager un lien de connexion avec une entreprise en
+                        <p>Vous êtes actuellement inscrit dans l'application, vous pouvez partager un lien de connexion avec une entreprise en
 
-                            <a style="font-family:'Trebuchet MS';" href="{{ path('create_token', {userId: app.user.id}) }}"> cliquant-ici</a>
+                            <a href="{{ path('create_token', {userId: app.user.id}) }}"> cliquant-ici</a>
 
                         </p>
+
                     {% endif %}
-                    {% if app.user.status == "CONTRACT_SEND" %}
-                        <p>L'entreprise {{ app.user.company.firstName}} a remplie votre pré-convention</p>
-                    {% endif %}
-                    {% if app.user.status == "WORKING" %}
-                        <p >vous pouvez renseigner votre fiche de poste en <a href="{{ path('create_jobinfo', {'studentId': app.user.id}) }}" >cliquant ici</a> </p>
-                    {% endif %}
+
+                    {# {% if app.user.status == "CONTRACT_SEND" %}
+                <p>L'entreprise {{ app.user.company.firstName}} a remplie votre pré-convention</p>
+            {% endif %}
+            {% if app.user.status == "WORKING" %}
+                <p >vous pouvez renseigner votre fiche de poste en <a href="{{ path('create_jobinfo', {'studentId': app.user.id}) }}" >cliquant ici</a> </p>
+            {% endif %} #}
                 </div>
             {% endif %}
 
             {% if is_granted('ROLE_COMPANY') %}
                 <div>
 
-                    <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+                    <p class="fw-bold">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
 
                     {% if researchStudents is not empty %}
                         {% for student in researchStudents %}
-                            <p style="font-family:'Trebuchet MS';" >L'étudiant {{ student.LastName }} {{ student.firstName }} à partagé un lien d'activation avec vous, pour remplir sa pré-convention veuillez
-                                <a style="font-family:'Trebuchet MS';" href="{{ path('contract_form', {'userId': student.getId()}) }}"> cliquez ici</a>
+                            <p>L'étudiant {{ student.LastName }} {{ student.firstName }} à partagé un lien d'activation avec vous, pour remplir sa pré-convention veuillez
+                                <a href="{{ path('contract_form', {'userId': student.getId()}) }}"> cliquez ici</a>
                             </p>
 
 
@@ -102,13 +108,13 @@
 
                     {% if students is not empty %}
 
-                        <p class="title" style="margin-left:0px">Etudiants alternants de l'entreprise :</p>
+                        <h2>Etudiants alternants de l'entreprise :</h2>
 
-                        <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-                            <thead class="table tableHeader" >
+                        <table class="table caption-top table-hover table-light ">
+                            <thead class="table" >
 
 
-                            <tr>
+                            <tr class="table-header">
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Nom</th>
                                 <th scope="col">Adresse mail</th>
@@ -137,14 +143,14 @@
                 <div>
 
 
-                    <p class="myLabel">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
+                    <p class="fw-bold">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
                     {% if students is not empty %}
                         <p class="title">Liste des étudiants dont vous êtes le tuteur :</p>
 
-                        <table class="table caption-top table-hover table-light " style="width: 80%; margin-left: 10%;">
-                            <thead class="table tableHeader" >
+                        <table class="table caption-top table-hover table-light ">
+                            <thead class="table" >
 
-                            <tr>
+                            <tr class="table-header">
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Nom</th>
                                 <th scope="col">Adresse mail</th>
@@ -160,7 +166,7 @@
                                     <td>{{ student.lastName }}</td>
                                     <td>{{ student.userName }}</td>
                                     <td>
-                                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une notation</a>
+                                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
                                     </td>
 
                                 </tr>
@@ -168,7 +174,7 @@
                             </tbody>
                         </table>
                     {% else %}
-                        <p class="myLabel">Vous n'avez aucun étudiant sous votre tutelle</p>
+                        <p class="fw-bold">Vous n'avez aucun étudiant sous votre tutelle</p>
 
                     {% endif %}
                 </div>

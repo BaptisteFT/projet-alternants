@@ -7,39 +7,39 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <body class="bd">
-    <div class="formBody">
-
-        {% for flashError in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-        {% endfor %}
+    <body class="form-body">
 
 
-        <p class="grandTitre">Création d'un Utilisateur</p>
-
-        <main>
-            {{ form_start(registrationForm) }}
-            <p>
-                {{ form_row(registrationForm.email, {label: 'Adresse Mail '}) }}
-            </p>
-            <p>
-                {{ form_row(registrationForm.firstName, {label: 'Prénom '}) }}
-            </p>
-            <p>
-                {{ form_row(registrationForm.lastName, {label: 'Nom '}) }}
-            </p>
-            <p>
-                {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe '}) }}
-            </p>
-            <p>
-                {{ form_row(registrationForm.role, {label: 'Role '}) }}
-            </p>
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
 
 
-            <button type="submit" class="btn border bttn2 RightAlign " >Créer</button>
-            {{ form_end(registrationForm) }}
-        </main>
-    </div>
+    <h1>Création d'un Utilisateur<h1>
+
+            <main>
+                {{ form_start(registrationForm) }}
+                <p>
+                    {{ form_row(registrationForm.email, {label: 'Adresse Mail '}) }}
+                </p>
+                <p>
+                    {{ form_row(registrationForm.firstName, {label: 'Prénom '}) }}
+                </p>
+                <p>
+                    {{ form_row(registrationForm.lastName, {label: 'Nom '}) }}
+                </p>
+                <p>
+                    {{ form_row(registrationForm.plainPassword, { label: 'Mot de passe '}) }}
+                </p>
+                <p>
+                    {{ form_row(registrationForm.role, {label: 'Role '}) }}
+                </p>
+
+
+                <button type="submit" class="btn btn-primary" >Créer</button>
+                {{ form_end(registrationForm) }}
+            </main>
+
     </body>
 {% endblock %}
 {% block footer %}

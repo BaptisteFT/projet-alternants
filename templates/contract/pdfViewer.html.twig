@@ -13,27 +13,21 @@
 {% endblock %}
 {% block content %}
 
-    <body style="background-color:rgb(221, 247, 242)";>
+    <body>
     <div>
         {% if contract.user.status == "CONTRACT_SEND" %}
 
 
 
-            <ul  style="margin-left:5% ; list-style-type: none; margin-top:3% ; font-family:'Trebuchet MS'" >
-                <li >
-                    <a class="nav-link" style="color:black" href="{{ path('update_contract_form', {userId: contract.user.id }) }}">
-                        <i class="fa fa-edit fa-lg" style="color: rgb(7, 12, 85);"></i> Editer
-                    </a>
-                </li>
+            <a class="btn btn-primary" href="{{ path('app_index_index') }}">
+                <i class="fa fa-arrow-left fa-lg"></i>
+                Revenir à l'index
+            </a>
+            <a class="btn btn-primary" href="{{ path('update_contract_form', {userId: contract.user.id }) }}">
+                <i class="fa fa-edit fa-lg"></i> Editer
+            </a>
 
-                <li>
-                    <a class="nav-link"  style="color:black" href="{{ path('app_index_index') }}">
-                        <i class="fa fa-arrow-left fa-lg" style="color: rgb(7, 12, 85);"></i>
-                        Revenir à l'index
-                    </a>
-                </li>
 
-            </ul>
 
 
 
@@ -41,31 +35,26 @@
 
 
         {% elseif contract.user.status == "RESEARCH" %}
-            <ul  style="margin-left:5% ; list-style-type: none; margin-top:3% ; font-family:'Trebuchet MS'" >
-                <li style="margin-left:12px" >
-                    <button onclick=" return savePdfForm()" class="btn" style="font-weight: bold; color: white; font-size: 16px; font-family:'Trebuchet MS'; background-color : #0B317D;"> Valider</button>
-                </li>
 
-                <li>
-                    <a class="nav-link"  style="color:black" href="{{ path('update_contract_form', {userId: contract.user.id }) }}">
-                        <i class="fa fa-arrow-left fa-lg" style="color: rgb(7, 12, 85);"></i>
-                        Revenir au formulaire
-                    </a>
-                </li>
+            <a class="btn btn-primary" href="{{ path('update_contract_form', {userId: contract.user.id }) }}">
+                <i class="fa fa-arrow-left fa-lg"></i>
+                Revenir au formulaire
+            </a>
+            <button onclick=" return savePdfForm()" class="btn btn-primary"> Valider</button>
 
-            </ul>
+
 
         {% endif %}
     </div>
 
     <main>
-        <embed id=pdf src="" width="100%" height="800px" />
+        <embed id=pdf src="" width="100%" height="800px"/>
     </main>
 
     <script>
         fillPdfForm();
 
-        async function savePdfForm(){
+        async function savePdfForm() {
             const url = "{{ absolute_url(asset('pdf/pre-convention.pdf')) }}";
             const formPdfBytes = await fetch(url).then(res => res.arrayBuffer())
             const pdfDoc = await PDFLib.PDFDocument.load(formPdfBytes);
@@ -83,45 +72,40 @@
 
 
             const repCivility = '{{ contract.representativeCivility }}';
-            if (repCivility === 'false'){
+            if (repCivility === 'false') {
                 const repCivCheckBox = form.getCheckBox('Case à cocher 12')
                 repCivCheckBox.check()
-            }
-            else{
+            } else {
                 const repCivCheckBox = form.getCheckBox('Case à cocher 13')
                 repCivCheckBox.check()
             }
 
             const tutorCivility = '{{ contract.tutorCivility }}';
-            if (tutorCivility === 'false'){
+            if (tutorCivility === 'false') {
                 const tutorCivCheckBox = form.getCheckBox('Case à cocher 18')
                 tutorCivCheckBox.check()
-            }
-            else{
+            } else {
                 const tutorCivCheckBox = form.getCheckBox('Case à cocher 19')
                 tutorCivCheckBox.check()
             }
 
             const studentCivility = 'false';
-            if (studentCivility === 'false'){
+            if (studentCivility === 'false') {
                 const studentCivCheckBox = form.getCheckBox('Case à cocher 14')
                 studentCivCheckBox.check()
-            }
-            else{
+            } else {
                 const studentCivCheckBox = form.getCheckBox('Case à cocher 15')
                 studentCivCheckBox.check()
             }
 
             const contracType = '{{ contract.contractType }}';
-            if (contracType === 'APR'){
+            if (contracType === 'APR') {
                 const contractTypeCheckBox = form.getCheckBox('Case à cocher 7')
                 contractTypeCheckBox.check()
-            }
-            else if (contracType === 'PRO'){
+            } else if (contracType === 'PRO') {
                 const contractTypeCheckBox = form.getCheckBox('Case à cocher 9')
                 contractTypeCheckBox.check()
-            }
-            else if (contractType === 'AUT'){
+            } else if (contractType === 'AUT') {
                 const contractTypeCheckBox = form.getCheckBox('Case à cocher 10')
                 contractTypeCheckBox.check()
             }
@@ -193,14 +177,14 @@
 
             const base64String = await pdfDoc.saveAsBase64()
 
-            $.post("{{ path('save_pdf',{contractId : contract.id }) }}",base64String,function(result){
+            $.post("{{ path('save_pdf',{contractId : contract.id }) }}", base64String, function (result) {
                 $(location).attr('href', '{{ path('validate_pdf',{contractId : contract.id }) }}')
             });
 
 
         }
 
-        async function fillPdfForm(){
+        async function fillPdfForm() {
             const url = "{{ absolute_url(asset('pdf/pre-convention.pdf')) }}";
             const formPdfBytes = await fetch(url).then(res => res.arrayBuffer())
             const pdfDoc = await PDFLib.PDFDocument.load(formPdfBytes);
@@ -219,45 +203,40 @@
 
 
             const repCivility = '{{ contract.representativeCivility }}';
-            if (repCivility === 'false'){
+            if (repCivility === 'false') {
                 const repCivCheckBox = form.getCheckBox('Case à cocher 12')
                 repCivCheckBox.check()
-            }
-            else{
+            } else {
                 const repCivCheckBox = form.getCheckBox('Case à cocher 13')
                 repCivCheckBox.check()
             }
 
             const tutorCivility = '{{ contract.tutorCivility }}';
-            if (tutorCivility === 'false'){
+            if (tutorCivility === 'false') {
                 const tutorCivCheckBox = form.getCheckBox('Case à cocher 18')
                 tutorCivCheckBox.check()
-            }
-            else{
+            } else {
                 const tutorCivCheckBox = form.getCheckBox('Case à cocher 19')
                 tutorCivCheckBox.check()
             }
 
             const studentCivility = 'false';
-            if (studentCivility === 'false'){
+            if (studentCivility === 'false') {
                 const studentCivCheckBox = form.getCheckBox('Case à cocher 14')
                 studentCivCheckBox.check()
-            }
-            else{
+            } else {
                 const studentCivCheckBox = form.getCheckBox('Case à cocher 15')
                 studentCivCheckBox.check()
             }
 
             const contracType = '{{ contract.contractType }}';
-            if (contracType === 'APR'){
+            if (contracType === 'APR') {
                 const contractTypeCheckBox = form.getCheckBox('Case à cocher 7')
                 contractTypeCheckBox.check()
-            }
-            else if (contracType === 'PRO'){
+            } else if (contracType === 'PRO') {
                 const contractTypeCheckBox = form.getCheckBox('Case à cocher 9')
                 contractTypeCheckBox.check()
-            }
-            else if (contractType === 'AUT'){
+            } else if (contractType === 'AUT') {
                 const contractTypeCheckBox = form.getCheckBox('Case à cocher 10')
                 contractTypeCheckBox.check()
             }
@@ -327,7 +306,7 @@
             tutorEmail.setText('{{ contract.tutorEmail }}')
             tutorPhoneNumber.setText('{{ contract.tutorPhoneNumber }}')
 
-            const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
+            const pdfDataUri = await pdfDoc.saveAsBase64({dataUri: true});
             const base64String = await pdfDoc.saveAsBase64()
             document.getElementById('pdf').src = pdfDataUri;
             console.log(base64String.length);

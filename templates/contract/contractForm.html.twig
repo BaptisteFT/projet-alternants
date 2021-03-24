@@ -10,16 +10,15 @@
 
 {% endblock %}
 {% block content %}
-    <body style="background-color:rgb(221, 247, 242)">
+    <body>
 
-    <div style=" width: 60%;margin-left: 20%;font-family:'Trebuchet MS';font-weight: bold;">
+    <div>
         <main>
-            <p style="  color: #0B317D; font-size: 30px; font-weight: bold;font-family:'Trebuchet MS';text-align: center" >Formulaire de préconvention
-            </p>
+            <h1>Formulaire de préconvention</h1>
 
             {{ form_start(form) }}
             <div class="mb-3">
-                <p style="color: black;font-size: 25px; font-family:'Trebuchet MS';">Informations :</p>
+                <p>Informations :</p>
 
                 {{ form_row(form.socialReason, {label: 'Raison Sociale'}) }}
                 {{ form_row(form.siretNumber, {label: 'Siret'}) }}
@@ -28,14 +27,14 @@
                 {{ form_row(form.contractEmail, {label: 'Email pour la convention'}) }}
 
 
-                <p style="color: black;font-size: 25px; font-family:'Trebuchet MS';">Adresse :</p>
+                <p>Adresse :</p>
 
                 {{ form_row(form.locationStreet, {label: 'Rue'}) }}
                 {{ form_row(form.locationCity, {label: 'Ville'}) }}
                 {{ form_row(form.postalCode, {label: 'Code Postal'}) }}
 
 
-                <p style="color: black;font-size: 25px; font-family:'Trebuchet MS';">Représentant de l'entreprise :</p>
+                <p>Représentant de l'entreprise :</p>
 
                 {{ form_row(form.representativeCivility, {label: 'Civilité'}) }}
                 {{ form_row(form.representativeFirstName, {label: 'Prénom'}) }}
@@ -44,7 +43,7 @@
                 {{ form_row(form.representativeEmail, {label: 'Email'}) }}
 
 
-                <p style="color: black;font-size: 25px; font-family:'Trebuchet MS';">Lieux d'éxécution du contrat en alternance (si différent) :</p>
+                <p>Lieux d'éxécution du contrat en alternance (si différent) :</p>
 
                 {{ form_row(form.otherSocialReason, {label: 'Raison Sociale'}) }}
                 {{ form_row(form.otherLocationStreet, {label: 'Rue'}) }}
@@ -53,7 +52,7 @@
                 {{ form_row(form.otherPostalCode, {label: 'Code Postal'}) }}
 
 
-                <p style="color: black;font-size: 25px; font-family:'Trebuchet MS';">Type de contrat :</p>
+                <p>Type de contrat :</p>
 
                 {{ form_row(form.workerRole, {label: "Fonction de l'alternant"}) }}
                 {{ form_row(form.contractType, {label: 'Type'}) }}
@@ -61,7 +60,7 @@
                 {{ form_row(form.contractEndDate, {label: 'Date de fin'}) }}
 
 
-                <p style="color: black;font-size: 25px; font-family:'Trebuchet MS';">Tuteur Professionnel ou Maitre d'apprentissage :</p>
+                <p>Tuteur Professionnel ou Maitre d'apprentissage :</p>
 
                 {{ form_row(form.tutorCivility, {label: 'Civilité'}) }}
                 {{ form_row(form.tutorFirstName, {label: 'Prénom'}) }}
@@ -70,10 +69,7 @@
                 {{ form_row(form.tutorEmail, {label: 'Email'}) }}
                 {{ form_row(form.tutorRole, {label: 'Fonction du tuteur'}) }}
 
-                <button class="btn" type="submit" style="float : right;font-weight: bold; color: white; font-size: 16px;font-family:'Trebuchet MS'; background-color : #0B317D;
-">Envoyer</button>
-
-                <br>
+                <button class="btn btn-primary" type="submit">Envoyer</button>
             </div>
 
             {{ form_end(form) }}
