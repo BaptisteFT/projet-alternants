@@ -49,7 +49,7 @@
                         {% if is_granted('ROLE_TEACHER') %}
                             <li class="nav-item">
 
-                                <a class="nav-link" href="{{ path('review', {Id: app.user.id}) }}"><i class="fa fa-clipboard fa-lg "></i>&nbsp;Notation</a>
+                                <a class="nav-link" href="{{ path('review', {Id: app.user.id}) }}"><i class="fa fa-clipboard fa-lg "></i>&nbsp;<span class="link-text">Notation</span></a>
                             </li>
                         {% endif %}
 

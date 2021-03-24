@@ -145,7 +145,7 @@
 
                     <p class="fw-bold">{{ app.user.firstName }}, Bienvenue dans votre espace !</p>
                     {% if students is not empty %}
-                        <p class="title">Liste des étudiants dont vous êtes le tuteur :</p>
+                        <h2>Liste des étudiants dont vous êtes le tuteur :</h2>
 
                         <table class="table caption-top table-hover table-light ">
                             <thead class="table" >
@@ -166,7 +166,8 @@
                                     <td>{{ student.lastName }}</td>
                                     <td>{{ student.userName }}</td>
                                     <td>
-                                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}">Créé une review</a>
+                                        <a href="{{ path('create_review', {'teacherId': teacher.id, 'studentId': student.id}) }}" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Ajouter une note"><i class="fa fa-search-plus" aria-hidden="true"></i>
+                                        </a>
                                     </td>
 
                                 </tr>
