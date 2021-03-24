@@ -1,28 +1,45 @@
 {% extends "base.html.twig" %}
 {% block head %}
     {{ parent() }}
+
 {% endblock %}
 {% block header %}
     {{ parent() }}
 {% endblock %}
 {% block content %}
-  <h1>Création des comptes étudiants à partir d'un fichier Excel : </h1>
-<main>
-    <form action="/excel-parse" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-        <input class="form-control" type="file" name="file-selector" id="file-selector">
+
+    <body>
+    <main>
+        <div class="card">
+            <h5 class="card-header">
+                <i class="fa fa-folder-open" aria-hidden="true" style="color: #FFFFFF"></i>
+                Création des comptes étudiants à partir d'un fichier Excel :
+            </h5>
+            <div class="card-body">
+
+                <form action="/excel-parse" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input class="form-control" type="file" name="file-selector" id="file-selector">
+                    </div>
+                    <span class="d-flex flex-row-reverse">
+                        <button type="submit" class="btn btn btn-primary">Importer</button>
+                    </span>
+
+                    <script>
+                        const fileSelector = document.getElementById('file-selector');
+                        fileSelector.addEventListener('change', (event) => {
+                            const fileList = event.target.files;
+                            console.log(fileList);
+                        });
+                    </script>
+                </form>
+
+            </div>
         </div>
-        <button type="submit" class="btn btn-success">Upload</button>
-        <script>
-            const fileSelector = document.getElementById('file-selector');
-            fileSelector.addEventListener('change', (event) => {
-                const fileList = event.target.files;
-                console.log(fileList);
-            });
-        </script>
-    </form>
-</main>
+    </main>
+    </body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
 {% endblock %}
+

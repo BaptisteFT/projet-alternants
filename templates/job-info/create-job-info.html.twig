@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+    <body>
+    <div class="form-body">
+        <h1>Nouvelle Fiche de Poste:</h1>
+
+
+        <main>
+            {{ form_start(jobinfoForm) }}
+            <p>
+                {{ form_row(jobinfoForm.companyName, {label: "Nom de l'entreprise"}) }}
+            </p>
+            <p>
+                {{ form_row(jobinfoForm.context, { label: "Context de l'alternance"}) }}
+            </p>
+            <p>
+                {{ form_row(jobinfoForm.goal, { label: "Objectif de l'alternance"}) }}
+            </p>
+            <p>
+                {{ form_row(jobinfoForm.technology, { label: 'Technologies utilisées'}) }}
+            </p>
+            <span class="d-flex flex-row-reverse">
+            <button type="submit" class="btn btn-primary ">Créer</button>
+            </span>
+            {{ form_end(jobinfoForm) }}
+        </main>
+    </div>
+
+    </body>
+
+
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

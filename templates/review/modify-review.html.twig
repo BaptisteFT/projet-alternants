@@ -6,20 +6,38 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
+    <body>
+    <h1>Modifier review </h1>
     <main>
         {{ form_start(reviewForm) }}
-        <p>
-            {{ form_row(reviewForm.rating, {label: 'rating '}) }}
-        </p>
-        <p>
-            {{ form_row(reviewForm.content, { label: 'content'}) }}
-        </p>
-        <p>
-            {{ form_row(reviewForm.date, {label: 'date '}) }}
-        </p>
-        <button type="submit" class="btn btn-warning">Modifier</button>
+        <div class="mb-3">
+            <p>
+                {{ form_row(reviewForm.rating, {label: 'Note'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.content, { label: 'Appréciation 1'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.contentTwo, { label: 'Appréciation 2'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.contentThree, { label: 'Appréciation 3'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.contentFour, { label: 'Appréciation 4'}) }}
+            </p>
+            <p>
+                {{ form_row(reviewForm.date, {label: 'Date '}) }}
+            </p>
+
+        </div>
+        <span class="d-flex flex-row-reverse">
+            <button type="submit" class="btn btn-primary">Modifier</button>
+        </span>
         {{ form_end(reviewForm) }}
     </main>
+    </body>
+
 {% endblock %}
 {% block footer %}
     {{ parent() }}

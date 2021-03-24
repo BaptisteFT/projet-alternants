@@ -1,62 +1,83 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     {% block head %}
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-    <title> Projet Alternant</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+        <meta charset="UTF-8">
+        <title> Projet Alternant</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/popover.js') }}"></script>
     {% endblock %}
 </head>
-    <body>
-    <header class=“container-fluid”>{% block header %}
-            <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            {% if is_granted('ROLE_USER') %}
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ path('app_index_index') }}">Index</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('my_profil', {userId: app.user.id}) }}">Profil</a>
-                                </li>
+<body>
+<header class=“container-fluid”>{% block header %}
 
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Admin
-                                        </a>
-                                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item link-light" href="{{ path('create_user') }}"> Ajouter un utilisateur</a></li>
-                                            <li><a class="dropdown-item link-light" href="{{ path('admin_panel') }}"> Panneau d'administration</a></li>
-                                            <li><a class="dropdown-item link-light" href="{{ path('excel_parse') }}"> Ajout des étudiants automatique</a></li>
-                                            <li><a class="dropdown-item link-light" href="{{ path('notification-backlog') }}">Notifications</a></li>
-                                        </ul>
-                                    </li>
-                                {% endif %}
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item" >
+                            <a class="nav-link" aria-current="page" href="{{ path('app_index_index') }}"><i class="fa fa-home fa-lg"></i>&nbsp;<span class="link-text">Accueil</span></a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a  class="nav-link" href="{{ path('admin_panel') }}"> <i class="fa fa-gear fa-lg"></i>&nbsp;<span class="link-text">Panneau d'administration</span></a>
+                            </li>
+                        {% endif %}
+                    </ul>
 
-                                {% if is_granted('ROLE_STUDENT') %}
-                                    <li class="nav-item">
-                                         <a class="nav-link active" href="{{ path('review', {Id: app.user.id}) }}">Mes notes</a>
-                                    </li>
-                                {% endif %}
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('notification-backlog') }}"> <i class="fa fa-bell fa-lg"></i>&nbsp;<span class="link-text">Notifications</span></a>
+                            </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </div>
+                        {% endif %}
+                        {% if is_granted('ROLE_STUDENT') %}
+                            <li class="nav-item">
+
+                                <a class="nav-link" href="{{ path('review', {Id: app.user.id}) }}"><i class="fa fa-clipboard fa-lg " ></i>&nbsp;<span class="link-text">Mes notes</span></a>
+                            </li>
+                        {% endif %}
+
+                        {% if is_granted('ROLE_TEACHER') %}
+                            <li class="nav-item">
+
+                                <a class="nav-link" href="{{ path('review', {Id: app.user.id}) }}"><i class="fa fa-clipboard fa-lg "></i>&nbsp;Notation</a>
+                            </li>
+                        {% endif %}
+
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user fa-lg"></i>&nbsp; {{ app.user.firstName }}
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item link" href="{{ path('my_profil', {userId: app.user.id}) }}"><i class="fa fa-user-circle fa-lg"></i>&nbsp;Profil</a>
+                                <a class="dropdown-item link" href="{{ path('app_logout') }}" ><i class="fa fa-sign-out fa-lg"></i>&nbsp;Logout</a>
+                            </div>
+                        </div>
+
+
+                        {% endif %}
+                    </ul>
                 </div>
-            </nav>
-        {% endblock %}</header>
-    <section>{% block content %}{% endblock %}</section>
-      <footer  class="bg-dark text-white">{% block footer %}
-              <div class="footer-logo">
-                <img src="https://www.univ-smb.fr/wp-content/themes/usmb/assets/img/logo.svg" alt="Logo de l'université" height="40" style="filter: brightness(0) invert(1);">
-              </div>
-          {% endblock %}</footer>
-    </body>
+            </div>
+        </nav>
+    {% endblock %}</header>
+<section>{% block content %}{% endblock %}</section>
+
+<footer  class="bg-white text-white border-top">{% block footer %}
+        <div class="footer-logo d-flex flex-row-reverse">
+            <img src="https://www.univ-smb.fr/wp-content/themes/usmb/assets/img/logo.svg" alt="Logo de l'université" height="40">
+        </div>
+    {% endblock %}</footer>
+
+</body>
 </html>

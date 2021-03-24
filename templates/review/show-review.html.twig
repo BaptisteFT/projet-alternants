@@ -6,16 +6,27 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-    <main>
-        <h2>Informations de l'utilisateur</h2>
-        {% if is_granted('ROLE_TEACHER') %}
-            <table>
-                <tr>
-                    <th>Eleve</th>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>Appréciation</th>
+<body>
+<main>
+
+    {% if is_granted('ROLE_TEACHER') %}
+        <h1>Notations des étudiants </h1>
+        {% if reviews is not empty %}
+            <table class="table caption-top table-hover table-light ">
+                <thead class="table">
+
+                <tr class="table-header">
+                    <th scope="col">Eleve</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation 1</th>
+                    <th scope="col">Appréciation 2</th>
+                    <th scope="col">Appréciation 3</th>
+                    <th scope="col">Appréciation 4</th>
                 </tr>
+
+                </thead>
+                <tbody>
                 {% for rev in reviews %}
                     <tr>
                         <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
@@ -24,37 +35,81 @@
                             {{ rev.rating }}
                         </td>
                         <td>{{ rev.content }}</td>
+                        <td>{{ rev.contentTwo }}</td>
+                        <td>{{ rev.contentThree }}</td>
+                        <td>{{ rev.contentFour }}</td>
                     </tr>
                 {% endfor %}
+
+                </tbody>
             </table>
-        {% elseif is_granted('ROLE_STUDENT') %}
-            <table>
-                <tr>
-                    <th>Tuteur</th>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>Appréciation</th>
+        {% else %}
+            <p >Aucune revue d'alternance disponible</p>
+        {% endif %}
+
+    {% elseif is_granted('ROLE_STUDENT') %}
+        <h1>Revue de l'alternance </h1>
+        {% if reviews is not empty %}
+            <table class="table caption-top table-hover table-light">
+                <thead class="table">
+
+
+                <tr class="table-header">
+                    <th scope="col">Tuteur</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation 1</th>
+                    <th scope="col">Appréciation 2</th>
+                    <th scope="col">Appréciation 3</th>
+                    <th scope="col">Appréciation 4</th>
                 </tr>
+
+                </thead>
+                <tbody>
+
                 {% for rev in reviews %}
-                    <tr>
+                    <tr class="table-header">
                         <td>{{ rev.author.firstName }} {{ rev.author.lastName }}</td>
                         <td>{{ rev.date|date("m/d/Y h:m") }}</td>
                         <td>
                             {{ rev.rating }}
                         </td>
                         <td>{{ rev.content }}</td>
+                        <td>{{ rev.contentTwo }}</td>
+                        <td>{{ rev.contentThree }}</td>
+                        <td>{{ rev.contentFour }}</td>
                     </tr>
                 {% endfor %}
+
+                </tbody>
+
             </table>
-        {% elseif is_granted('ROLE_ADMIN') %}
-            <table>
-                <tr>
-                    <th>Eleve</th>
-                    <th>Tuteur</th>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>Appréciation</th>
+        {% else %}
+            <p>Aucune revue d'alternance disponible</p>
+        {% endif %}
+
+    {% elseif is_granted('ROLE_ADMIN') %}
+
+        <h1>Revue des alternances  </h1>
+        {% if reviews is not empty %}
+
+            <table class="table caption-top table-hover table-light ">
+                <thead class="table" >
+
+                <tr class="table-header">
+                    <th scope="col">Eleve</th>
+                    <th scope="col">Tuteur</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Appréciation 1</th>
+                    <th scope="col">Appréciation 2</th>
+                    <th scope="col">Appréciation 3</th>
+                    <th scope="col">Appréciation 4</th>
+                    <th scope="col">Actions</th>
                 </tr>
+
+                </thead>
+                <tbody>
                 {% for rev in reviews %}
                     <tr>
                         <td>{{ rev.student.firstName }} {{ rev.student.lastName }}</td>
@@ -64,16 +119,25 @@
                             {{ rev.rating }}
                         </td>
                         <td>{{ rev.content }}</td>
+                        <td>{{ rev.contentTwo }}</td>
+                        <td>{{ rev.contentThree }}</td>
+                        <td>{{ rev.contentFour }}</td>
                         <td>
                             <a href="{{ path('delete_review', {'reviewId': rev.getId()}) }}"> Supprimer</a>
                             <a href="{{ path('update_review', {'reviewId': rev.getId()}) }}"> Modifier</a>
                         </td>
                     </tr>
                 {% endfor %}
+
+                </tbody>
+
             </table>
+        {% else %}
+            <p>Aucune revue disponible</p>
         {% endif %}
-    </main>
+    {% endif %}
+</main>
 {% endblock %}
 {% block footer %}
-    {{ parent() }}
+{{ parent() }}
 {% endblock %}

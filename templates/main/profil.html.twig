@@ -6,28 +6,170 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-<main>
-    <h2>Informations de l'utilisateur</h2>
+    <body>
+    <main>
+        <div class="card">
+            <div>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-infos-tab" data-bs-toggle="tab" data-bs-target="#nav-infos"
+                            type="button" role="tab" aria-controls="nav-infos" aria-selected="true"><i
+                                class="fa fa-info-circle" aria-hidden="true"></i> Informations
+                    </button>
+                    {% if is_granted('ROLE_STUDENT') %}
+                    <button class="nav-link" id="nav-conn-tab" data-bs-toggle="tab" data-bs-target="#nav-conn"
+                            type="button" role="tab" aria-controls="nav-conn" aria-selected="false"><i
+                                class="fa fa-link" aria-hidden="true"></i> Lien de connexion
+                    </button>
+                    {% endif %}
+                    {% if user.status == "WORKING" %}
+                    <button class="nav-link" id="nav-poste-tab" data-bs-toggle="tab" data-bs-target="#nav-poste"
+                            type="button" role="tab" aria-controls="nav-poste" aria-selected="false"><i
+                                class="fa fa-id-card-o" aria-hidden="true"></i> Fiche de poste
+                    </button>
+                    {% endif %}
+                </div>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-infos" role="tabpanel"
+                         aria-labelledby="nav-infos-tab">
+                        <form>
+                            <div class="form-group row">
+                                <label for="lastNameInput" class="col-sm-2 col-form-label fw-bold">Nom :</label>
 
-    <ul>
-        <li>Nom :  {{ user.lastName }}</li>
-        <li>Prénom :  {{ user.firstName }}</li>
-        <li>Email :  {{ user.email }}</li>
-    </ul>
+                                <div class="col-sm-10">
+                                    <input type="text" readonly class="form-control-plaintext" id="lastNameInput"
+                                           value="{{ user.lastName }}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="firstNameInput" class="col-sm-2 col-form-label fw-bold">Prénom :</label>
 
-    {% if is_granted('ROLE_STUDENT') %}
-        {% if token is not null %}
-            <h2>lien de connexion actif :</h2>
-            <p>Url : {{ token.generateUrl }}</p> <br>
-            <p>Date d'expiration :  {{ token.expireDate|date("m/d/Y h:m") }}</p> <br>
-            <p>vous pouvez regénérer un lien en appuyant sur le button ci-dessous</p>
-            <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
-        {% else %}
-            <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le button ci-dessous</p>
-            <a href="{{ path('create_token', {userId: user.id}) }}"> Générer un lien de connexion</a>
-        {% endif %}
-    {% endif %}
-</main>
+                                <div class="col-sm-10">
+                                    <input type="text" readonly class="form-control-plaintext" id="firstNameInput"
+                                           value="{{ user.firstName }}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="emailInput" class="col-sm-2 col-form-label fw-bold">Email :</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" readonly class="form-control-plaintext" id="emailInput"
+                                           value="{{ user.email }}">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                {% if is_granted('ROLE_STUDENT') %}
+                    <div class="tab-pane fade " id="nav-conn" role="tabpanel"
+                         aria-labelledby="nav-conn-tab">
+                        <div class="token-div">
+                            {% if token is not null %}
+
+
+                            <form>
+                                <div class="form-group row">
+                                    <label for="urlInput" class="col-sm-2 col-form-label fw-bold">Url :</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly class="form-control-plaintext" id="urlInput"
+                                               value="{{ token.generateUrl }}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+
+                                    <label for="dateInput" class="col-sm-2 col-form-label fw-bold">Date d'expiration
+                                        :</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly class="form-control-plaintext" id="urlInput"
+                                               value="{{ token.expireDate|date("m/d/Y") }}">
+                                    </div>
+                                </div>
+
+                                <a class="btn btn-primary" href="{{ path('create_token', {userId: user.id}) }}">
+                                    Générer</a>
+                                <button class="btn btn-primary" id="copy" type="button">Copier</button>
+                                {% else %}
+                                    <p>Aucun lien n'est actuellement générer, vous pouvez en générer en appuyant sur le
+                                        button ci-dessous</p>
+                                    <a class="btn btn-primary" href="{{ path('create_token', {userId: user.id}) }}">
+                                        Générer</a>
+
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if user.status == "WORKING" %}
+                        <div class="tab-pane fade " id="nav-poste" role="tabpanel"
+                             aria-labelledby="nav-poste-tab">
+                            {% if infos is not empty %}
+
+
+                                <table class="table caption-top table-hover table-light ">
+                                    <thead class="table table-header">
+
+                                    <tr>
+                                        <th scope="col">Eleve</th>
+                                        <th scope="col">Nom de l'entreprise</th>
+                                        <th scope="col">Contexte</th>
+                                        <th scope="col">Objectifs</th>
+                                        <th scope="col">Technologies utilisées</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+
+                                    {% for info in infos %}
+                                        <tr>
+                                            <td>{{ info.student.firstName }} {{ info.student.lastName }}</td>
+                                            <td>
+                                                {{ info.companyName }}
+                                            </td>
+                                            <td>{{ info.context }}</td>
+                                            <td>{{ info.goal }}</td>
+                                            <td>{{ info.technology }}</td>
+                                            <td>
+                                                <a href="{{ path('delete_jobinfo', {'jobinfoId': info.getId()}) }}"
+                                                   data-bs-container="body" data-bs-toggle="popover"
+                                                   data-bs-placement="left"
+                                                   data-bs-animation='false' data-bs-trigger="hover"
+                                                   data-bs-content="Supprimer"> <i class="fa fa-times"
+                                                                                   aria-hidden="true"></i></a>
+                                                <a href="{{ path('update_jobinfo', {'jobinfoId': info.getId()}) }}"
+                                                   data-bs-container="body" data-bs-toggle="popover"
+                                                   data-bs-placement="right"
+                                                   data-bs-animation='false' data-bs-trigger="hover"
+                                                   data-bs-content="Editer">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% else %}
+                                {% if app.user.id == user.id %}
+                                    <br>
+                                    <p>vous pouvez renseigner votre fiche de poste en <a
+                                                href="{{ path('create_jobinfo', {'studentId': user.id}) }}">cliquant
+                                            ici</a></p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <script>
+                        var toCopy = document.getElementById('urlInput'),
+                            btnCopy = document.getElementById('copy');
+
+                        btnCopy.addEventListener('click', function () {
+                            toCopy.select();
+                            document.execCommand('copy');
+                            return false;
+                        });
+                    </script>
+    </main>
+
+    </body>
+
 {% endblock %}
 {% block footer %}
     {{ parent() }}

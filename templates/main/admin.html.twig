@@ -6,52 +6,62 @@
     {{ parent() }}
 {% endblock %}
 {% block content %}
-<main>
-    <div>
-        <h1>Administration de l'application</h1>
-        <h2>Utilisateurs de l'application</h2>
-        <table class="table table-striped">
-            <tr>
-                <th scope="col">Adresse mail</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Statut</th>
-                <th scope="col">Activé</th>
-                <th scope="col">Roles</th>
-                <th scope="col">Actions</th>
-            </tr>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.userName }}</td>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.status }}</td>
-                    {% if user.isActive %}
-                        <td>Oui</td>
-                    {% else %}
-                        <td>Non</td>
-                    {% endif %}
-                    <td>
-                        {% for role in user.roles %}
-                        {{ role }}
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <a href="{{ path('update_user', {'userId': user.getId()}) }}"> Modifier</a>
-                        <a href="{{ path('delete_user', {'userId': user.getId()}) }}"> Supprimer</a>
-                    </td>
+    <body>
+    <main>
+        <div>
+            <h1 class="text-center">Administration de l'application</h1>
+            <h2>Utilisateurs de l'application</h2>
+            <table class="table caption-top table-hover table-light ">
+                <thead class="table">
+
+                <tr class="table-header">
+                    <th scope="col">Adresse mail</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Activé</th>
+                    <th scope="col">Roles</th>
+                    <th scope="col">Actions</th>
                 </tr>
-            {% endfor %}
-        </table>
-    </div>
+
+                </thead>
+                {% for user in users %}
+                    <tr>
+
+                        <td>{{ user.userName }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.status }}</td>
+                        {% if user.isActive %}
+                            <td>Oui</td>
+                        {% else %}
+                            <td>Non</td>
+                        {% endif %}
+                        <td>
+                            {% for role in user.roles %}
+                                {{ role }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{{ path('update_user', {'userId': user.getId()}) }}"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Editer"> <i class="fa fa-pencil" aria-hidden="true" ></i></a>
+                            <a href="{{ path('delete_user', {'userId': user.getId()}) }}"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Supprimer"> <i class="fa fa-times" aria-hidden="true"></i></a>
+                            <a href="{{ path('my_profil', {'userId': user.getId()}) }}"data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right"  data-bs-animation='false' data-bs-trigger="hover" data-bs-content="Profil"> <i class="fa fa-address-card" aria-hidden="true"></i> </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
 
 
-    <div>
-        <h2>Adresse mail de l'administration USMB</h2>
+        <div>
 
-    </div>
-</main>
+            <h2 class="text-center">Adresse mail de l'administration USMB : <a href="mailto:email@example.com">email@example.com</a></h2>
+
+        </div>
+    </main>
+    </body>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
 {% endblock %}
+
